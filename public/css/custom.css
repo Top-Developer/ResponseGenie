@@ -1,0 +1,229 @@
+/* Theme Name: The Project - Responsive Website Template
+Author:HtmlCoder
+Author URI:http://www.htmlcoder.me
+Author e-mail:htmlcoder.me@gmail.com
+Version:1.1.0
+Created:December 2014
+License URI:http://support.wrapbootstrap.com/
+File Description: Place here your custom CSS styles
+*/
+
+html, body {
+	width: 100%;
+	height: 100%;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+h1,h2,h3,h4,h5,h6, .navbar .navbar-nav {  
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
+a {
+	cursor: pointer;
+	/*color: #f34610;*/
+}
+
+.modal-open .modal {
+	display: flex !important;
+	align-items: center !important;
+}
+
+.login-area {
+	margin-bottom: 0;
+}
+
+.login-area .checkbox {
+	display: inline;
+}
+
+.login-area .forget-password {
+	float: right;
+}
+
+.social-login-area span {
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.social-login-area .social-links {
+    margin: 0 0 0 5px;
+    display: inline-block;
+    float: right;
+}
+
+.dark.header .navbar-default .navbar-nav > .active > a {
+	color: #09AFDF;
+}
+
+.dark.header .dropdown-menu > .active > a {
+	color: #09AFDF;
+}
+
+#navbar-collapse-1 {
+  padding-right: 0px !important;
+}
+
+.header {
+    border-top: 1px solid #ffffff;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+.fixed-header-on .header.fixed:not(.dark) {
+    border-bottom: 1px solid rgba(235, 245, 207, 0.09);
+}
+
+.fixed-header-on .header .logo img {
+    max-height: 40px;
+}
+
+.signup .title {
+	text-transform: none;
+}
+
+.page-title {
+	text-transform: none;
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+	.main-navigation.with-dropdown-buttons .navbar-default .navbar-collapse > ul {
+		margin: 0 auto !important;
+		float: none !important;
+		text-align: center;
+	}
+
+	.main-navigation.with-dropdown-buttons .navbar-default .navbar-collapse > ul > li {
+		float: none;
+		display: inline-block;
+	}
+}
+
+/*custom my style*/
+.listing-item {
+  padding: 3px;
+	background-color: rgba(174, 236, 116, 0.05);
+  border: solid 1px rgba(0, 0, 0, 0.2);
+}
+.listing-item:hover {
+	background-color: rgba(204, 107, 247, 0.15);
+}
+
+.overlay-container img {
+	width: 100%;
+}
+
+
+/*account style*/
+#user-account {
+	line-height: 40px;
+}
+
+#user-account a:hover, #user-account a:active {
+	text-decoration: none;
+}
+
+
+.avatar {
+	    width: 40px;
+    float: left;
+    margin-right: 2px;
+}
+
+.avatar > img {
+    width: 40px;
+    height: 40px;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+i.pull-right {
+    color: #121212;
+    border: 0 !important;
+    box-shadow: none;
+    font-size: 16px;
+    background: none !important;
+}
+
+#signupsubscribe {
+	background-size:cover;
+}
+
+.form-block {
+	width: 100%;
+}
+
+
+/* image upload */
+#image-preview {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  color: #ecf0f1;
+  border-radius: 5%;
+  border: dashed 2px black;
+}
+
+#image-preview input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+#image-preview label {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 20px;
+  line-height: 30px;
+  text-transform: uppercase;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+}
+
+/*-- the button "Get Started" in the center of slider box --*/
+#Get_Trial_Landing_Center {
+    position: absolute;
+    top: 300px;
+    border: 3px solid #fdfdfd;
+    left: 50%;
+    margin-left: -90px;
+    padding: 10px 30px;
+    border-radius: 30px !important;
+    background: transparent;
+    z-index: 999;
+    text-decoration: none;
+    outline: none;
+}
+
+#Get_Trial_Landing_Center:hover {
+  background: rgba(9, 175, 223, 0.5);
+}
+
+@media (max-width: 1024px) {
+  #Get_Trial_Landing_Center {
+    display: none;
+  }
+}
+
+/* Custom code to change the orientation of arrow of menu list item */
+.btn-group>.dropdown-menu:before, .dropdown-toggle>.dropdown-menu:before, .dropdown>.dropdown-menu:before {
+  right: 9px !important;
+  left: auto !important;
+}
+
+.btn-group>.dropdown-menu:before, .dropdown-toggle>.dropdown-menu:before, .dropdown>.dropdown-menu:after {
+  right: 10px !important;
+  left: auto !important;
+}

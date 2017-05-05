@@ -1,0 +1,50 @@
+.m-iconcontainer {
+    display: block;
+    width: 100%;
+    background: #eee;
+    padding: 0.5em 0;
+}
+
+.m-iconcontainer ul {
+    display: flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+    align-items: center;
+    -webkit-align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.m-iconcontainer span {
+    display: inline-block;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.licon {
+    display: inline-block;
+    padding: auto;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    background-color: #eee;
+    color: #09afdf;
+    /* font-size: 24px; */
+    width: 60px;
+    height: 60px;
+    /* line-height: 58px; */
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+
+.feature-box {
+    height: 350px;
+}
