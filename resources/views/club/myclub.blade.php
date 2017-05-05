@@ -209,7 +209,7 @@
             <div class="container">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1> All clubs that you are associated with. </h1>
+                    <h1> All clubs that you are associated with. ooo</h1>
                 </div>
                 <!-- END PAGE TITLE -->
                 <!-- BEGIN PAGE TOOLBAR -->
