@@ -19,10 +19,11 @@ class ClubController extends Controller
     //First screen after user logged in "MY Clubs"
     public function showMyClubs()
     {
-
-        return view('club/myclub', [
-            'myclub' => null
-        ])->with('page', 'myclub');
+        $user_id = Auth::id();
+        $theClubs_ids = App\Membership::select('club_id') -> where( 'user_id', $user_id ) -> get();
+        return view('club/myClub', [
+            'page' => 'clubs'
+        ]);
     }
 
     public function clubManagement()
