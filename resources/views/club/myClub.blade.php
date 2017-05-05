@@ -241,7 +241,39 @@
 
                 <div class="page-content-inner">
                     <div class="portlet light">
+                        <div class="row">
+                            @foreach( $myClubs as $theClub)
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-header-blue">
+                                            <a href = {{url('club/clubManagement').'/'.$theClub -> id}}>
+                                                <h1 class="card-heading">{{$theClub -> name}}</h1>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="card-body-section">
+                                                <img src="/{{$theClub -> logo_path}}" class="card-body-image">
+                                            </div>
+                                            <div class="card-body-section">
+                                                <div class="card-date-box">
+                                                    <span class="card-date-label"> Joined </span><br>
+                                                    <span class="pull-right">{{$theClub -> created_at}}</span>
+                                                </div>
+                                                <div class="card-date-box">
+                                                    <span class="card-date-label"> Expires </span><br>
+                                                    <span class="pull-right">3/17/2018</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

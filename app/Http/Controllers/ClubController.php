@@ -27,12 +27,12 @@ class ClubController extends Controller
         ]);
     }
 
-    public function clubManagement()
+    public function clubManagement($club_id)
     {
-
+        $theClub = Club::find($club_id);
         return view('club/clubManagement', [
             'page' => 'clubs',
-            'theClub' => null
+            'theClub' => $theClub
         ]);
     }
 

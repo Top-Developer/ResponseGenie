@@ -67,7 +67,7 @@ Route::post('/club/updateClubMessage' , 'ClubController@updateClubMessage');
 Route::post('/club/updateClubInformation', 'ClubController@updateClubInformation');
 Route::get('club/allClubs', 'ClubController@showAllClubs');
 Route::get('club/myClubs', 'ClubController@showMyClubs');
-Route::get('club/clubManagement', 'ClubController@clubManagement');
+Route::get('club/clubManagement/{club_id}', 'ClubController@clubManagement');
 Route::get('createClub', function() {
     return view('club/createClub')->with('page', 'createClub');
 });

@@ -239,7 +239,39 @@
 
                 <div class="page-content-inner">
                     <div class="portlet light">
+                        <div class="row">
+                            <?php $__currentLoopData = $myClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-header-blue">
+                                            <a href = <?php echo e(url('club/clubManagement').'/'.$theClub -> id); ?>>
+                                                <h1 class="card-heading"><?php echo e($theClub -> name); ?></h1>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="card-body-section">
+                                                <img src="/<?php echo e($theClub -> logo_path); ?>" class="card-body-image">
+                                            </div>
+                                            <div class="card-body-section">
+                                                <div class="card-date-box">
+                                                    <span class="card-date-label"> Joined </span><br>
+                                                    <span class="pull-right"><?php echo e($theClub -> created_at); ?></span>
+                                                </div>
+                                                <div class="card-date-box">
+                                                    <span class="card-date-label"> Expires </span><br>
+                                                    <span class="pull-right">3/17/2018</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                        </div>
                     </div>
                 </div>
             </div>
