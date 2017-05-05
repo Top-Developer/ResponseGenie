@@ -27,8 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function roles()
+    public function clubs()
     {
-        return $this->hasMany('App\Roles', 'user_id', 'id');
+        return $this -> belongsToMany('App\Club', 'roleships', 'user_id', 'club_id');
     }
 }

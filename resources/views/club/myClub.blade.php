@@ -214,7 +214,7 @@
                 <!-- END PAGE TITLE -->
                 <!-- BEGIN PAGE TOOLBAR -->
                 <div class="page-toolbar">
-                    <a href="http://test.rosterfi.com/createClub" class="btn blue" style="margin-top: 15px;">Create a new club</a>
+                    <a href={{url('/createClub')}} class="btn blue" style="margin-top: 15px;">Create a new club</a>
                 </div>
                 <!-- END PAGE TOOLBAR -->
             </div>

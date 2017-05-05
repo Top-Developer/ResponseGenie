@@ -10,7 +10,7 @@ use Session;
 
 use App\User;
 use App\Club;
-use App\Membership;
+use App\Roleship;
 
 class ClubController extends Controller
 {
@@ -19,10 +19,11 @@ class ClubController extends Controller
     //First screen after user logged in "MY Clubs"
     public function showMyClubs()
     {
-        $user_id = Auth::id();
-        $theClubs_ids = Membership::select('club_id') -> where( 'user_id', $user_id ) -> get();
+        $user = User::find(Auth::id());
+        $theClubs = $user -> clubs;
         return view('club/myClub', [
-            'page' => 'clubs'
+            'page' => 'clubs',
+            'myClubs' => $theClubs
         ]);
     }
 
@@ -68,16 +69,16 @@ class ClubController extends Controller
 
         $club -> save();
 
-        $membership = new Membership;
-        $membership -> user_id = Auth::id();
-        $membership -> club_id = $club -> id;
-        $membership -> role_id = 2;
-        $membership -> save();
+        $roleship = new Roleship;
+        $roleship -> user_id = Auth::id();
+        $roleship -> club_id = $club -> id;
+        $roleship -> role_id = 2;
+        $roleship -> save();
 
         return view('club/clubManagement', [
             'page' => 'clubs',
             'theClub' => $club,
-            'theRole' => $membership -> role_id
+            'theRole' => $roleship -> role_id
         ]);
 
     }
@@ -165,7 +166,7 @@ class ClubController extends Controller
         $club = Club::find($id);
 
         //Check if user is admin of this club with club_id is $id
-        $user_role = Membership::where([
+        $user_role = Roleship::where([
             'user_id' => Session::get('userid'),
             'club_id' => $id
         ])->first()->user_role;
