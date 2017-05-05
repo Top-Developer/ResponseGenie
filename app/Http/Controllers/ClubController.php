@@ -20,7 +20,7 @@ class ClubController extends Controller
     public function showMyClubs()
     {
         $user_id = Auth::id();
-        $theClubs_ids = App\Membership::select('club_id') -> where( 'user_id', $user_id ) -> get();
+        $theClubs_ids = Membership::select('club_id') -> where( 'user_id', $user_id ) -> get();
         return view('club/myClub', [
             'page' => 'clubs'
         ]);

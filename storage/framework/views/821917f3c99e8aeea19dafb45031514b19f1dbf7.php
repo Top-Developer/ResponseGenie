@@ -179,9 +179,6 @@
                             <li class=" ">
                                 <a href="<?php echo e(url('club/myClubs')); ?>" class="nav-link  "> Your Clubs </a>
                             </li>
-                            <li class=" ">
-                                <a href="<?php echo e(url('club/clubManagement')); ?>" class="nav-link  "> Club Management </a>
-                            </li>
                             <?php endif; ?>
                         </ul>
                     </li>

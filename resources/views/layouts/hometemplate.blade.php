@@ -178,9 +178,6 @@
                             <li class=" ">
                                 <a href="{{url('club/myClubs')}}" class="nav-link  "> Your Clubs </a>
                             </li>
-                            <li class=" ">
-                                <a href="{{url('club/clubManagement')}}" class="nav-link  "> Club Management </a>
-                            </li>
                             @endif
                         </ul>
                     </li>
