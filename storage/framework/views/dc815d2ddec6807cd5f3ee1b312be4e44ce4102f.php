@@ -345,7 +345,14 @@
                                         </div>
                                     </div>
                                     <div class = "row">
+                                        <?php if( $theRole == 'owner' || $theRole == 'admin' ): ?>
+                                        <div style="float:right;">
+                                            <button type="button" class="btn btn-danger"> Edit contact information </button>
+                                        </div>
+                                        <?php endif; ?>
                                         <h3 style="text-align:center;">Location and Contact Information</h3>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-twitter tooltips" data-original-title="Twitter"></a>
                                             <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-yellow font-white bg-hover-grey-salsa socicon-facebook tooltips" data-original-title="Facebook"></a>
@@ -358,12 +365,34 @@
                                             <div id="gmap_basic" class="gmaps"> </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <h1><?php echo e($theClub -> city); ?></h1><br>
-                                            <h1><?php echo e($theClub -> state); ?></h1><br>
-                                            <h1><?php echo e($theClub -> country); ?></h1>
+                                            <h1><?php echo e($theContact -> city); ?></h1><br>
+                                            <h1><?php echo e($theContact -> state); ?></h1><br>
+                                            <h1><?php echo e($theContact -> country); ?></h1>
                                         </div>
                                         <div class="col-md-3">
 
+                                        </div>
+                                    </div>
+                                    <div class="row space-top">
+                                        <div class="col-md-4">
+                                            <div class="mb-20 bordered shadow text-center light-gray-bg plan-box">
+                                                <div class="plan-header">
+                                                    <h4 class="no-margin">
+                                                        <span><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Event&nbsp;Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style="color:white;"><i class="fa fa-pencil-square-o"></i></a></span>
+                                                    </h4>
+                                                </div>
+                                                <div class="arrow-down border-top-blue"></div>
+
+                                                <div class="plan-body">
+                                                    <br>
+                                                    <p>This event is free for ToastMasters Members</p>
+                                                </div>
+
+                                                <div class="plan-footer">
+                                                    <h4>FREE</h4>
+                                                    <a href="javascript:;" class="btn btn-primary">RSVP</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

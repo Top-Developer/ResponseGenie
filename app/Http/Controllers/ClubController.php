@@ -11,6 +11,8 @@ use Session;
 use App\User;
 use App\Club;
 use App\Roleship;
+use App\Role;
+use App\Contact;
 
 class ClubController extends Controller
 {
@@ -30,9 +32,13 @@ class ClubController extends Controller
     public function clubManagement($club_id)
     {
         $theClub = Club::find($club_id);
+        $role_id = Roleship::where('user_id', Auth::id()) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
+        $theRole = Role::find($role_id) -> role_description;
         return view('club/clubManagement', [
             'page' => 'clubs',
-            'theClub' => $theClub
+            'theClub' => $theClub,
+            'theContact' => $theClub -> contact,
+            'theRole' => $theRole
         ]);
     }
 
@@ -61,13 +67,16 @@ class ClubController extends Controller
         $club -> website = $request -> input( 'club_url' );
         $club -> logo_path = $logo_path;
         $club -> phone_number = $request -> input( 'club_phone' );
-        $club -> city = $request -> input( 'club_city' );
-        $club -> state = $request -> input( 'club_state' );
-        $club -> zipcode = $request -> input( 'club_zipcode' );
         $club -> membership_limit = $request -> input( 'club_memberlimit' );
         $club -> type = $request -> input( 'club_type' );
-
         $club -> save();
+
+        $contact = new Contact;
+        $contact -> zipcode = $request -> input( 'club_zipcode' );
+        $contact -> city = $request -> input( 'club_city' );
+        $contact -> state = $request -> input( 'club_state' );
+        $contact -> club_id = $club -> id;
+        $contact -> save();
 
         $roleship = new Roleship;
         $roleship -> user_id = Auth::id();
@@ -78,7 +87,8 @@ class ClubController extends Controller
         return view('club/clubManagement', [
             'page' => 'clubs',
             'theClub' => $club,
-            'theRole' => $roleship -> role_id
+            'theRole' => $roleship -> role_id,
+            'theContact' => $contact
         ]);
 
     }
