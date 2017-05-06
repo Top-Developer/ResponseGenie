@@ -346,51 +346,46 @@
                                             <!-- End Portlet -->
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-md-8 col-md-offset-2">
-                                            <h1 class="page-title text-center">Other Clubs you may be interested in</h1>
-                                            <div class="separator"></div>
+                                    <div class = "row">
+                                        <h3 style="text-align:center;">Location and Contact Information</h3>
+                                        <div class="col-md-3">
+                                            <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-twitter tooltips" data-original-title="Twitter"></a>
+                                            <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-yellow font-white bg-hover-grey-salsa socicon-facebook tooltips" data-original-title="Facebook"></a>
+                                            <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-google tooltips" data-original-title="Google"></a>
+                                            <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-twitter tooltips" data-original-title="Twitter"></a>
+                                            <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-yellow font-white bg-hover-grey-salsa socicon-facebook tooltips" data-original-title="Facebook"></a>
+                                            <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-google tooltips" data-original-title="Google"></a>
                                         </div>
+                                        <div class="col-md-3">
+                                            <div id="gmap_basic" class="gmaps"> </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h1>{{ $theClub -> city }}</h1><br>
+                                            <h1>{{ $theClub -> state }}</h1><br>
+                                            <h1>{{ $theClub -> country }}</h1>
+                                        </div>
+                                        <div class="col-md-3">
 
-                                    </div>
-                                    <div class="listing-item mb-20 light-gray-bg">
-                                        <div class="row grid-space-0">
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <div class="overlay-container">
-                                                    <img src="/img/orange.png" alt="" style="width: 180px">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-10 col-md-10 col-lg-10">
-                                                <div class="body">
-                                                    <h3 class="margin-clear">South Louisiana IDPA</h3>
-
-                                                    <div class="separator-2 mt-10"></div>
-                                                    <p>South Louisiana IDPA is an Practical Pistol club. We meet on the second sunday of each month for a club level match and host a regional championship match once a year.</p>
-                                                    <a href="{{url('/myclub')}}">More information</a>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-                                    <div class="listing-item mb-20 light-gray-bg">
-                                        <div class="row grid-space-0">
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <div class="overlay-container">
-                                                    <img src="/img/orange2.png" alt="" style="width: 180px">
-
+                                    <div class="row space-top">
+                                        <div class="col-md-4">
+                                            <div class="mb-20 bordered shadow text-center light-gray-bg plan-box">
+                                                <div class="plan-header">
+                                                    <h4 class="no-margin">
+                                                        <span><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Event&nbsp;Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style="color:white;"><i class="fa fa-pencil-square-o"></i></a></span>
+                                                    </h4>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-10 col-md-10 col-lg-10">
-                                                <div class="body">
-                                                    <h3 class="margin-clear">ToastMasters</h3>
+                                                <div class="arrow-down border-top-blue"></div>
 
-                                                    <div class="separator-2 mt-10"></div>
-                                                    <p>The mission of a Toastmasters Club is to provide a mutually supportive and positive learining environment in which every individual member has the opportunity to
-                                                        develop oral communication and leadership skills, which in turn foster self-confidence and personal growth.
-                                                        ToastMasters meets on the last Tuesday of the month at the Jefferson Parish Library on Metaire Rd.6PM.
-                                                    </p>
-                                                    <a href="#">More information</a>
+                                                <div class="plan-body">
+                                                    <br>
+                                                    <p>This event is free for ToastMasters Members</p>
+                                                </div>
+
+                                                <div class="plan-footer">
+                                                    <h4>FREE</h4>
+                                                    <a href="javascript:;" class="btn btn-primary">RSVP</a>
                                                 </div>
                                             </div>
                                         </div>
