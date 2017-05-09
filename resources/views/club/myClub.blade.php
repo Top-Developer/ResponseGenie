@@ -214,7 +214,7 @@
                 <!-- END PAGE TITLE -->
                 <!-- BEGIN PAGE TOOLBAR -->
                 <div class="page-toolbar">
-                    <a href={{url('/createClub')}} class="btn blue" style="margin-top: 15px;">Create a new club</a>
+                    <a href="{{url('/createClub')}}" class="btn blue" style="margin-top: 15px;">Create a new club</a>
                 </div>
                 <!-- END PAGE TOOLBAR -->
             </div>
@@ -242,7 +242,7 @@
                 <div class="page-content-inner">
                     <div class="portlet light">
                         <div class="row">
-                            @foreach( $myClubs as $theClub)
+                            @foreach( $myClubs as $theClub )
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-content">

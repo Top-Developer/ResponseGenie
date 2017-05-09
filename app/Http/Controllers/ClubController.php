@@ -31,14 +31,31 @@ class ClubController extends Controller
 
     public function clubManagement($club_id)
     {
+        session(['theClubID' => $club_id]);
         $theClub = Club::find($club_id);
         $role_id = Roleship::where('user_id', Auth::id()) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
         $theRole = Role::find($role_id) -> role_description;
+        $theContact = $theClub -> contact;
+        $pcm_id = $theContact -> pcm_id;
+        $scm_id = $theContact -> scm_id;
+        $thePCM = User::find($pcm_id);
+        $theSCM = User::find($scm_id);
+        $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
+        $thePCMRole = Role::find($thePCMRoleID) -> role_description;
+        $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
+        $theSCMRole = Role::find($theSCMRoleID) -> role_description;
+
+
         return view('club/clubManagement', [
             'page' => 'clubs',
             'theClub' => $theClub,
-            'theContact' => $theClub -> contact,
-            'theRole' => $theRole
+            'theClubUsers' => $theClub -> users,
+            'theContact' => $theContact,
+            'theRole' => $theRole,
+            'thePCM' => $thePCM,
+            'thePCMRole' => $thePCMRole,
+            'theSCM' => $theSCM,
+            'theSCMRole' => $theSCMRole
         ]);
     }
 
@@ -87,6 +104,7 @@ class ClubController extends Controller
         return view('club/clubManagement', [
             'page' => 'clubs',
             'theClub' => $club,
+            'theClubUsers' => $club -> users,
             'theRole' => $roleship -> role_id,
             'theContact' => $contact
         ]);
@@ -194,6 +212,51 @@ class ClubController extends Controller
             'club' => $club,
             'is_admin' => $is_admin
         ])->with('page', 'myclub');
+    }
+
+    public function contactUpdate(Request $request)
+    {
+        $newCity = $request -> city;
+        $newState = $request -> state;
+        $newZcod = $request -> zipcode;
+        $newPcmID = $request -> pcmid;
+        $newScmID = $request -> scmid;
+        $newLinkedIn = $request -> inLink;
+        $newLevelIn = $request -> inLevel;
+        $newTwitter = $request -> ttLink;
+        $newLevelT = $request -> ttLevel;
+        $newFacebook = $request -> fbLink;
+        $newLevelF = $request -> fbLevel;
+        $newYoutube = $request -> ytLink;
+        $newLevelY = $request -> ytLevel;
+        $newGoogle = $request -> goLink;
+        $newLevelG = $request -> goLevel;
+        $newMail = $request -> maLink;
+        $newLevelM = $request -> maLevel;
+
+        DB::table('contacts')
+            -> where( 'club_id', session('theClubID'))
+            ->update([
+                'city' => $newCity,
+                'state' => $newState,
+                'zipcode' => $newZcod,
+                'pcm_id' => $newPcmID,
+                'scm_id' => $newScmID,
+                'linkedin' => $newLinkedIn,
+                'level_in' => $newLevelIn,
+                'twitter' => $newTwitter,
+                'level_t' => $newLevelT,
+                'facebook' => $newFacebook,
+                'level_f' => $newLevelF,
+                'youtube' => $newYoutube,
+                'level_y' => $newLevelY,
+                'googleplus' => $newGoogle,
+                'level_g' => $newLevelG,
+                'mail' => $newMail,
+                'level_m' => $newLevelM
+            ]);
+
+        clubManagement( session('theClubID') );
     }
 
 
