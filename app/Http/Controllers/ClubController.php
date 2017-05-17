@@ -33,8 +33,8 @@ class ClubController extends Controller
     {
         session(['theClubID' => $club_id]);
         $theClub = Club::find($club_id);
-        $role_id = Roleship::where('user_id', Auth::id()) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
-        $theRole = Role::find($role_id) -> role_description;
+        $theRoleID = Roleship::where('user_id', Auth::id()) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
+        $theUserRole = Role::find($theRoleID) -> role_description;
         $theContact = $theClub -> contact;
         $pcm_id = $theContact -> pcm_id;
         $scm_id = $theContact -> scm_id;
@@ -51,20 +51,29 @@ class ClubController extends Controller
             'theClub' => $theClub,
             'theClubUsers' => $theClub -> users,
             'theContact' => $theContact,
-            'theRole' => $theRole,
+            'theUserRole' => $theUserRole,
             'thePCM' => $thePCM,
             'thePCMRole' => $thePCMRole,
             'theSCM' => $theSCM,
             'theSCMRole' => $theSCMRole
         ]);
+//        return view('club/clubManagement', [
+//            'page' => 'clubs',
+//            'theClub' => $theClub,
+//            'theClubUsers' => $theClub -> users,
+//            'theContact' => $theContact,
+//            'theUserRole' => $theUserRole,
+//            'thePCM' => $thePCM,
+//            'thePCMRole' => $thePCMRole,
+//            'theSCM' => $theSCM,
+//            'theSCMRole' => $theSCMRole
+//        ]);
     }
 
     //First screen when user click "Clubs"
     public function showAllClubs()
     {
-        $allClubs = DB::table('club')
-            ->select('club.*')
-            ->get();
+        $allClubs = Club::all();
 
         return view('club/allClubs', ['page' => 'allClubs', 'allClubs' => $allClubs]);
     }
@@ -105,10 +114,41 @@ class ClubController extends Controller
             'page' => 'clubs',
             'theClub' => $club,
             'theClubUsers' => $club -> users,
-            'theRole' => $roleship -> role_id,
-            'theContact' => $contact
+            'theContact' => $contact,
+            'theUserRole' => 'admin',
+            'thePCM' => '',
+            'thePCMRole' => '',
+            'theSCM' => '',
+            'theSCMRole' => ''
         ]);
 
+    }
+
+    public function inviteNew(Request $request){
+
+        $isExist = User::where('first_name', $request -> input( 'first_name' )) ->
+        where('last_name', $request -> input( 'last_name' )) ->
+        where('email', $request -> input( 'email' )) -> count();
+
+        if( $isExist > 0 ){
+
+            $user = User::where('first_name', $request -> input( 'first_name' )) ->
+            where('last_name', $request -> input( 'last_name' )) ->
+            where('email', $request -> input( 'email' )) -> firstOrFail();
+
+            if($user -> id == Auth::id())
+                echo 'invied self';
+            else{
+                $roleship = new Roleship;
+                $roleship -> user_id =   $user -> id ;
+                $roleship -> club_id = session('theClubID');
+                $roleship -> role_id = 5;
+                $roleship -> save();
+            }
+        }
+        else{
+            echo 'error : Can not find the user.';
+        }
     }
 
     public function updateClubMessage(Request $request)
@@ -234,30 +274,8 @@ class ClubController extends Controller
         $newMail = $request -> maLink;
         $newLevelM = $request -> maLevel;
 
-        DB::table('contacts')
-            -> where( 'club_id', session('theClubID'))
-            ->update([
-                'city' => $newCity,
-                'state' => $newState,
-                'zipcode' => $newZcod,
-                'pcm_id' => $newPcmID,
-                'scm_id' => $newScmID,
-                'linkedin' => $newLinkedIn,
-                'level_in' => $newLevelIn,
-                'twitter' => $newTwitter,
-                'level_t' => $newLevelT,
-                'facebook' => $newFacebook,
-                'level_f' => $newLevelF,
-                'youtube' => $newYoutube,
-                'level_y' => $newLevelY,
-                'googleplus' => $newGoogle,
-                'level_g' => $newLevelG,
-                'mail' => $newMail,
-                'level_m' => $newLevelM
-            ]);
+
 
         clubManagement( session('theClubID') );
     }
-
-
 }

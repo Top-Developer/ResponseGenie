@@ -82,3 +82,5 @@ Route::get('test', function() {
 });
 
 Route::post('/edit/contact', 'ClubController@contactUpdate');
+Route::post('/add/membership_plan', 'ClubController@membershipPlanAdd');
+Route::post('/invite', 'ClubController@inviteNew');

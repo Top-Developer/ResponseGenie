@@ -257,7 +257,7 @@
                                     <div class="portlet portlet-sortable box blue-hoki">
                                         <div class="portlet-title ui-sortable-handle">
                                             <div class = "caption">'
-                                                .$aClub -> club_name.
+                                                .$aClub -> name.
                                             '</div>
                                             <div class="actions">
                                                 <a href="javascript:;" class="btn white">Become a member</a>
@@ -266,22 +266,22 @@
                                         <div class="portlet-body">
                                             <div class = "row">
                                                 <div>
-                                                    <img style="width:100px;" src="/'.$aClub -> club_logo.'">
+                                                    <img style="width:100px;" src="/'.$aClub -> logo_path.'">
                                                 </div>
                                                 <div>
                                                     <p>'
-                                                        .$aClub -> club_description.
+                                                        .$aClub -> description.
                                                     '</p>
                                                     <p>'
-                                                        .$aClub -> club_slug.
+                                                        .$aClub -> slug.
                                                     '</p>
                                                     <p>
-                                                        <a style="text-decoration:none;" href="'.$aClub -> club_website.'">'
-                                                            .$aClub -> club_website.
+                                                        <a style="text-decoration:none;" href="'.$aClub -> website.'">'
+                                                            .$aClub -> website.
                                                         '</a>
                                                     </p>
                                                     <p>'
-                                                        .$aClub -> club_address.
+                                                        .$aClub -> contact -> city.' '.$aClub -> contact -> state.' '.$aClub -> contact -> country.
                                                     '</p>
                                                 </div>
                                             </div>

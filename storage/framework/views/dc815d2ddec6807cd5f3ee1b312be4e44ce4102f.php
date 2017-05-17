@@ -3,6 +3,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('asset'); ?>
+<link href="<?php echo e(url('/assets/global/plugins/socicon/socicon.css')); ?>" rel="stylesheet" type="text/css" />
 <style>
     .card {
         background:#FFF;
@@ -193,8 +194,32 @@
         border-bottom: 1px solid #eee;
     }
 
+    .panel{
+        text-align: center;
+    }
+
+    .content-body{
+        padding: 0px 25px;
+    }
+
+    .row input{
+        width : 100%;
+    }
+
     div.contact-member img{
         width:100%;
+    }
+
+    div.member-input div{
+        margin : 15px 0;
+    }
+
+    div.member-input input{
+        width:100%;
+    }
+
+    div.member-input button{
+        margin-top : 8px;
     }
 
 </style>
@@ -262,174 +287,16 @@
                             <div class="tab-content">
                                 <!-- Tab1 start -->
                                 <div class="tab-pane fade active in" id="tab_2_1">
-                                    <div class="note note-info">
-                                        <h4 style="text-align:center;">Club Name : <?php echo e($theClub -> name); ?></h4>
-                                        <div class="row">
-                                            <div class = "col-md-6">
-                                                <img src="/<?php echo e($theClub -> logo_path); ?>" class="card-body-image">
-                                            </div>
-                                            <div class = "col-md-6">
-                                                Club Description :<br><?php echo e($theClub -> description); ?>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="note note-info">
-                                        <div class = "row">
-                                            <?php if( $theRole == 'owner' || $theRole == 'admin' ): ?>
-                                            <div style="float:right;">
-                                                <a type="button" class="btn btn-danger"  data-toggle="modal" href="#edit_contact_info"> Edit contact information </a>
-                                            </div>
-                                            <?php endif; ?>
-                                            <h3 style="text-align:center;">Location and Contact Information</h3>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-twitter tooltips" data-original-title="Twitter"></a>
-                                                <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-yellow font-white bg-hover-grey-salsa socicon-facebook tooltips" data-original-title="Facebook"></a>
-                                                <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-google tooltips" data-original-title="Google"></a>
-                                                <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-twitter tooltips" data-original-title="Twitter"></a>
-                                                <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-yellow font-white bg-hover-grey-salsa socicon-facebook tooltips" data-original-title="Facebook"></a>
-                                                <a href="#" class="socicon-btn socicon-btn-circle socicon-solid bg-dark font-white bg-hover-grey-salsa socicon-google tooltips" data-original-title="Google"></a>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div id="gmap_basic" class="gmaps"> </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h1>City : <?php echo e($theContact -> city); ?></h1><br>
-                                                <h1>State : <?php echo e($theContact -> state); ?></h1><br>
-                                                <h1>Country : <?php echo e($theContact -> country); ?></h1>
-                                            </div>
-                                            <?php if( $thePCM || $theSCM ): ?>
-                                            <div class="col-md-3">
-                                                <?php if($thePCM): ?>
-                                                <div class = "row">
-                                                    <div class = "col-md-6 contact-member">
-                                                        <?php if( $thePCM -> profile_image == 'NULL'): ?>
-                                                            <img src="/<?php echo e($thePCM -> profile_image); ?>">
-                                                        <?php else: ?>
-                                                            <img src="/uploads/images/users/0.png">
-                                                        <?php endif; ?>
-                                                    </div>
-                                                    <div class = "col-md-6">
-                                                        <h4>
-                                                            <?php echo e($thePCM -> first_name); ?> <?php echo e($thePCM -> last_name); ?>
-
-                                                        </h4>
-                                                        <h4>
-                                                            <?php echo e($thePCMRole); ?>
-
-                                                        </h4>
-                                                        <h4>
-                                                            <?php echo e($thePCM -> email); ?>
-
-                                                        </h4>
-                                                    </div>
-
-                                                </div>
-                                                <?php endif; ?>
-                                                <?php if($theSCM): ?>
-                                                <div class = "row">
-                                                    <div class = "col-md-6 contact-member">
-                                                        <?php if( $theSCM -> profile_image == 'NULL'): ?>
-                                                            <img src="/<?php echo e($theSCM -> profile_image); ?>">
-                                                        <?php else: ?>
-                                                            <img src="/uploads/images/users/0.png">
-                                                        <?php endif; ?>
-                                                    </div>
-                                                    <div class = "col-md-6">
-                                                        <h4>
-                                                            <?php echo e($theSCM -> first_name); ?> <?php echo e($theSCM -> last_name); ?>
-
-                                                        </h4>
-                                                        <h4>
-                                                            <?php echo e($theSCMRole); ?>
-
-                                                        </h4>
-                                                        <h4>
-                                                            <?php echo e($theSCM -> email); ?>
-
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                                <?php endif; ?>
-                                            </div>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
+                                    <?php echo $__env->make('club.management.tabs.clubInfo', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
                                 <div class="tab-pane fade" id="tab_2_2">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <!-- BEGIN PORTLET-->
-                                            <div class="portlet light portlet-fit  calendar">
-                                                <div class="portlet-title">
-                                                    <div class="caption">
-                                                        <i class=" icon-layers font-green"></i>
-                                                        <span class="caption-subject font-blue sbold uppercase">Calendar</span>
-                                                    </div>
-                                                </div>
-                                                <div class="portlet-body">
-                                                    <div id="calendar" class="has-toolbar"> </div>
-                                                </div>
-                                            </div>
-                                            <!-- END PORTLET-->
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="portlet light portlet-fit">
-                                                <div class="portlet-title">
-                                                    <div class="caption">
-                                                        <i class=" icon-layers font-blue"></i>
-                                                        <span class="caption-subject font-blue sbold uppercase">Events</span>
-                                                    </div>
-                                                    <div style="float:right;">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="portlet-body">
-                                                    <div class="row eventcontainer">
-                                                        <div class="col-md-3 text-center monthdate">
-                                                            <span class="month">May</span>
-                                                            <span class="date">12th</span>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <span class="small mb-10 text-muted">South Louisiana IDPA</span>
-                                                            <h6 class="title">Club Match</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row eventcontainer">
-                                                        <div class="col-md-3 text-center monthdate">
-                                                            <span class="month">May</span>
-                                                            <span class="date">15th</span>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <span class="small mb-10 text-muted">South Louisiana IDPA</span>
-                                                            <h6 class="title">Club Membership Expiration</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row eventcontainer">
-                                                        <div class="col-md-3 text-center monthdate">
-                                                            <span class="month">May</span>
-                                                            <span class="date">17th</span>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <span class="small mb-10 text-muted">ToastMasters</span>
-                                                            <h6 class="title">Monthly Meeting</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Portlet -->
-                                        </div>
-                                    </div>
+                                    <?php echo $__env->make('club.management.tabs.events', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
                                 <div class="tab-pane fade" id="tab_2_3">
-
+                                    <?php echo $__env->make('club.management.tabs.members', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                </div>
+                                <div  class="tab-pane fade" id="tab_2_4">
+                                    <?php echo $__env->make('club.management.tabs.membership_plans', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
                             </div>
                         </div>
@@ -439,175 +306,50 @@
         </div>
     </div>
 </div>
-<div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form class = "ajax" action = "<?php echo e(url('/edit/contact')); ?>" method = "post">
-                <?php echo e(csrf_field()); ?>
-
-                <input name = "club_id" value = <?php echo e($theClub -> id); ?>>
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Responsive &amp; Scrollable</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">
-                        <div class="scroller" style="margin-right:-17px; height: 317px; overflow: scroll; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <h4 style="text-align:center;">Meeting Location</h4>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <label for = "city">City</label>
-                                            <input type="text" id = "city" name = "city" class="col-md-12" value = "<?php echo e($theContact -> city); ?>">
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <label for = "state">State</label>
-                                            <input type="text" id = "state" name = "state" class="col-md-12" value = "<?php echo e($theContact -> state); ?>">
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <label for = "zcod">Zipcode</label>
-                                            <input type="text" id = "zcod" name = "zipcode" class="col-md-12" value = "<?php echo e($theContact -> zipcode); ?>">
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <div id="gmap_marker" class="gmaps"></div>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <label for = "">Primary Contact</label>
-                                            <select name = "pcmid">
-                                                <?php $__currentLoopData = $theClubUsers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                    <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> pcm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class="col-md-12">
-                                            <label for = "zcod">Secondary Contact</label>
-                                            <select name = "scmid">
-                                                <?php $__currentLoopData = $theClubUsers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                    <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> scm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class = "row">
-                                        <div class = "col-md-1">
-                                            <div class="socicon-btn socicon-sm socicon-linkedin tooltips col-md-1" data-original-title="Linkedin"></div>
-                                        </div>
-                                        <div class = "col-md-6">
-                                            <input type="url" name = "inLink" class="col-md-6 form-control">
-                                        </div>
-                                        <div class = "col-md-5">
-                                            <select name = "inLevel" class="col-md-5 form-control">
-                                                <option> Public </option>
-                                                <option> Members Only </option>
-                                                <option> Private </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-md-1">
-                                            <div class="socicon-btn socicon-sm socicon-twitter tooltips col-md-1" data-original-title="Twitter"></div>
-                                        </div>
-                                        <div class = "col-md-6">
-                                            <input type="url" name = "ttLink" class="col-md-6 form-control">
-                                        </div>
-                                        <div class = "col-md-5">
-                                            <select name = "ttLevel" class="col-md-5 form-control">
-                                                <option> Public </option>
-                                                <option> Members Only </option>
-                                                <option> Private </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-md-1">
-                                            <div class="socicon-btn socicon-sm socicon-facebook tooltips col-md-1" data-original-title="Facebook"></div>
-                                        </div>
-                                        <div class = "col-md-6">
-                                            <input type="url" name = "fbLink" class="col-md-6 form-control">
-                                        </div>
-                                        <div class = "col-md-5">
-                                            <select name = "fbLevel" class="col-md-5 form-control">
-                                                <option> Public </option>
-                                                <option> Members Only </option>
-                                                <option> Private </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-md-1">
-                                            <div class="socicon-btn socicon-sm socicon-youtube tooltips col-md-1" data-original-title="Youtube"></div>
-                                        </div>
-                                        <div class = "col-md-6">
-                                            <input type="url" name = "ytLink" class="col-md-6 form-control">
-                                        </div>
-                                        <div class = "col-md-5">
-                                            <select name = "ytLevel" class="col-md-5 form-control">
-                                                <option> Public </option>
-                                                <option> Members Only </option>
-                                                <option> Private </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-md-1">
-                                            <div class="socicon-btn socicon-sm socicon-google tooltips col-md-1" data-original-title="Google"></div>
-                                        </div>
-                                        <div class = "col-md-6">
-                                            <input type="url" name = "goLink" class="col-md-6 form-control">
-                                        </div>
-                                        <div class = "col-md-5">
-                                            <select name = "goLevel" class="col-md-5 form-control">
-                                                <option> Public </option>
-                                                <option> Members Only </option>
-                                                <option> Private </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-md-1">
-                                            <div class="socicon-btn socicon-sm socicon-mail tooltips col-md-1" data-original-title="Mail"></div>
-                                        </div>
-                                        <div class = "col-md-6">
-                                            <input type="url" name = "maLink" class="col-md-6 form-control">
-                                        </div>
-                                        <div class = "col-md-5">
-                                            <select name = "maLevel" class="col-md-5 form-control">
-                                                <option> Public </option>
-                                                <option> Members Only </option>
-                                                <option> Private </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 300px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
-                    <button type="submit" class="btn green">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<?php echo $__env->make('club.management.modals.edit_contact_info', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.invite', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.import', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.add_new_plan', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
+<?php $__env->startPush('script'); ?>
+<script>
+    $(document).ready(function(){
+        $("form.ajax").on("submit", function(event){
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            var formMethod = $(this).attr('method');
+
+            $.ajax({
+                type : formMethod,
+                url : formAction,
+                data : formData,
+                cache : false,
+
+                beforeSend : function(){
+                    console.log(formData);
+                },
+
+                success : function(data){
+                    console.log(data);
+                },
+
+                error : function(){
+                    console.log('error');
+                }
+            });
+
+            return false;
+        });
+    });
+    $(document).ready(function(){
+        $("#addALine").on("click", function(){
+            $(this).parent().before(
+                '<div class = "row">'+
+                    '<div class = "col-md-1">');
+        });
+    });
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.hometemplate', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
