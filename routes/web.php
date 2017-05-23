@@ -63,6 +63,7 @@ Route::get('/social/{provider}/callback', 'AccountController@handleProviderCallb
 
 //----------------- Club Controller -----------------//
 Route::post('/club/create', 'ClubController@createClub');
+Route::post('/club/configure', 'ClubController@configureClub');
 Route::post('/club/updateClubMessage' , 'ClubController@updateClubMessage');
 Route::post('/club/updateClubInformation', 'ClubController@updateClubInformation');
 Route::get('/club/allClubs', 'ClubController@showAllClubs');
@@ -84,3 +85,4 @@ Route::get('test', function() {
 Route::post('/edit/contact', 'ClubController@contactUpdate');
 Route::post('/add/membership_plan', 'ClubController@membershipPlanAdd');
 Route::post('/invite', 'ClubController@inviteNew');
+Route::post('/import', 'ClubController@import');

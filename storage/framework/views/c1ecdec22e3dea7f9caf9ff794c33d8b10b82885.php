@@ -1,12 +1,12 @@
-<div id="add_new_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+<div id="edit_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class = "ajax" action = "<?php echo e(url('/add/membership_plan')); ?>" method = "post">
+            <form class = "ajax" action = "<?php echo e(url('/edit/membership_plan')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Add new membership plan</h4>
+                    <h4 class="modal-title">Edit the membership plan</h4>
                 </div>
                 <div class="modal-body">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">

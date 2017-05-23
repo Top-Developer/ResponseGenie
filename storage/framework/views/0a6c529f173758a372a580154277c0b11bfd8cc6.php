@@ -6,7 +6,6 @@
 <link href="/css/home.css" rel="stylesheet">
 <link href="/css/slider-btt.css" rel="stylesheet">
 <link href="/assets/pages/css/about.min.css" rel="stylesheet" type="text/css" />
-
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startSection('content'); ?>

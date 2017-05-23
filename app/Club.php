@@ -17,4 +17,9 @@ class Club extends Model
 
         return $this -> hasOne('App\Contact', 'club_id', 'id');
     }
+
+    public function membership_plans(){
+
+        return $this -> hasMany('App\Membership_plan', 'club_id', 'id');
+    }
 }

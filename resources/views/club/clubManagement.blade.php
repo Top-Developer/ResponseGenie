@@ -6,6 +6,8 @@
 
 @push('asset')
 <link href="{{url('/assets/global/plugins/socicon/socicon.css')}}" rel="stylesheet" type="text/css" />
+<!-- File Input -->
+<link href={{url('/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}} rel="stylesheet" type="text/css" />
 <style>
     .card {
         background:#FFF;
@@ -163,7 +165,6 @@
         font-size: large;
     }
 
-
     .card-image img {
         display: block;
         height: auto;
@@ -224,6 +225,10 @@
         margin-top : 8px;
     }
 
+    .socicon-btn{
+        margin : 5px;
+    }
+
 </style>
 @endpush
 
@@ -282,9 +287,17 @@
                                 <li>
                                     <a href="#tab_2_4" data-toggle="tab"> Membership Plans </a>
                                 </li>
+                            @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                                 <li>
                                     <a href="#tab_2_5" data-toggle="tab"> Configure Club </a>
                                 </li>
+                                <li>
+                                    <a href="#tab_2_6" data-toggle="tab"> Payment Services </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_2_7" data-toggle="tab"> Transactions </a>
+                                </li>
+                            @endif
                             </ul>
                             <div class="tab-content">
                                 <!-- Tab1 start -->
@@ -300,6 +313,17 @@
                                 <div  class="tab-pane fade" id="tab_2_4">
                                     @include('club.management.tabs.membership_plans')
                                 </div>
+                            @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
+                                <div  class="tab-pane fade" id="tab_2_5">
+                                    @include('club.management.tabs.configureClub')
+                                </div>
+                                <div  class="tab-pane fade" id="tab_2_6">
+                                    @include('club.management.tabs.paymentServices')
+                                </div>
+                                <div  class="tab-pane fade" id="tab_2_7">
+                                    @include('club.management.tabs.transactions')
+                                </div>
+                            @endif
                             </div>
                         </div>
                     </div>
@@ -312,6 +336,9 @@
 @include('club.management.modals.invite')
 @include('club.management.modals.import')
 @include('club.management.modals.add_new_plan')
+@include('club.management.modals.edit_membership_plan')
+@include('club.management.modals.success')
+@include('club.management.modals.error')
 @endsection
 @push('script')
 <script>
@@ -331,14 +358,17 @@
 
                 beforeSend : function(){
                     console.log(formData);
+                    $('div.modal.in').modal('toggle');
                 },
 
                 success : function(data){
                     console.log(data);
+                    $('div.modal.success').modal('toggle');
                 },
 
                 error : function(){
                     console.log('error');
+                    $('div.modal.error').modal('toggle');
                 }
             });
 
@@ -350,6 +380,10 @@
             $(this).parent().before(
                 '<div class = "row">'+
                     '<div class = "col-md-1">');
+        });
+        $(".panel-title a[href='#edit_plan']").on("click", function(){
+            $('#edit_plan').find('#plan_name').val($(this).parent().find('.plan_name').text());
+            $('#edit_plan').find('#plan_desc').val($(this).parent().parent().parent().find('.panel-body').text());
         });
     });
 </script>

@@ -1,12 +1,11 @@
-<div id="add_new_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+<div id="edit_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class = "ajax" action = "<?php echo e(url('/add/membership_plan')); ?>" method = "post">
-                <?php echo e(csrf_field()); ?>
-
+            <form class = "ajax" action = "{{url('/edit/membership_plan')}}" method = "post">
+                {{csrf_field()}}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Add new membership plan</h4>
+                    <h4 class="modal-title">Edit the membership plan</h4>
                 </div>
                 <div class="modal-body">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">
@@ -54,7 +53,7 @@
                                 <input type="checkbox" id = "plan_members_only" name = "pMO">
                                 <label for = "plan_members_only">Members only</label>
                             </div>
-                            <input type = "hidden" value = "<?php echo e($theClub -> id); ?>" name = "clubId">
+                            <input type = "hidden" value = "{{$theClub -> id}}" name = "clubId">
                         </div>
                         <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 300px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
                     </div>

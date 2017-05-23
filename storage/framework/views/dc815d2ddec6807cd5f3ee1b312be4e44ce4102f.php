@@ -4,6 +4,8 @@
 
 <?php $__env->startPush('asset'); ?>
 <link href="<?php echo e(url('/assets/global/plugins/socicon/socicon.css')); ?>" rel="stylesheet" type="text/css" />
+<!-- File Input -->
+<link href=<?php echo e(url('/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')); ?> rel="stylesheet" type="text/css" />
 <style>
     .card {
         background:#FFF;
@@ -161,7 +163,6 @@
         font-size: large;
     }
 
-
     .card-image img {
         display: block;
         height: auto;
@@ -222,6 +223,10 @@
         margin-top : 8px;
     }
 
+    .socicon-btn{
+        margin : 5px;
+    }
+
 </style>
 <?php $__env->stopPush(); ?>
 
@@ -280,9 +285,17 @@
                                 <li>
                                     <a href="#tab_2_4" data-toggle="tab"> Membership Plans </a>
                                 </li>
+                            <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
                                 <li>
                                     <a href="#tab_2_5" data-toggle="tab"> Configure Club </a>
                                 </li>
+                                <li>
+                                    <a href="#tab_2_6" data-toggle="tab"> Payment Services </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_2_7" data-toggle="tab"> Transactions </a>
+                                </li>
+                            <?php endif; ?>
                             </ul>
                             <div class="tab-content">
                                 <!-- Tab1 start -->
@@ -298,6 +311,17 @@
                                 <div  class="tab-pane fade" id="tab_2_4">
                                     <?php echo $__env->make('club.management.tabs.membership_plans', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
+                            <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
+                                <div  class="tab-pane fade" id="tab_2_5">
+                                    <?php echo $__env->make('club.management.tabs.configureClub', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                </div>
+                                <div  class="tab-pane fade" id="tab_2_6">
+                                    <?php echo $__env->make('club.management.tabs.paymentServices', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                </div>
+                                <div  class="tab-pane fade" id="tab_2_7">
+                                    <?php echo $__env->make('club.management.tabs.transactions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                </div>
+                            <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -310,6 +334,9 @@
 <?php echo $__env->make('club.management.modals.invite', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php echo $__env->make('club.management.modals.import', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php echo $__env->make('club.management.modals.add_new_plan', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.edit_membership_plan', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.success', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.error', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script'); ?>
 <script>
@@ -329,14 +356,17 @@
 
                 beforeSend : function(){
                     console.log(formData);
+                    $('div.modal.in').modal('toggle');
                 },
 
                 success : function(data){
                     console.log(data);
+                    $('div.modal.success').modal('toggle');
                 },
 
                 error : function(){
                     console.log('error');
+                    $('div.modal.error').modal('toggle');
                 }
             });
 
@@ -348,6 +378,10 @@
             $(this).parent().before(
                 '<div class = "row">'+
                     '<div class = "col-md-1">');
+        });
+        $(".panel-title a[href='#edit_plan']").on("click", function(){
+            $('#edit_plan').find('#plan_name').val($(this).parent().find('.plan_name').text());
+            $('#edit_plan').find('#plan_desc').val($(this).parent().parent().parent().find('.panel-body').text());
         });
     });
 </script>

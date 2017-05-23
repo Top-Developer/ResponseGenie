@@ -29,7 +29,7 @@
                             Expiration Date
                         </div>
                     </div>
-                    <div class = "row member-input">
+                    <div class = "row member-input" id = "info-wrapper">
                         <div class = "col-md-1">
                             1
                         </div>

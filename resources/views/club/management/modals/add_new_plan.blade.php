@@ -1,7 +1,7 @@
 <div id="add_new_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class = "ajax" action = "{{url('/add/membership_lan')}}" method = "post">
+            <form class = "ajax" action = "{{url('/add/membership_plan')}}" method = "post">
                 {{csrf_field()}}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -50,9 +50,10 @@
                                 </div>
                             </div>
                             <div class = "row form-group">
-                                <input type="checkbox">
+                                <input type="checkbox" id = "plan_members_only" name = "pMO">
                                 <label for = "plan_members_only">Members only</label>
                             </div>
+                            <input type = "hidden" value = "{{$theClub -> id}}" name = "clubId">
                         </div>
                         <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 300px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
                     </div>

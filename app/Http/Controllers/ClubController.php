@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Membership_plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -39,12 +40,16 @@ class ClubController extends Controller
         $pcm_id = $theContact -> pcm_id;
         $scm_id = $theContact -> scm_id;
         $thePCM = User::find($pcm_id);
-        $theSCM = User::find($scm_id);
         $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
         $thePCMRole = Role::find($thePCMRoleID) -> role_description;
-        $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
-        $theSCMRole = Role::find($theSCMRoleID) -> role_description;
-
+        if($scm_id != ''){
+            $theSCM = User::find($scm_id);
+            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
+            $theSCMRole = Role::find($theSCMRoleID) -> role_description;
+        }else{
+            $theSCM = NULL;
+            $theSCMRole = NULL;
+        }
 
         return view('club/clubManagement', [
             'page' => 'clubs',
@@ -124,6 +129,37 @@ class ClubController extends Controller
 
     }
 
+    public function configureClub(Request $request){
+
+        $club = Club::find(Session::get('theClubID'));
+        if( $request -> input( 'club_name' ) != '' ){
+            $club -> name = $request -> input( 'club_name' );
+        }
+        if( $request -> input( 'club_slug' ) != '' ){
+            $club -> slug = $request -> input( 'club_slug' );
+        }
+        if( $request -> input( 'club_desc_pub' ) != '' ){
+            $club -> description = $request -> input( 'club_desc_pub' );
+        }
+        if( $request -> input( 'club_desc_prv' ) != '' ){
+            $club -> short_description = $request -> input( 'club_desc_prv' );
+        }
+        if( $request -> file('club_logo' ) ){
+            $logo_path = $request -> file( 'club_logo' ) -> store( '/uploads/images/club');
+            $club -> logo_path = $logo_path;
+        }
+        if( $request -> input( 'club_type' ) != '' ){
+            $club -> type = $request -> input( 'club_type' );
+        }
+        if( $request -> input( 'zip_code' ) ){
+            $club -> contact -> zipcode = $request -> input( 'zip_code' );
+        }
+        $club -> contact -> save();
+        $club -> save();
+        echo $club;
+        echo $club -> contact -> zipcode;
+    }
+
     public function inviteNew(Request $request){
 
         $isExist = User::where('first_name', $request -> input( 'first_name' )) ->
@@ -137,17 +173,20 @@ class ClubController extends Controller
             where('email', $request -> input( 'email' )) -> firstOrFail();
 
             if($user -> id == Auth::id())
-                echo 'invied self';
+            {
+                die(header("HTTP/1.0 404 Not Found"));
+            }
             else{
                 $roleship = new Roleship;
-                $roleship -> user_id =   $user -> id ;
+                $roleship -> user_id = $user -> id ;
                 $roleship -> club_id = session('theClubID');
                 $roleship -> role_id = 5;
                 $roleship -> save();
+                echo 'success';
             }
         }
         else{
-            echo 'error : Can not find the user.';
+            die(header("HTTP/1.0 404 Not Found"));
         }
     }
 
@@ -180,55 +219,6 @@ class ClubController extends Controller
         }
     }
 
-    //Receive post request from Club_Configuration_Page to update club information
-    public function updateClubInformation(Request $request)
-    {
-        $data = $request->all();
-
-        $path = Club::find(Session::get('club_id'))
-            ->club_logo;
-        //Confirm if logo is updated
-        if(isset($request->clublogo))
-        {
-            $file = $request->clublogo;
-            $path = $file->store('/uploads/images/club', 'uploads');
-            if(!$path)
-            {
-                return redirect()->back()
-                    ->with('status', 'danger')
-                    ->with('message', 'File Upload failed, please choose another file.');
-            }
-        }
-
-
-        try {
-            Club::where('club_id', Session::get('club_id'))
-                ->update([
-                    'club_name' => $data['club_name'],
-                    'club_description' => $data['club_description'],
-                    'club_short_description' => $data['club_short_description'],
-                    'club_slug' => $data['club_slug'],
-                    'club_logo' => $path,
-                    'club_website' => $data['club_website'],
-                    'club_phone' => $data['club_phone'],
-                    'club_address' => $data['club_address'],
-                    'club_city' => $data['club_city'],
-                    'club_state' => $data['club_state'],
-                    'club_zip' => $data['club_zip'],
-                    'membership_limit' => $data['membership_limit'],
-                ]);
-        }catch (\Exception $e)
-        {
-            return redirect()->back()
-                ->with('status', 'danger')
-                ->with('message', 'Update Failed! '.$e->getMessage());
-        }
-
-        return redirect()->back()
-            ->with('status', 'success')
-            ->with('message', 'Club information updated successfully!');
-    }
-
     public function showConfigClub($id)
     {
         $club = Club::find($id);
@@ -256,26 +246,75 @@ class ClubController extends Controller
 
     public function contactUpdate(Request $request)
     {
-        $newCity = $request -> city;
-        $newState = $request -> state;
-        $newZcod = $request -> zipcode;
-        $newPcmID = $request -> pcmid;
-        $newScmID = $request -> scmid;
-        $newLinkedIn = $request -> inLink;
-        $newLevelIn = $request -> inLevel;
-        $newTwitter = $request -> ttLink;
-        $newLevelT = $request -> ttLevel;
-        $newFacebook = $request -> fbLink;
-        $newLevelF = $request -> fbLevel;
-        $newYoutube = $request -> ytLink;
-        $newLevelY = $request -> ytLevel;
-        $newGoogle = $request -> goLink;
-        $newLevelG = $request -> goLevel;
-        $newMail = $request -> maLink;
-        $newLevelM = $request -> maLevel;
+        $contact = Contact::find(Club::find(session('theClubID')) -> contact -> id);
 
+        $contact -> city = $request -> city;
+        $contact -> state = $request -> state;
+        $contact -> zipcode = $request -> zipcode;
+        $contact -> pcm_id = $request -> pcmid;
+        $contact -> scm_id = $request -> scmid;
+        $contact -> linkedin = $request -> inLink;
+        $contact -> level_in = $request -> inLevel;
+        $contact -> twitter = $request -> ttLink;
+        $contact -> level_t = $request -> ttLevel;
+        $contact -> facebook = $request -> fbLink;
+        $contact -> level_f = $request -> fbLevel;
+        $contact -> youtube = $request -> ytLink;
+        $contact -> level_y = $request -> ytLevel;
+        $contact -> googleplus = $request -> goLink;
+        $contact -> level_g = $request -> goLevel;
+        $contact -> mail = $request -> maLink;
+        $contact -> level_m = $request -> maLevel;
 
+        $contact -> save();
 
-        clubManagement( session('theClubID') );
+        echo 'success';
+
+    }
+
+    public function membershipPlanAdd(Request $request){
+
+        $mPlan = new Membership_plan;
+
+        if( $request -> pName != '' ){
+            $mPlan -> name = $request -> pName;
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+        if( $request -> pDesc != '' ){
+            $mPlan -> description = $request -> pDesc;
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+        if( $request -> pDura != '' ){
+            $mPlan -> duration = $request -> pDura.$request -> pDuraUnit;;
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+        if( $request -> pCost != '' ){
+            $mPlan -> cost = $request -> pCost;
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+        if( $request -> pMO != '' ){
+            $plan_isMemberOnly = $request -> pMO;
+            if( $plan_isMemberOnly == 'on' )
+                $plan_isMemberOnly = 'true';
+            else
+                $plan_isMemberOnly = 'false';
+            $mPlan -> is_for_members_only = $plan_isMemberOnly;
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+        if( $request -> pName != '' ){
+            $mPlan -> name = $request -> pName;
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+        if( $request -> pName != '' ){
+            $mPlan -> name = $request -> pName;
+            $mPlan -> club_id = Session::get('theClubID');
+            $mPlan -> save();
+            echo 'success';
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
+    }
+
+    public function import(Request $request){
+
     }
 }
