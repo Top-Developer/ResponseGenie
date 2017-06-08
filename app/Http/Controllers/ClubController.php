@@ -14,6 +14,7 @@ use App\Club;
 use App\Roleship;
 use App\Role;
 use App\Contact;
+use App\Offline_member;
 
 class ClubController extends Controller
 {
@@ -34,6 +35,11 @@ class ClubController extends Controller
     {
         session(['theClubID' => $club_id]);
         $theClub = Club::find($club_id);
+        $theClubOnlineMembers = DB::table('memeberships')
+            -> join('users', 'memberships.user_id', '=', 'users.id')
+            -> select('users.*', 'memberships.join_date', 'memberships.expiration_date')
+            -> get();
+
         $theRoleID = Roleship::where('user_id', Auth::id()) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
         $theUserRole = Role::find($theRoleID) -> role_description;
         $theContact = $theClub -> contact;
@@ -50,6 +56,11 @@ class ClubController extends Controller
             $theSCM = NULL;
             $theSCMRole = NULL;
         }
+        $offlineMembers = Offline_member::where('club_id', $club_id) -> get();
+        $expDate = '';
+        if( !($theUserRole == 'owner' || $theUserRole == 'admin') ){
+            //$dxpDate =
+        }
 
         return view('club/clubManagement', [
             'page' => 'clubs',
@@ -57,22 +68,14 @@ class ClubController extends Controller
             'theClubUsers' => $theClub -> users,
             'theContact' => $theContact,
             'theUserRole' => $theUserRole,
+            'yourMembershipExpDate' => $expDate,
             'thePCM' => $thePCM,
             'thePCMRole' => $thePCMRole,
             'theSCM' => $theSCM,
-            'theSCMRole' => $theSCMRole
+            'theSCMRole' => $theSCMRole,
+            'offlineMembers' => $offlineMembers,
+            'onlineMembers' => $theClubOnlineMembers
         ]);
-//        return view('club/clubManagement', [
-//            'page' => 'clubs',
-//            'theClub' => $theClub,
-//            'theClubUsers' => $theClub -> users,
-//            'theContact' => $theContact,
-//            'theUserRole' => $theUserRole,
-//            'thePCM' => $thePCM,
-//            'thePCMRole' => $thePCMRole,
-//            'theSCM' => $theSCM,
-//            'theSCMRole' => $theSCMRole
-//        ]);
     }
 
     //First screen when user click "Clubs"
@@ -86,9 +89,14 @@ class ClubController extends Controller
     //Receive post request and create new club with requested data
     public function createClub(Request $request)
     {
-        if( $request -> file('club_logo' ) -> isValid()){
-            $logo_path = $request -> file( 'club_logo' ) -> store( '/uploads/images/club');
-        }
+        $this -> validate($request, [
+            'club_logo' => 'required|image|mimes:jpeg, png, jpg',
+        ]);
+        $logoName = time().'.'.$request -> file('club_logo') -> getClientOriginExtension();
+        $request -> file('club_logo') -> move(public_path('images'), $logoName);
+//        if( $request -> file('club_logo' ) -> isValid()){
+//            $logo_path = $request -> file( 'club_logo' ) -> store( '/uploads/images/club');
+//        }
 
         $club = new Club;
         $club -> name = $request -> input( 'club_name' );
@@ -96,7 +104,7 @@ class ClubController extends Controller
         $club -> description = $request -> input( 'club_description' );
         $club -> short_description = $request -> input( 'club_short_description' );
         $club -> website = $request -> input( 'club_url' );
-        $club -> logo_path = $logo_path;
+        $club -> logo_path = $logoName;
         $club -> phone_number = $request -> input( 'club_phone' );
         $club -> membership_limit = $request -> input( 'club_memberlimit' );
         $club -> type = $request -> input( 'club_type' );
@@ -117,7 +125,6 @@ class ClubController extends Controller
 
         return view('club/clubManagement', [
             'page' => 'clubs',
-            'theClub' => $club,
             'theClubUsers' => $club -> users,
             'theContact' => $contact,
             'theUserRole' => 'admin',
@@ -134,26 +141,33 @@ class ClubController extends Controller
         $club = Club::find(Session::get('theClubID'));
         if( $request -> input( 'club_name' ) != '' ){
             $club -> name = $request -> input( 'club_name' );
-        }
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
         if( $request -> input( 'club_slug' ) != '' ){
             $club -> slug = $request -> input( 'club_slug' );
-        }
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
         if( $request -> input( 'club_desc_pub' ) != '' ){
             $club -> description = $request -> input( 'club_desc_pub' );
-        }
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
         if( $request -> input( 'club_desc_prv' ) != '' ){
             $club -> short_description = $request -> input( 'club_desc_prv' );
-        }
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
         if( $request -> file('club_logo' ) ){
             $logo_path = $request -> file( 'club_logo' ) -> store( '/uploads/images/club');
             $club -> logo_path = $logo_path;
         }
+
         if( $request -> input( 'club_type' ) != '' ){
             $club -> type = $request -> input( 'club_type' );
-        }
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
         if( $request -> input( 'zip_code' ) ){
             $club -> contact -> zipcode = $request -> input( 'zip_code' );
-        }
+        }else
+            die(header("HTTP/1.0 404 Not Found"));
         $club -> contact -> save();
         $club -> save();
         echo $club;
@@ -279,19 +293,23 @@ class ClubController extends Controller
         if( $request -> pName != '' ){
             $mPlan -> name = $request -> pName;
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'name';
         if( $request -> pDesc != '' ){
             $mPlan -> description = $request -> pDesc;
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'desc';
         if( $request -> pDura != '' ){
-            $mPlan -> duration = $request -> pDura.$request -> pDuraUnit;;
+            $mPlan -> duration_quantity = $request -> pDura;
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'dura';
+        if( $request -> pDuraUnit != '' ){
+            $mPlan -> duration_unit = $request -> pDuraUnit;;
+        }else
+            echo 'unit';
         if( $request -> pCost != '' ){
             $mPlan -> cost = $request -> pCost;
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'cost';
         if( $request -> pMO != '' ){
             $plan_isMemberOnly = $request -> pMO;
             if( $plan_isMemberOnly == 'on' )
@@ -299,22 +317,110 @@ class ClubController extends Controller
             else
                 $plan_isMemberOnly = 'false';
             $mPlan -> is_for_members_only = $plan_isMemberOnly;
-        }else
-            die(header("HTTP/1.0 404 Not Found"));
-        if( $request -> pName != '' ){
-            $mPlan -> name = $request -> pName;
-        }else
-            die(header("HTTP/1.0 404 Not Found"));
-        if( $request -> pName != '' ){
-            $mPlan -> name = $request -> pName;
             $mPlan -> club_id = Session::get('theClubID');
             $mPlan -> save();
             echo 'success';
         }else
+            echo 'pmo';
+    }
+
+    public function mPlanUpdate(Request $request)
+    {
+
+        if ($request->pId != '') {
+
+            $mPlan = Membership_plan::find($request->pId);
+
+            if ($request->pName != '') {
+                $mPlan -> name = $request -> pName;
+            } else
+                die(header("HTTP/1.0 404 Not Found"));
+            if ($request->pDesc != '') {
+                $mPlan -> description = $request -> pDesc;
+            } else
+                die(header("HTTP/1.0 404 Not Found"));
+            if ($request -> pDura != '') {
+                $mPlan -> duration_quantity = $request -> pDura;
+            } else
+                die(header("HTTP/1.0 404 Not Found"));
+            if ($request -> pDuraUnit != '') {
+                $mPlan -> duration_unit = $request -> pDuraUnit;;
+            } else
+                die(header("HTTP/1.0 404 Not Found"));
+            if ($request -> pCost != '') {
+                $mPlan -> cost = $request -> pCost;
+            } else
+                die(header("HTTP/1.0 404 Not Found"));
+            if ($request -> pMO == 'true')
+                $mPlan -> is_for_members_only = 'true';
+            else if ($request -> pMO == '')
+                $mPlan -> is_for_members_only = 'false';
+            else
+                die(header("HTTP/1.0 404 Not Found"));
+            $mPlan -> club_id = Session::get('theClubID');
+            $mPlan -> save();
+            echo 'success';
+
+        } else
             die(header("HTTP/1.0 404 Not Found"));
     }
 
     public function import(Request $request){
+
+        if( $request -> has('m_name_first') ){
+            $fname = $request -> input('m_name_first');
+            echo $fname[0];
+        }
+        else
+            echo 'fname';
+        if( $request -> has('m_name_last') ){
+            $lname = $request -> input('m_name_last');
+            echo $lname[0];
+        }
+        else
+            echo 'lname';
+        if( $request -> has('m_email') ){
+            $eMail = $request -> input('m_email');
+            echo $eMail[0];
+        }
+        else
+            echo 'memail';
+        if( $request -> has('m_join_date') ){
+            $jDate = $request -> input('m_join_date');
+            echo $jDate[0];
+        }
+        else
+            echo 'jdate';
+        if( $request -> has('m_exp_date') ){
+            $eDate = $request -> input('m_exp_date');
+            echo $eDate[0];
+        }
+        else
+            echo 'edate';
+
+        if( $request -> hasFile('csv_files' )){
+            $csv_path = $request -> file( 'csv_files' ) -> store( '/uploads/imports/csv');
+            echo  $csv_path;
+        }
+        else
+            echo 'errorr';
+
+        //        if( $fname || $lname || $eMail || $jDate || $eDate ){
+//
+//            foreach($fname as $key => $value){
+//                $oMember = new Offline_member;
+//                $oMember -> fname = $value;
+//                $oMember -> lname = $lname[$key];
+//                $oMember -> email = $eMail[$key];
+//                $oMember -> joinDate = $jDate[$key];
+//                $oMember -> expDate = $eDate[$key];
+//                $oMember -> claimer_id = Auth::id();
+//                $oMember -> club_id = Session::get('theClubID');
+//                $oMember -> save();
+//            }
+//        }
+//        else
+//            echo 'err';
 
     }
 }

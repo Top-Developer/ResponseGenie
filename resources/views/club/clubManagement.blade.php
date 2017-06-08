@@ -339,6 +339,7 @@
 @include('club.management.modals.edit_membership_plan')
 @include('club.management.modals.success')
 @include('club.management.modals.error')
+@include('club.management.modals.select_column')
 @endsection
 @push('script')
 <script>
@@ -377,13 +378,146 @@
     });
     $(document).ready(function(){
         $("#addALine").on("click", function(){
-            $(this).parent().before(
-                '<div class = "row">'+
-                    '<div class = "col-md-1">');
+            var newChild = $(this).parent().parent().prev().html();
+            if ( '#' == $(this).parent().parent().prev().find('div:first-child').text() ){
+                $(this).parent().parent().before(
+                    '<div class="row member-input" id="info-wrapper">' +
+                    '<div class="col-md-1" style="text-align: right;">' +
+                    '1' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<input type="text" id="firstName" name="m_name_first[]" required="">' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<input type="text" id="lastName" name="m_name_last[]" required="">' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<input type="email" id="email" name="m_email[]" required="">' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<input type="date" id="joinDate" name="m_join_date[]" required="">' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<input type="date" id="expDate" name="m_exp_date[]" required="">' +
+                    '</div>' +
+                    '</div>');
+            }
+            else if( 0 < parseInt($(this).parent().parent().prev().find('div:first-child').text()) ){
+                $(this).parent().parent().before( '<div class="row member-input" id="info-wrapper">' + newChild + '</div>');
+                $(this).parent().parent().prev().find('div:first-child').text(
+                    parseInt( $(this).parent().parent().prev().prev().find('div:first-child').text() ) + 1
+                );
+            }
         });
-        $(".panel-title a[href='#edit_plan']").on("click", function(){
-            $('#edit_plan').find('#plan_name').val($(this).parent().find('.plan_name').text());
-            $('#edit_plan').find('#plan_desc').val($(this).parent().parent().parent().find('.panel-body').text());
+        $("#removeALine").on("click", function(){
+            if ( '#' == $(this).parent().parent().prev().find('div:first-child').text() ){
+            }else{
+                $(this).parent().parent().prev().remove();
+            }
+        });
+        $(".panel-title a[href='#edit_plan']").on("click", function(event){
+            event.preventDefault();
+            $('#edit_plan').find('#plan_name').val($(this).parent().find('#plan_name').text());
+            $('#edit_plan').find('#plan_desc').val($(this).parent().parent().parent().find('#plan_desc').text());
+            $('#edit_plan').find('#plan_dura').val($(this).parent().parent().parent().find('#plan_dura').text());
+            var plan_dura_unit = $(this).parent().parent().parent().find('#plan_dura_unit').text();
+            $('#edit_plan').find('#plan_dura_unit').children().removeAttr('selected');
+            $.each($('#edit_plan').find('#plan_dura_unit').children(), function(index, element){
+                console.log(plan_dura_unit);
+                console.log($(this).text());
+                if($(this).text() == plan_dura_unit) {console.log('same'); $(this).prop('selected', true);console.log($(this));}
+            });
+            $('#edit_plan').find('#plan_cost').val($(this).parent().parent().parent().find('#plan_cost').text());
+            $('#edit_plan').find('input#plan_members_only').parent().removeClass('checked');
+            if( $(this).parent().parent().parent().find('#plan_is_for_mem').text() == 'true' ){
+                console.log('dfd');
+                $('#edit_plan').find('input#plan_members_only').parent().attr('class', 'checked');
+            }
+            $('#edit_plan').find('#plan_id').val($(this).parent().parent().parent().find('#plan_id').text());
+        });
+        $("div#tab_2_3 button#member_view_toggle").on("click", function(event){
+            console.log($(this).text());
+            if( ' Icon View ' == $(this).text() ){
+                $(this).text(' Spreadsheet View ');
+                $(this).parent().parent().next().removeClass('active').addClass('hidden');
+                $(this).parent().parent().parent().next().removeClass('hidden').addClass('active');
+                $(this).parent().parent().parent().next().next().removeClass('active').addClass('hidden');
+            }
+            else if( ' Spreadsheet View ' == $(this).text() ){
+                $(this).text(' Icon View ');
+                $(this).parent().parent().next().removeClass('hidden').addClass('active');
+                $(this).parent().parent().parent().next().removeClass('active').addClass('hidden');
+                $(this).parent().parent().parent().next().next().removeClass('hidden').addClass('active');
+            }
+        });
+        $('div#sel-col button#ref-col').on('click', function(event){
+            console.log('clicked');
+            if( $('input[type="checkbox"]#admin').is(':checked') ){
+                $('.col-table-admin').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-admin').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#ct').is(':checked') ){
+                $('.col-table-city').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-city').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#fname').is(':checked') ){
+                $('.col-table-fn').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-fn').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#stet').is(':checked') ){
+                $('.col-table-state').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-state').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#lname').is(':checked') ){
+                $('.col-table-ln').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-ln').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#zcode').is(':checked') ){
+                $('.col-table-zcode').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-zcode').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#jdate').is(':checked') ){
+                $('.col-table-jdate').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-jdate').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#phone').is(':checked') ){
+                $('.col-table-phone').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-phone').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#expdate').is(':checked') ){
+                $('.col-table-edate').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-edate').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#mail').is(':checked') ){
+                $('.col-table-email').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-email').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#exp').is(':checked') ){
+                $('.col-table-exp').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-exp').css('display', 'none');
+            }
         });
     });
 </script>

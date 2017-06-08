@@ -4,6 +4,7 @@
             <form class = "ajax" action = "<?php echo e(url('/edit/membership_plan')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
+                <input type="hidden" id = "plan_id" name = "pId">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title">Edit the membership plan</h4>
@@ -51,7 +52,7 @@
                                 </div>
                             </div>
                             <div class = "row form-group">
-                                <input type="checkbox" id = "plan_members_only" name = "pMO">
+                                <input type="checkbox" id = "plan_members_only" name = "pMO" value = 'true'>
                                 <label for = "plan_members_only">Members only</label>
                             </div>
                             <input type = "hidden" value = "<?php echo e($theClub -> id); ?>" name = "clubId">

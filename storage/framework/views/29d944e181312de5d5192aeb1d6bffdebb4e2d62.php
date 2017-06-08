@@ -307,10 +307,10 @@
                                     <div class="form-group form-md-line-input form-md-floating-label">
                                         <select class="form-control edited" id="form_control_club_type"  name = "club_type">
                                             <option value="" selected></option>
-                                            <option value="Closed"> Closed Club </option>
-                                            <option value="Moderated"> Moderated Club </option>
-                                            <option value="Open"> Open Club </option>
-                                            <option value="Privated"> Private Club </option>
+                                            <option value="Closed Club"> Closed Club </option>
+                                            <option value="Moderated Club"> Moderated Club </option>
+                                            <option value="Open Club"> Open Club </option>
+                                            <option value="Privated Club"> Private Club </option>
                                         </select>
                                         <label for="form_control_club_type">Club Type</label>
                                         <span class="help-block">The type of your club</span>
