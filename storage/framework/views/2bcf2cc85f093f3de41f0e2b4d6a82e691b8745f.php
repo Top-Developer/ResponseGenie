@@ -101,11 +101,11 @@
                     <th class= "col-table-jdate"> Join Date </th>
                     <th class= "col-table-edate"> Expiration Date </th>
                     <th class= "col-table-exp"> Expired </th>
-                    <th class= "col-table-city"> City </th>
-                    <th class= "col-table-state"> State </th>
-                    <th class= "col-table-zcode"> Zipcode </th>
-                    <th class= "col-table-phone"> Phone </th>
-                    <th class= "col-table-email"> Email </th>
+                    
+                    
+                    
+                    
+                    
                 </tr>
                 </thead>
                 <tbody>
@@ -123,37 +123,72 @@
 
                         </td>
                         <td class= "col-table-jdate">
-                            <?php echo e($aUser -> created_at); ?>
+                            <?php echo e($aUser -> join_date); ?>
 
                         </td>
                         <td class= "col-table-edate">
-                            <?php echo e($aUser -> created_at); ?>
+                            <?php echo e($aUser -> expiration_date); ?>
 
                         </td>
                         <td class= "col-table-exp">
-                            <?php echo e($aUser -> created_at); ?>
+                            <input type="checkbox" class="checkboxes" disabled <?php if($aUser -> expiration_date == 'owner' || $aUser -> role_description == 'admin'): ?> checked <?php endif; ?>>
+                        </td>
+                        
+                            
+                        
+                        
+                            
+                        
+                        
+                            
+                        
+                        
+                            
+                        
+                        
+                            
+                        
+                    </tr>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                <?php $__currentLoopData = $offlineMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                    <tr>
+                        <td class= "col-table-admin">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                        <td class= "col-table-fn">
+                            <?php echo e($aUser -> fname); ?>
 
                         </td>
-                        <td class= "col-table-city">
-                            <?php echo e($aUser -> city); ?>
+                        <td class= "col-table-ln">
+                            <?php echo e($aUser -> lname); ?>
 
                         </td>
-                        <td class= "col-table-state">
-                            <?php echo e($aUser -> state); ?>
+                        <td class= "col-table-jdate">
+                            <?php echo e($aUser -> joinDate); ?>
 
                         </td>
-                        <td class= "col-table-zcode">
-                            <?php echo e($aUser -> zip); ?>
+                        <td class= "col-table-edate">
+                            <?php echo e($aUser -> expDate); ?>
 
                         </td>
-                        <td class= "col-table-phone">
-                            <?php echo e($aUser -> phone); ?>
-
+                        <td class= "col-table-exp">
+                            <input type="checkbox" class="checkboxes" disabled value = '<?php echo e(Carbon\Carbon::now() -> format("Y-m-d H:i:s")); ?>' <?php if(  Carbon\Carbon::now() -> format('Y-m-d H:i:s') > ($aUser -> expDate) ): ?> checked <?php endif; ?>>
                         </td>
-                        <td class= "col-table-email">
-                            <?php echo e($aUser -> email); ?>
-
-                        </td>
+                        
+                            
+                        
+                        
+                            
+                        
+                        
+                            
+                        
+                        
+                            
+                        
+                        
+                            
+                        
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                 </tbody>

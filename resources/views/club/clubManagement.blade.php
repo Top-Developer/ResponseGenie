@@ -271,6 +271,13 @@
                 </ul>
                 <!-- END PAGE BREADCRUMBS -->
 
+                @if($errors -> any())
+                    <h4>{{$errors -> first()}}</h4>
+                @endif
+                @if( $csvpath = Session::get('csvpath') )
+                    <h4>{{ $csvpath }}</h4>
+                @endif
+
                 <div class="page-content-inner">
                     <div class="portlet light">
                         <div class="portlet-body tabbable-default">
@@ -342,6 +349,7 @@
 @include('club.management.modals.select_column')
 @endsection
 @push('script')
+<script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
         $("form.ajax").on("submit", function(event){
@@ -518,6 +526,11 @@
             else{
                 $('.col-table-exp').css('display', 'none');
             }
+        });
+        $('#calendar').fullCalendar({
+            eventSources: [
+                '/feed2.php'
+            ]
         });
     });
 </script>

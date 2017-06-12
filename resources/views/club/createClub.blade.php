@@ -167,7 +167,23 @@
 
 @section('content')
     <div class="main-container">
-
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+            <img src="{{ Session::get('path') }}">
+        @endif
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -242,7 +258,7 @@
                                             <span class="btn green btn-outline btn-file">
                                                 <span class="fileinput-new"> Select image </span>
                                                 <span class="fileinput-exists"> Change </span>
-                                                <input type="hidden"><input type="file" name="club_logo">
+                                                <input type="file" name="club_logo">
                                             </span>
                                             <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                         </div>

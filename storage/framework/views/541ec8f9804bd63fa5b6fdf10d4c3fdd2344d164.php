@@ -2,7 +2,7 @@
     <h4 style="text-align:center;">Club Name : <?php echo e($theClub -> name); ?></h4>
     <div class="row">
         <div class = "col-md-6">
-            <img src="/../storage/app/<?php echo e($theClub -> logo_path); ?>" class="card-body-image">
+            <img src="<?php echo e($theClub -> logo_path); ?>" class="card-body-image">
         </div>
         <div class = "col-md-6">
             Club Description :<br><?php echo e($theClub -> description); ?>

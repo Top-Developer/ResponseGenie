@@ -2,7 +2,7 @@
     <h4 style="text-align:center;">Club Name : {{$theClub -> name}}</h4>
     <div class="row">
         <div class = "col-md-6">
-            <img src="/../storage/app/{{$theClub -> logo_path}}" class="card-body-image">
+            <img src="{{$theClub -> logo_path}}" class="card-body-image">
         </div>
         <div class = "col-md-6">
             Club Description :<br>{{ $theClub -> description }}

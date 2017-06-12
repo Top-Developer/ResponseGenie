@@ -253,7 +253,7 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-body-section">
-                                                <img src="/{{$theClub -> logo_path}}" class="card-body-image">
+                                                <img src="{{$theClub -> logo_path}}" class="card-body-image">
                                             </div>
                                             <div class="card-body-section">
                                                 <div class="card-date-box">

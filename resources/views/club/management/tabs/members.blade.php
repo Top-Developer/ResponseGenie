@@ -96,11 +96,11 @@
                     <th class= "col-table-jdate"> Join Date </th>
                     <th class= "col-table-edate"> Expiration Date </th>
                     <th class= "col-table-exp"> Expired </th>
-                    <th class= "col-table-city"> City </th>
-                    <th class= "col-table-state"> State </th>
-                    <th class= "col-table-zcode"> Zipcode </th>
-                    <th class= "col-table-phone"> Phone </th>
-                    <th class= "col-table-email"> Email </th>
+                    {{--<th class= "col-table-city"> City </th>--}}
+                    {{--<th class= "col-table-state"> State </th>--}}
+                    {{--<th class= "col-table-zcode"> Zipcode </th>--}}
+                    {{--<th class= "col-table-phone"> Phone </th>--}}
+                    {{--<th class= "col-table-email"> Email </th>--}}
                 </tr>
                 </thead>
                 <tbody>
@@ -124,21 +124,58 @@
                         <td class= "col-table-exp">
                             <input type="checkbox" class="checkboxes" disabled @if($aUser -> expiration_date == 'owner' || $aUser -> role_description == 'admin') checked @endif>
                         </td>
-                        <td class= "col-table-city">
-                            {{$aUser -> city}}
+                        {{--<td class= "col-table-city">--}}
+                            {{--{{$aUser -> city}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-state">--}}
+                            {{--{{$aUser -> state}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-zcode">--}}
+                            {{--{{$aUser -> zip}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-phone">--}}
+                            {{--{{$aUser -> phone}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-email">--}}
+                            {{--{{$aUser -> email}}--}}
+                        {{--</td>--}}
+                    </tr>
+                @endforeach
+                @foreach( $offlineMembers as $aUser )
+                    <tr>
+                        <td class= "col-table-admin">
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
-                        <td class= "col-table-state">
-                            {{$aUser -> state}}
+                        <td class= "col-table-fn">
+                            {{$aUser -> fname}}
                         </td>
-                        <td class= "col-table-zcode">
-                            {{$aUser -> zip}}
+                        <td class= "col-table-ln">
+                            {{$aUser -> lname}}
                         </td>
-                        <td class= "col-table-phone">
-                            {{$aUser -> phone}}
+                        <td class= "col-table-jdate">
+                            {{$aUser -> joinDate}}
                         </td>
-                        <td class= "col-table-email">
-                            {{$aUser -> email}}
+                        <td class= "col-table-edate">
+                            {{$aUser -> expDate}}
                         </td>
+                        <td class= "col-table-exp">
+                            <input type="checkbox" class="checkboxes" disabled value = '{{Carbon\Carbon::now() -> format("Y-m-d H:i:s")}}' @if(  Carbon\Carbon::now() -> format('Y-m-d H:i:s') > ($aUser -> expDate) ) checked @endif>
+                        </td>
+                        {{--<td class= "col-table-city">--}}
+                            {{--{{$aUser -> city}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-state">--}}
+                            {{--{{$aUser -> state}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-zcode">--}}
+                            {{--{{$aUser -> zip}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-phone">--}}
+                            {{--{{$aUser -> phone}}--}}
+                        {{--</td>--}}
+                        {{--<td class= "col-table-email">--}}
+                            {{--{{$aUser -> email}}--}}
+                        {{--</td>--}}
                     </tr>
                 @endforeach
                 </tbody>

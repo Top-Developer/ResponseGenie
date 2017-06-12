@@ -35,7 +35,7 @@ class ClubController extends Controller
     {
         session(['theClubID' => $club_id]);
         $theClub = Club::find($club_id);
-        $theClubOnlineMembers = DB::table('memeberships')
+        $theClubOnlineMembers = DB::table('memberships')
             -> join('users', 'memberships.user_id', '=', 'users.id')
             -> select('users.*', 'memberships.join_date', 'memberships.expiration_date')
             -> get();
@@ -46,11 +46,11 @@ class ClubController extends Controller
         $pcm_id = $theContact -> pcm_id;
         $scm_id = $theContact -> scm_id;
         $thePCM = User::find($pcm_id);
-        $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
+        $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
         $thePCMRole = Role::find($thePCMRoleID) -> role_description;
-        if($scm_id != ''){
+        if($scm_id != '' && $scm_id != 'None'){
             $theSCM = User::find($scm_id);
-            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) ->firstOrFail() -> role_id;
+            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
             $theSCMRole = Role::find($theSCMRoleID) -> role_description;
         }else{
             $theSCM = NULL;
@@ -90,10 +90,11 @@ class ClubController extends Controller
     public function createClub(Request $request)
     {
         $this -> validate($request, [
-            'club_logo' => 'required|image|mimes:jpeg, png, jpg',
+            'club_logo' => 'required|image|mimes:jpeg,png,jpg',
         ]);
-        $logoName = time().'.'.$request -> file('club_logo') -> getClientOriginExtension();
-        $request -> file('club_logo') -> move(public_path('images'), $logoName);
+        $logoName = time().'.'.$request -> club_logo -> getClientOriginalExtension();
+        $request -> file('club_logo') -> move(public_path('uploads/images'), $logoName);
+        $imagePath = asset('uploads/images/')."/".$logoName;
 //        if( $request -> file('club_logo' ) -> isValid()){
 //            $logo_path = $request -> file( 'club_logo' ) -> store( '/uploads/images/club');
 //        }
@@ -104,7 +105,7 @@ class ClubController extends Controller
         $club -> description = $request -> input( 'club_description' );
         $club -> short_description = $request -> input( 'club_short_description' );
         $club -> website = $request -> input( 'club_url' );
-        $club -> logo_path = $logoName;
+        $club -> logo_path = $imagePath;
         $club -> phone_number = $request -> input( 'club_phone' );
         $club -> membership_limit = $request -> input( 'club_memberlimit' );
         $club -> type = $request -> input( 'club_type' );
@@ -123,16 +124,9 @@ class ClubController extends Controller
         $roleship -> role_id = 2;
         $roleship -> save();
 
-        return view('club/clubManagement', [
-            'page' => 'clubs',
-            'theClubUsers' => $club -> users,
-            'theContact' => $contact,
-            'theUserRole' => 'admin',
-            'thePCM' => '',
-            'thePCMRole' => '',
-            'theSCM' => '',
-            'theSCMRole' => ''
-        ]);
+        return back()
+            ->with('success', 'Image Uploaded successfully.')
+            ->with('path', $imagePath);
 
     }
 
@@ -142,36 +136,43 @@ class ClubController extends Controller
         if( $request -> input( 'club_name' ) != '' ){
             $club -> name = $request -> input( 'club_name' );
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'name wrong';
         if( $request -> input( 'club_slug' ) != '' ){
             $club -> slug = $request -> input( 'club_slug' );
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'slug wrong';
         if( $request -> input( 'club_desc_pub' ) != '' ){
             $club -> description = $request -> input( 'club_desc_pub' );
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'pub wrong';
         if( $request -> input( 'club_desc_prv' ) != '' ){
             $club -> short_description = $request -> input( 'club_desc_prv' );
         }else
-            die(header("HTTP/1.0 404 Not Found"));
-        if( $request -> file('club_logo' ) ){
-            $logo_path = $request -> file( 'club_logo' ) -> store( '/uploads/images/club');
-            $club -> logo_path = $logo_path;
-        }
+            echo 'prv wrong';
 
         if( $request -> input( 'club_type' ) != '' ){
             $club -> type = $request -> input( 'club_type' );
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'type wrong';
         if( $request -> input( 'zip_code' ) ){
             $club -> contact -> zipcode = $request -> input( 'zip_code' );
         }else
-            die(header("HTTP/1.0 404 Not Found"));
+            echo 'zcod wrong';
+
+        $this -> validate($request, [
+            'club_logo' => 'required|image|mimes:jpeg,png,jpg',]);
+
+        $logoName = time().'.'.$request -> club_logo -> getClientOriginalExtension();
+        $request -> file('club_logo') -> move(public_path('uploads/images'), $logoName);
+        $imagePath = asset('uploads/images/')."/".$logoName;
+        $club -> logo_path = $imagePath;
         $club -> contact -> save();
         $club -> save();
-        echo $club;
-        echo $club -> contact -> zipcode;
+
+        return back()
+//            -> withErrors('msg', 'The Message')
+//            -> with('csvpath', $imagePath)
+            ;
     }
 
     public function inviteNew(Request $request){
@@ -398,29 +399,37 @@ class ClubController extends Controller
         else
             echo 'edate';
 
-        if( $request -> hasFile('csv_files' )){
-            $csv_path = $request -> file( 'csv_files' ) -> store( '/uploads/imports/csv');
-            echo  $csv_path;
-        }
-        else
-            echo 'errorr';
+            $this -> validate($request, [
+                'csv_files' => 'required|mimes:csv,txt',]);
 
-        //        if( $fname || $lname || $eMail || $jDate || $eDate ){
-//
-//            foreach($fname as $key => $value){
-//                $oMember = new Offline_member;
-//                $oMember -> fname = $value;
-//                $oMember -> lname = $lname[$key];
-//                $oMember -> email = $eMail[$key];
-//                $oMember -> joinDate = $jDate[$key];
-//                $oMember -> expDate = $eDate[$key];
-//                $oMember -> claimer_id = Auth::id();
-//                $oMember -> club_id = Session::get('theClubID');
-//                $oMember -> save();
-//            }
-//        }
-//        else
-//            echo 'err';
+            $csvName = time().'.'.$request -> csv_files -> getClientOriginalExtension();
+            $request -> file('csv_files') -> move(public_path('uploads/csvs'), $csvName);
+
+            $file = fopen('uploads/csvs/'.$csvName, "r");
+            while ( ($data = fgetcsv($file)) !==FALSE ){
+
+                $no = $data[0];
+                if($no == 'No'){
+                    continue;
+                }
+                else{
+                    $oMember = new Offline_member;
+                    $oMember -> fname = $data[1];
+                    $oMember -> lname = $data[2];
+                    $oMember -> email = $data[3];
+                    $oMember -> joinDate = date('Y-m-d H:i:s', date_create_from_format('m/d/Y:H:i:s', $data[4].':00:00:00') -> getTimestamp());
+                    $oMember -> expDate = date('Y-m-d H:i:s', date_create_from_format('m/d/Y:H:i:s', $data[5].':00:00:00') -> getTimestamp());
+                    $oMember -> claimer_id = Auth::id();
+                    $oMember -> club_id = Session::get('theClubID');
+                    $oMember -> membership_plan_id = $data[6];
+                    $oMember -> save();
+                }
+            }
+            fclose($file);
+            return back()
+//                -> withErrors('msg', 'The Message')
+//                -> with('csvpath', $csvName)
+                ;
 
     }
 }

@@ -269,6 +269,13 @@
                 </ul>
                 <!-- END PAGE BREADCRUMBS -->
 
+                <?php if($errors -> any()): ?>
+                    <h4><?php echo e($errors -> first()); ?></h4>
+                <?php endif; ?>
+                <?php if( $csvpath = Session::get('csvpath') ): ?>
+                    <h4><?php echo e($csvpath); ?></h4>
+                <?php endif; ?>
+
                 <div class="page-content-inner">
                     <div class="portlet light">
                         <div class="portlet-body tabbable-default">
@@ -340,6 +347,7 @@
 <?php echo $__env->make('club.management.modals.select_column', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script'); ?>
+<script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
         $("form.ajax").on("submit", function(event){
@@ -516,6 +524,11 @@
             else{
                 $('.col-table-exp').css('display', 'none');
             }
+        });
+        $('#calendar').fullCalendar({
+            eventSources: [
+                '/feed2.php'
+            ]
         });
     });
 </script>

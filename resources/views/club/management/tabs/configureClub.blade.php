@@ -1,4 +1,21 @@
-<form class = "form-horizontal ajax" action = "{{url('/club/configure')}}" method = "post">
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>Whoops!</strong> There were some problems with your input.
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+@if ($message = Session::get('success'))
+    <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+    </div>
+    <img src="images/{{ Session::get('image') }}">
+@endif
+<form class = "form-horizontal" action = "{{url('/club/configure')}}" method = "post" enctype = 'multipart/form-data'>
     {{csrf_field()}}
     <h1 style="text-align: center;">
         Configure club
@@ -47,7 +64,7 @@
                                                                     <span class="btn red btn-outline btn-file">
                                                                         <span class="fileinput-new"> Select image </span>
                                                                         <span class="fileinput-exists"> Change </span>
-                                                                        <input type="hidden"><input type="file" name="club_logo"> </span>
+                                                                        <input type="file" name="club_logo"> </span>
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                     </div>
                 </div>

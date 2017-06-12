@@ -1,4 +1,21 @@
-<form class = "form-horizontal ajax" action = "<?php echo e(url('/club/configure')); ?>" method = "post">
+<?php if(count($errors) > 0): ?>
+    <div class="alert alert-danger">
+        <strong>Whoops!</strong> There were some problems with your input.
+        <ul>
+            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                <li><?php echo e($error); ?></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+        </ul>
+    </div>
+<?php endif; ?>
+<?php if($message = Session::get('success')): ?>
+    <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><?php echo e($message); ?></strong>
+    </div>
+    <img src="images/<?php echo e(Session::get('image')); ?>">
+<?php endif; ?>
+<form class = "form-horizontal" action = "<?php echo e(url('/club/configure')); ?>" method = "post" enctype = 'multipart/form-data'>
     <?php echo e(csrf_field()); ?>
 
     <h1 style="text-align: center;">
@@ -48,7 +65,7 @@
                                                                     <span class="btn red btn-outline btn-file">
                                                                         <span class="fileinput-new"> Select image </span>
                                                                         <span class="fileinput-exists"> Change </span>
-                                                                        <input type="hidden"><input type="file" name="club_logo"> </span>
+                                                                        <input type="file" name="club_logo"> </span>
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                     </div>
                 </div>

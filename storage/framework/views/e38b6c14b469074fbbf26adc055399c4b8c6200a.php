@@ -1,7 +1,7 @@
 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-full">
         <div class="modal-content">
-            <form action = "<?php echo e(url('/import')); ?>" method = "post" class = "ajax" enctype="multipart/form-data">
+            <form action = "<?php echo e(url('/import')); ?>" method = "post" enctype="multipart/form-data">
                 <?php echo e(csrf_field()); ?>
 
                 <div class="modal-header">
@@ -56,10 +56,10 @@
                 </div>
                 <div class="modal-footer">
                     <span>Or upload CSV files. * use the columns above.</span>
-                    <input type = 'file' name = 'csv_files' id = 'csv_files' class = 'hidden' accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel' multiple>
-                    <label for = 'csv_files' class = 'btn blue btn-outline'>Upload csv files</label>
+                    <input type = 'file' name = 'csv_files' id = 'csv_file' class = 'hidden' accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'>
+                    <label for = 'csv_file' class = 'btn blue btn-outline'>Upload csv files</label>
                     <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancel</button>
-                    <button type="sumnit" class="btn green">OK</button>
+                    <button type="submit" class="btn green">OK</button>
                 </div>
             </form>
         </div>
