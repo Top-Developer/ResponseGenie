@@ -133,21 +133,6 @@
                         <td class= "col-table-exp">
                             <input type="checkbox" class="checkboxes" disabled <?php if($aUser -> expiration_date == 'owner' || $aUser -> role_description == 'admin'): ?> checked <?php endif; ?>>
                         </td>
-                        
-                            
-                        
-                        
-                            
-                        
-                        
-                            
-                        
-                        
-                            
-                        
-                        
-                            
-                        
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                 <?php $__currentLoopData = $offlineMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
@@ -174,21 +159,6 @@
                         <td class= "col-table-exp">
                             <input type="checkbox" class="checkboxes" disabled value = '<?php echo e(Carbon\Carbon::now() -> format("Y-m-d H:i:s")); ?>' <?php if(  Carbon\Carbon::now() -> format('Y-m-d H:i:s') > ($aUser -> expDate) ): ?> checked <?php endif; ?>>
                         </td>
-                        
-                            
-                        
-                        
-                            
-                        
-                        
-                            
-                        
-                        
-                            
-                        
-                        
-                            
-                        
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                 </tbody>

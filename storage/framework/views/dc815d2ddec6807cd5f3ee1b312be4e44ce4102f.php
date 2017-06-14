@@ -297,10 +297,10 @@
                                     <a href="#tab_2_5" data-toggle="tab"> Configure Club </a>
                                 </li>
                                 <li>
-                                    <a href="#tab_2_6" data-toggle="tab"> Payment Services </a>
+                                    <a href="#tab_2_6" data-toggle="tab"> Transactions </a>
                                 </li>
                                 <li>
-                                    <a href="#tab_2_7" data-toggle="tab"> Transactions </a>
+                                    <a href="#tab_2_7" data-toggle="tab"> Discounts </a>
                                 </li>
                             <?php endif; ?>
                             </ul>
@@ -323,10 +323,10 @@
                                     <?php echo $__env->make('club.management.tabs.configureClub', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
                                 <div  class="tab-pane fade" id="tab_2_6">
-                                    <?php echo $__env->make('club.management.tabs.paymentServices', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                    <?php echo $__env->make('club.management.tabs.transactions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
                                 <div  class="tab-pane fade" id="tab_2_7">
-                                    <?php echo $__env->make('club.management.tabs.transactions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                    <?php echo $__env->make('club.management.tabs.discount', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 </div>
                             <?php endif; ?>
                             </div>
@@ -345,6 +345,8 @@
 <?php echo $__env->make('club.management.modals.success', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php echo $__env->make('club.management.modals.error', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php echo $__env->make('club.management.modals.select_column', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.add_discount', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('club.management.modals.select_transaction_column', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script'); ?>
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
@@ -529,6 +531,14 @@
             eventSources: [
                 '/feed2.php'
             ]
+        });
+        $('input[name="discount_type"]').on('click', function(){
+            if($(this).val() == 'amount'){
+                $('span#unit').text('$');
+            }
+            else{
+                $('span#unit').text('%');
+            }
         });
     });
 </script>

@@ -5,8 +5,25 @@
             <img src="<?php echo e($theClub -> logo_path); ?>" class="card-body-image">
         </div>
         <div class = "col-md-6">
-            Club Description :<br><?php echo e($theClub -> description); ?>
+            <div>
+                Club Description :<br><?php echo e($theClub -> description); ?>
 
+            </div>
+            <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
+                <form method = 'post' action = '<?php echo e(url('/club/stripe')); ?>'>
+                    <?php echo e(csrf_field()); ?>
+
+                    <div>
+                        Stripe Public key :<input value = '<?php echo e($theClub -> stripe_pub_key); ?>' name = 'str_pub_key'>
+                    </div>
+                    <div>
+                        Stripe Private key :<input value = '<?php echo e($theClub -> stripe_pvt_key); ?>' name = 'str_pvt_key'>
+                    </div>
+                    <div style = 'float: right; margin: 20px 20px 0 0;'>
+                        <button class = 'btn green' type = 'submit'>Save</button>
+                    </div>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 </div>

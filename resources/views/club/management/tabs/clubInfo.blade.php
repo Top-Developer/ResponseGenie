@@ -5,7 +5,23 @@
             <img src="{{$theClub -> logo_path}}" class="card-body-image">
         </div>
         <div class = "col-md-6">
-            Club Description :<br>{{ $theClub -> description }}
+            <div>
+                Club Description :<br>{{ $theClub -> description }}
+            </div>
+            @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
+                <form method = 'post' action = '{{url('/club/stripe')}}'>
+                    {{csrf_field()}}
+                    <div>
+                        Stripe Public key :<input value = '{{ $theClub -> stripe_pub_key }}' name = 'str_pub_key'>
+                    </div>
+                    <div>
+                        Stripe Private key :<input value = '{{ $theClub -> stripe_pvt_key }}' name = 'str_pvt_key'>
+                    </div>
+                    <div style = 'float: right; margin: 20px 20px 0 0;'>
+                        <button class = 'btn green' type = 'submit'>Save</button>
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>

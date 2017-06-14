@@ -1,30 +1,20 @@
-<h1 style = 'text-align:center;'>{{$theClub -> name}}</h1>
-<h3 style = 'text-align:center;'>Transactions</h3>
+<h1 style = 'text-align:center;'>Discounts</h1>
 <div class="portlet light portlet-fit portlet-datatable " id="form_wizard_1">
     <div class="portlet-title">
-        <div class = 'caption'>
-            <span>
-                <label>From</label>
-                <input type = 'date' id = 'transaction_from'>
-                <label>To</label>
-                <input type = 'date' id = 'transaction_to'>
-                <button type = 'button' class = 'btn green' >OK</button>
-            </span>
-        </div>
         <div class = 'actions'>
-            <a type="button" class="btn btn-danger" data-toggle="modal" href="#sel-trans-cols"> Select Columns </a>
+            <a type="button" class="btn btn-danger" data-toggle="modal" href="#add_discount"> New discount </a>
         </div>
     </div>
     <div class="portlet-body">
         <table class="table table-striped table-bordered table-hover order-column" id="sample_2">
             <thead>
             <tr>
-                <th> Admin </th>
-                <th> First Name </th>
-                <th> Last Name </th>
-                <th> Join Date </th>
-                <th> Expiration Date </th>
-                <th> Expired </th>
+                <th class= "col-table-admin"> Admin </th>
+                <th class= "col-table-fn"> First Name </th>
+                <th class= "col-table-ln"> Last Name </th>
+                <th class= "col-table-jdate"> Join Date </th>
+                <th class= "col-table-edate"> Expiration Date </th>
+                <th class= "col-table-exp"> Expired </th>
             </tr>
             </thead>
             <tbody>
@@ -76,3 +66,4 @@
         </table>
     </div>
 </div>
+

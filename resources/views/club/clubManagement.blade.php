@@ -299,10 +299,10 @@
                                     <a href="#tab_2_5" data-toggle="tab"> Configure Club </a>
                                 </li>
                                 <li>
-                                    <a href="#tab_2_6" data-toggle="tab"> Payment Services </a>
+                                    <a href="#tab_2_6" data-toggle="tab"> Transactions </a>
                                 </li>
                                 <li>
-                                    <a href="#tab_2_7" data-toggle="tab"> Transactions </a>
+                                    <a href="#tab_2_7" data-toggle="tab"> Discounts </a>
                                 </li>
                             @endif
                             </ul>
@@ -325,10 +325,10 @@
                                     @include('club.management.tabs.configureClub')
                                 </div>
                                 <div  class="tab-pane fade" id="tab_2_6">
-                                    @include('club.management.tabs.paymentServices')
+                                    @include('club.management.tabs.transactions')
                                 </div>
                                 <div  class="tab-pane fade" id="tab_2_7">
-                                    @include('club.management.tabs.transactions')
+                                    @include('club.management.tabs.discount')
                                 </div>
                             @endif
                             </div>
@@ -347,6 +347,8 @@
 @include('club.management.modals.success')
 @include('club.management.modals.error')
 @include('club.management.modals.select_column')
+@include('club.management.modals.add_discount')
+@include('club.management.modals.select_transaction_column')
 @endsection
 @push('script')
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
@@ -531,6 +533,14 @@
             eventSources: [
                 '/feed2.php'
             ]
+        });
+        $('input[name="discount_type"]').on('click', function(){
+            if($(this).val() == 'amount'){
+                $('span#unit').text('$');
+            }
+            else{
+                $('span#unit').text('%');
+            }
         });
     });
 </script>

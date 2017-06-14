@@ -1,18 +1,8 @@
-<h1 style = 'text-align:center;'><?php echo e($theClub -> name); ?></h1>
-<h3 style = 'text-align:center;'>Transactions</h3>
+<h1 style = 'text-align:center;'>Discounts</h1>
 <div class="portlet light portlet-fit portlet-datatable " id="form_wizard_1">
     <div class="portlet-title">
-        <div class = 'caption'>
-            <span>
-                <label>From</label>
-                <input type = 'date' id = 'transaction_from'>
-                <label>To</label>
-                <input type = 'date' id = 'transaction_to'>
-                <button type = 'button' class = 'btn green' >OK</button>
-            </span>
-        </div>
         <div class = 'actions'>
-            <a type="button" class="btn btn-danger" data-toggle="modal" href="#sel-trans-cols"> Select Columns </a>
+            <a type="button" class="btn btn-danger" data-toggle="modal" href="#add_discount"> New discount </a>
         </div>
     </div>
     <div class="portlet-body">
@@ -84,3 +74,4 @@
         </table>
     </div>
 </div>
+

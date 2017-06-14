@@ -15,6 +15,7 @@ use App\Roleship;
 use App\Role;
 use App\Contact;
 use App\Offline_member;
+use App\Discount;
 
 class ClubController extends Controller
 {
@@ -431,5 +432,29 @@ class ClubController extends Controller
 //                -> with('csvpath', $csvName)
                 ;
 
+    }
+
+    public function stripeInfo(Request $request){
+
+        $club = Club::find(Session::get('theClubID'));
+        $club -> stripe_pub_key = $request ->str_pub_key;
+        $club -> stripe_pvt_key = $request ->str_pvt_key;
+        $club -> save();
+
+        return back();
+    }
+
+    public function addDiscount(Request $request){
+
+        $discount = new Discount;
+
+        $discount -> name = $request -> discount_name;
+        $discount -> type = $request -> discount_type;
+        $discount -> amount = $request -> discount_amount;
+        $discount -> expDate = $request -> discount_exp;
+        $discount -> applyTo = $request -> discount_apply;
+        $discount -> uses = $request -> discount_uses;
+
+        $discount -> save();
     }
 }
