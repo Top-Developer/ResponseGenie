@@ -605,84 +605,125 @@
                 }, 1000);
             }
         });
+        $('#date_filter').on('click', function(){
+           if($('#transaction_from').val() != '' && $('#transaction_to').val() != ''){
+               $from = $('#transaction_from').val();
+               $to = $('#transaction_to').val();
+               console.log($('table#dataTb > tbody').children());
+               $('table#dataTb > tbody').children().each(function(){
+                   console.log($from);
+                   $date = $(this).find('td.col-table-date').text();
+                   console.log($date);
+                   console.log(new Date($(this).find('td.col-table-date').text()));
+                   console.log($to);
+                   if($date < $from){
+                       $(this).css('display', 'none');
+                   }
+                   else if($date > $to){
+                       $(this).css('display', 'none');
+                   }
+                   else{
+                       $(this).css('display', 'table-row');
+                   }
+               });
+           }
+        });
         function exportTableToCSV($table, filename) {
+
             var $headers = $table.find('tr:has(th)')
                 ,$rows = $table.find('tr:has(td)')
 
                 // Temporary delimiter characters unlikely to be typed by keyboard
                 // This is to avoid accidentally splitting the actual contents
-                ,tmpColDelim = String.fromCharCode(11) // vertical tab character
-                ,tmpRowDelim = String.fromCharCode(0) // null character
+                ,$tmpColDelim = String.fromCharCode(11) // vertical tab character
+                ,$tmpRowDelim = String.fromCharCode(0) // null character
 
                 // actual delimiter characters for CSV format
-                ,colDelim = '","'
-                ,rowDelim = '"\r\n"';
+                ,$colDelim = '","'
+                ,$rowDelim = '"\r\n"';
 
             // Grab text from table into CSV formatted string
             var csv = '"';
-            csv += formatRows($headers.map(grabRow));
-            csv += rowDelim;
-            csv += formatRows($rows.map(grabRow)) + '"';
+            csv += $headers.map(function (i, row) {
+                    var $row = $(row),
+                        $cols = $row.find('th');
 
-            // Data URI
-            var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+                    return $cols.map(function (j, col) {
+                        var $col = $(col),
+                            $text = $col.text();
 
-            // For IE (tested 10+)
-            if (window.navigator.msSaveOrOpenBlob) {
-                var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
-                    type: "text/csv;charset=utf-8;"
+                        return $text.replace(/"/g, '""'); // escape double quotes
+
+                    }).get().join($tmpColDelim);
+
+                }).get().join($tmpRowDelim)
+                    .split($tmpRowDelim).join($rowDelim)
+                    .split($tmpColDelim).join($colDelim) + $rowDelim;
+
+            // Grab text from table into CSV formatted string
+            csv += $rows.map(function (i, row) {
+                    var $row = $(row),
+                        $cols = $row.find('td');
+
+                    return $cols.map(function (j, col) {
+                        var $col = $(col),
+                            $text = $col.text();
+
+                        return $text.replace(/"/g, '""'); // escape double quotes
+
+                    }).get().join($tmpColDelim);
+
+                }).get().join($tmpRowDelim)
+                    .split($tmpRowDelim).join($rowDelim)
+                    .split($tmpColDelim).join($colDelim) + '"';
+
+            console.log(csv);
+
+            // Deliberate 'false', see comment below
+            if (false && window.navigator.msSaveBlob) {
+
+                var $blob = new Blob([decodeURIComponent(csv)], {
+                    type: 'text/csv;charset=utf8'
                 });
-                navigator.msSaveBlob(blob, filename);
-            } else {
+
+                // Crashes in IE 10, IE 11 and Microsoft Edge
+                // See MS Edge Issue #10396033: https://goo.gl/AEiSjJ
+                // Hence, the deliberate 'false'
+                // This is here just for completeness
+                // Remove the 'false' at your own risk
+                window.navigator.msSaveBlob($blob, filename);
+
+            } else if (window.Blob && window.URL) {console.log(2);
+                // HTML5 Blob
+                var $blob = new Blob([csv], { type: 'text/csv;charset=utf8' });
+                var csvUrl = window.URL.createObjectURL($blob);
+
                 $(this)
                     .attr({
-                        'download': filename
-                        ,'href': csvData
-                        //,'target' : '_blank' //if you want it to open in a new window
+                        'download': filename,
+                        'href': csvUrl
                     });
-            }
+            } else {
+                // Data URI
+                var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
 
-            //------------------------------------------------------------
-            // Helper Functions
-            //------------------------------------------------------------
-            // Format the output so it has the appropriate delimiters
-            function formatRows(rows){
-                return rows.get().join(tmpRowDelim)
-                    .split(tmpRowDelim).join(rowDelim)
-                    .split(tmpColDelim).join(colDelim);
-            }
-            // Grab and format a row from the table
-            function grabRow(i,row){
-
-                var $row = $(row);
-                //for some reason $cols = $row.find('td') || $row.find('th') won't work...
-                var $cols = $row.find('td');
-                if(!$cols.length) $cols = $row.find('th');
-
-                return $cols.map(grabCol)
-                    .get().join(tmpColDelim);
-            }
-            // Grab and format a column from the table
-            function grabCol(j,col){
-                var $col = $(col),
-                    $text = $col.text();
-
-                return $text.replace('"', '""'); // escape double quotes
-
+                $(this)
+                    .attr({
+                        'download': filename,
+                        'href': csvData,
+                        'target': '_blank'
+                    });
             }
         }
 
-
         // This must be a hyperlink
-        $("#downCSV").click(function () {
-            // var outputFile = 'export'
-            var outputFile = window.prompt("What do you want to name your output file (Note: This won't have any effect on Safari)") || 'export';
-            outputFile = outputFile.replace('.csv','') + '.csv'
-
+        $(".export").on('click', function (event) {
             // CSV
-            exportTableToCSV.apply(this, [$('#dataTb'), outputFile]);
+            var args = [$('table#dataTb'), 'export.csv'];
 
-            // IF CSV, don't do event.preventDefault() or return false
+            exportTableToCSV.apply(this, args);
+
+            // If CSV, don't do event.preventDefault() or return false
             // We actually need this to be a typical hyperlink
         });
     });

@@ -16,8 +16,8 @@ use App\Role;
 use App\Contact;
 use App\Offline_member;
 use App\Discount;
-use App\manualTransaction;
-use App\Transaction;
+use App\TransactionForPlan;
+use App\TransactionForEvent;
 
 class ClubController extends Controller
 {
@@ -64,7 +64,12 @@ class ClubController extends Controller
         if( !($theUserRole == 'owner' || $theUserRole == 'admin') ){
             //$dxpDate =
         }
-        $transactions = Transaction::all();
+        $trForPlan = DB::table('transaction_for_mplan')
+                        ->join('membership_plans', 'transaction_for_mplan.plan_id', '=', 'membership_plans.id')
+                        ->where('membership_plans.club_id', $club_id)
+                        ->join('users', 'transaction_for_mplan.user_id', '=', 'users.id')
+                        ->select('transaction_for_mplan.date', 'users.first_name', 'users.last_name', 'transaction_for_mplan.amount', 'transaction_for_mplan.source', 'membership_plans.name as plan_name', 'transaction_for_mplan.receipt')
+                        ->get();
 
         return view('club/clubManagement', [
             'page' => 'clubs',
@@ -78,7 +83,8 @@ class ClubController extends Controller
             'theSCM' => $theSCM,
             'theSCMRole' => $theSCMRole,
             'offlineMembers' => $offlineMembers,
-            'onlineMembers' => $theClubOnlineMembers
+            'onlineMembers' => $theClubOnlineMembers,
+            'transForPlan' => $trForPlan
         ]);
     }
 
@@ -463,16 +469,23 @@ class ClubController extends Controller
 
     public function enterManual(Request $request){
 
-        $mt = new manualTransaction;
-
-        $mt -> claimed_user_id = Auth::id();
-        $mt -> date = date('Y-m-d');
-        $mt -> amount = $request -> mt_amount;
-        $mt -> user_id = $request -> user;
-        $mt -> applyTo = $request -> applyTo;
-
-        $mt -> save();
-
-
+        $applyTo = $request -> applyTo;
+        if( substr($applyTo,0, 16) == 'membership_plan:' ){
+            $plan_id = (int)substr($applyTo,16);
+            $user = $request -> user;
+            if( substr($user,0, 7) == 'online:' ){
+                $user_id = (int)substr($user, 7);
+                $transForPlan = new TransactionForPlan;
+                $transForPlan -> user_id = $user_id;
+                $transForPlan -> plan_id = $plan_id;
+                $transForPlan -> amount = $request -> mt_amount;
+                $transForPlan -> source = 'cash';
+                $transForPlan -> date = date("Y-m-d");
+                $receipt_id = Auth::id();
+                $receipt = User::find($receipt_id);
+                $transForPlan -> receipt = $receipt -> first_name.' '.$receipt -> last_name;
+                $transForPlan -> save();
+            }
+        }
     }
 }
