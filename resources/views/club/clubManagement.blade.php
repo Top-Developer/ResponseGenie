@@ -349,9 +349,12 @@
 @include('club.management.modals.select_column')
 @include('club.management.modals.add_discount')
 @include('club.management.modals.select_transaction_column')
+@include('club.management.modals.manual_trans')
 @endsection
 @push('script')
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
         $("form.ajax").on("submit", function(event){
@@ -387,6 +390,7 @@
         });
     });
     $(document).ready(function(){
+        var flag = 0;
         $("#addALine").on("click", function(){
             var newChild = $(this).parent().parent().prev().html();
             if ( '#' == $(this).parent().parent().prev().find('div:first-child').text() ){
@@ -529,6 +533,51 @@
                 $('.col-table-exp').css('display', 'none');
             }
         });
+        $('div#sel-trans-cols button#ref-cols').on('click', function(){
+            console.log('clicked');
+            if( $('input[type="checkbox"]#_date').is(':checked') ){
+                $('.col-table-date').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-date').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_fname').is(':checked') ){
+                $('.col-table-fn').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-fn').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_lname').is(':checked') ){
+                $('.col-table-ln').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-ln').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_amt').is(':checked') ){
+                $('.col-table-amount').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-amount').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_src').is(':checked') ){
+                $('.col-table-source').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-source').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_evp').is(':checked') ){
+                $('.col-table-plan').css('display', 'table-cell');
+            }
+            else {
+                $('.col-table-plan').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_re').is(':checked') ){
+                $('.col-table-re').css('display', 'table-cell');
+            }
+            else {
+                $('.col-table-re').css('display', 'none');
+            }
+        });
         $('#calendar').fullCalendar({
             eventSources: [
                 '/feed2.php'
@@ -541,6 +590,102 @@
             else{
                 $('span#unit').text('%');
             }
+        });
+        $('button#sandn').on('click', function(){
+            $('form#mtForm').submit();
+            document.getElementById('userSelector').selectedIndex = -1;
+            document.getElementById('trSelector').selectedIndex = -1;
+            $('input#amount').val('');
+            flag = 1;
+        });
+        $('button#success_button').on('click', function(){
+            $('div.modal.success').modal('hide');
+            if(flag == 1){
+                setTimeout(function(){
+                    $('button#emt').trigger('click');
+                    flag = 0;
+                }, 1000);
+            }
+        });
+        function exportTableToCSV($table, filename) {
+            var $headers = $table.find('tr:has(th)')
+                ,$rows = $table.find('tr:has(td)')
+
+                // Temporary delimiter characters unlikely to be typed by keyboard
+                // This is to avoid accidentally splitting the actual contents
+                ,tmpColDelim = String.fromCharCode(11) // vertical tab character
+                ,tmpRowDelim = String.fromCharCode(0) // null character
+
+                // actual delimiter characters for CSV format
+                ,colDelim = '","'
+                ,rowDelim = '"\r\n"';
+
+            // Grab text from table into CSV formatted string
+            var csv = '"';
+            csv += formatRows($headers.map(grabRow));
+            csv += rowDelim;
+            csv += formatRows($rows.map(grabRow)) + '"';
+
+            // Data URI
+            var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+            // For IE (tested 10+)
+            if (window.navigator.msSaveOrOpenBlob) {
+                var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
+                    type: "text/csv;charset=utf-8;"
+                });
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                $(this)
+                    .attr({
+                        'download': filename
+                        ,'href': csvData
+                        //,'target' : '_blank' //if you want it to open in a new window
+                    });
+            }
+
+            //------------------------------------------------------------
+            // Helper Functions
+            //------------------------------------------------------------
+            // Format the output so it has the appropriate delimiters
+            function formatRows(rows){
+                return rows.get().join(tmpRowDelim)
+                    .split(tmpRowDelim).join(rowDelim)
+                    .split(tmpColDelim).join(colDelim);
+            }
+            // Grab and format a row from the table
+            function grabRow(i,row){
+
+                var $row = $(row);
+                //for some reason $cols = $row.find('td') || $row.find('th') won't work...
+                var $cols = $row.find('td');
+                if(!$cols.length) $cols = $row.find('th');
+
+                return $cols.map(grabCol)
+                    .get().join(tmpColDelim);
+            }
+            // Grab and format a column from the table
+            function grabCol(j,col){
+                var $col = $(col),
+                    $text = $col.text();
+
+                return $text.replace('"', '""'); // escape double quotes
+
+            }
+        }
+
+
+        // This must be a hyperlink
+        $("#downCSV").click(function () {
+            // var outputFile = 'export'
+            var outputFile = window.prompt("What do you want to name your output file (Note: This won't have any effect on Safari)") || 'export';
+            outputFile = outputFile.replace('.csv','') + '.csv'
+
+            // CSV
+            exportTableToCSV.apply(this, [$('#dataTb'), outputFile]);
+
+            // IF CSV, don't do event.preventDefault() or return false
+            // We actually need this to be a typical hyperlink
         });
     });
 </script>

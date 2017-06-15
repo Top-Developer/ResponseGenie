@@ -51,10 +51,10 @@
                         <label for = "exp">Expired</label>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn green" id = "ref-col" data-dismiss="modal">OK</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn green" id = "ref-col" data-dismiss="modal">OK</button>
             </div>
         </div>
         <!-- /.modal-content -->

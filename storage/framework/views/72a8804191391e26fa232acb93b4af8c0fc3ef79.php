@@ -7,34 +7,38 @@
             <div class="modal-body">
                 <div class = "row">
                     <div class = "col-xs-6">
-                        <input type = "checkbox" class = "checkboxes" id = "admin" checked>
-                        <label for = "admin"> Admin </label>
+                        <input type = "checkbox" class = "checkboxes" id = "_date" checked>
+                        <label for = "_date"> Date </label>
                     </div>
                     <div class = "col-xs-6">
-                        <input type = "checkbox" class = "checkboxes" id = "fname" checked>
-                        <label for = "fname">First Name</label>
+                        <input type = "checkbox" class = "checkboxes" id = "_fname" checked>
+                        <label for = "_fname">First Name</label>
                     </div>
                     <div class = "col-xs-6">
-                        <input type = "checkbox" class = "checkboxes" id = "lname" checked>
-                        <label for = "lname">Last Name</label>
+                        <input type = "checkbox" class = "checkboxes" id = "_lname" checked>
+                        <label for = "_lname">Last Name</label>
                     </div>
                     <div class = "col-xs-6">
-                        <input type = "checkbox" class = "checkboxes" id = "jdate" checked>
-                        <label for = "jdate">Join Date</label>
+                        <input type = "checkbox" class = "checkboxes" id = "_amt" checked>
+                        <label for = "_amt">Amount</label>
                     </div>
                     <div class = "col-xs-6">
-                        <input type = "checkbox" class = "checkboxes" id = "expdate" checked>
-                        <label for = "expdate">Expiration Date</label>
+                        <input type = "checkbox" class = "checkboxes" id = "_src" checked>
+                        <label for = "_src">Source</label>
                     </div>
                     <div class = "col-xs-6">
-                        <input type = "checkbox" class = "checkboxes" id = "exp" checked>
-                        <label for = "exp">Expired</label>
+                        <input type = "checkbox" class = "checkboxes" id = "_evp" checked>
+                        <label for = "_evp">Event/Plan</label>
+                    </div>
+                    <div class = "col-xs-6">
+                        <input type = "checkbox" class = "checkboxes" id = "_re" checked>
+                        <label for = "_re">Receipt</label>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn green" id = "ref-col" data-dismiss="modal">OK</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn green" id = "ref-cols" data-dismiss="modal">OK</button>
             </div>
         </div>
         <!-- /.modal-content -->

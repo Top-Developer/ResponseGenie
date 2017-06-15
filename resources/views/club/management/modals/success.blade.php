@@ -9,7 +9,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn green">OK</button>
+                <button type="button" class="btn green" id = 'success_button'>OK</button>
             </div>
         </div>
         <!-- /.modal-content -->

@@ -16,6 +16,8 @@ use App\Role;
 use App\Contact;
 use App\Offline_member;
 use App\Discount;
+use App\manualTransaction;
+use App\Transaction;
 
 class ClubController extends Controller
 {
@@ -62,6 +64,7 @@ class ClubController extends Controller
         if( !($theUserRole == 'owner' || $theUserRole == 'admin') ){
             //$dxpDate =
         }
+        $transactions = Transaction::all();
 
         return view('club/clubManagement', [
             'page' => 'clubs',
@@ -456,5 +459,20 @@ class ClubController extends Controller
         $discount -> uses = $request -> discount_uses;
 
         $discount -> save();
+    }
+
+    public function enterManual(Request $request){
+
+        $mt = new manualTransaction;
+
+        $mt -> claimed_user_id = Auth::id();
+        $mt -> date = date('Y-m-d');
+        $mt -> amount = $request -> mt_amount;
+        $mt -> user_id = $request -> user;
+        $mt -> applyTo = $request -> applyTo;
+
+        $mt -> save();
+
+
     }
 }

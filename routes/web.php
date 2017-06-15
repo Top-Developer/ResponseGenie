@@ -89,3 +89,4 @@ Route::post('/add/discount', 'ClubController@addDiscount');
 Route::post('/invite', 'ClubController@inviteNew');
 Route::post('/import', 'ClubController@import');
 Route::post('/club/stripe', 'ClubController@stripeInfo');
+Route::post('/enter/manual_transaction', 'ClubController@enterManual');
