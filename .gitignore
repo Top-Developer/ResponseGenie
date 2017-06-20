@@ -11,7 +11,7 @@
 /.idea
 
 /vagrant
-/config
+
 Homestead.json
 
 Homestead.yaml

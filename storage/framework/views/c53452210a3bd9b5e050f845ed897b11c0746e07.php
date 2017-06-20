@@ -1,3 +1,9 @@
+<?php if($message = Session::get('plan_msg')): ?>
+    <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><?php echo e($message); ?></strong>
+    </div>
+<?php endif; ?>
 <?php if( !($theUserRole == 'owner' || $theUserRole == 'admin') ): ?>
     <h4>
         Your membership expires <?php echo e($yourMembershipExpDate); ?>

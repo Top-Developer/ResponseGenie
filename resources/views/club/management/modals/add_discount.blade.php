@@ -40,7 +40,7 @@
                             Apply To
                         </div>
                         <div class = 'col-md-4'>
-                            <select name = 'discount_apply'>
+                            <select name = 'discount_apply' id = 'discountApply'>
                                 <option value = 'new'>New Members</option>
                                 <option value = 'existing'>Existing Members</option>
                                 <option value = 'selected'>Selected Members</option>
@@ -56,7 +56,7 @@
                     </div>
                     <div class = 'row form-group'>
                         <div class = 'col-md-12'>
-                            <table class="table table-striped table-bordered table-hover order-column" id="sample_2">
+                            <table class="table table-striped table-bordered table-hover order-column" id="membersForDiscount">
                                 <thead>
                                 <tr>
                                     <th> Select </th>
@@ -68,7 +68,7 @@
                                 @foreach( $offlineMembers as $aUser )
                                     <tr>
                                         <td>
-                                            <input type="checkbox" class="checkboxes" disabled @if($aUser -> role_description == 'owner' || $aUser -> role_description == 'admin') checked @endif>
+                                            <input type="checkbox" class="checkboxes">
                                         </td>
                                         <td>
                                             {{$aUser -> fname}}
@@ -87,7 +87,7 @@
                             Uses
                         </div>
                         <div class = 'col-md-4'>
-                            <input readonly name = 'discount_uses'>
+                            <input readonly name = 'discount_uses' value = '0'>
                         </div>
                     </div>
                     <div class = "row form-group">

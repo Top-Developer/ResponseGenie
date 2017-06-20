@@ -1,3 +1,9 @@
+@if ($message = Session::get('members_msg'))
+    <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+    </div>
+@endif
 <h1 style = "text-align: center;">
     club name : {{ $theClub -> name }}
 </h1>
@@ -107,7 +113,7 @@
                 @foreach( $onlineMembers as $aUser )
                     <tr>
                         <td class= "col-table-admin">
-                            <input type="checkbox" class="checkboxes" disabled @if($aUser -> role_description == 'owner' || $aUser -> role_description == 'admin') checked @endif>
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
                         <td class= "col-table-fn">
                             {{$aUser -> first_name}}
@@ -122,7 +128,7 @@
                             {{$aUser -> expiration_date}}
                         </td>
                         <td class= "col-table-exp">
-                            <input type="checkbox" class="checkboxes" disabled @if($aUser -> expiration_date == 'owner' || $aUser -> role_description == 'admin') checked @endif>
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
                     </tr>
                 @endforeach

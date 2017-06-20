@@ -248,49 +248,45 @@
 
                 <div class="page-content-inner">
                     <div class="row ui-sortable" id="sortable_portlets">
-                    <?php
-                        foreach($allClubs as $aClub){
-                            echo '
-                                <div class="col-xs-12 col-sm-6 column sortable">
-                                    <div class="portlet portlet-sortable box blue-hoki">
-                                        <div class="portlet-title ui-sortable-handle">
-                                            <div class = "caption">'
-                                                .$aClub -> name.
-                                            '</div>
-                                            <div class="actions">
-                                                <a href="javascript:;" class="btn white">Become a member</a>
-                                            </div>
+                        <?php $__currentLoopData = $allClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                            <div class="col-xs-12 col-sm-6 column sortable">
+                                <div class="portlet portlet-sortable box blue-hoki">
+                                    <div class="portlet-title ui-sortable-handle">
+                                        <div class = "caption"><?php echo e($aClub -> name); ?></div>
+                                        <?php $count = 0?>
+                                        <div class="actions">
+                                            <?php $__currentLoopData = $yourClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                <?php if($yourOneClub -> club_id == $aClub -> id && $count == 0): ?>
+                                                    <a href="<?php echo e(url('/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
+                                                    <?php $count = 1?>
+                                                <?php endif; ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                            <?php if($count == 0): ?>
+                                                <a href="<?php echo e(url('/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
+                                            <?php else: ?>
+                                                <?php $count = 0?>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="portlet-body">
-                                            <div class = "row">
-                                                <div>
-                                                    <img style="width:100px;" src="/'.$aClub -> logo_path.'">
-                                                </div>
-                                                <div>
-                                                    <p>'
-                                                        .$aClub -> description.
-                                                    '</p>
-                                                    <p>'
-                                                        .$aClub -> slug.
-                                                    '</p>
-                                                    <p>
-                                                        <a style="text-decoration:none;" href="'.$aClub -> website.'">'
-                                                            .$aClub -> website.
-                                                        '</a>
-                                                    </p>
-                                                    <p>'
-                                                        .$aClub -> contact -> city.' '.$aClub -> contact -> state.' '.$aClub -> contact -> country.
-                                                    '</p>
-                                                </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class = "row">
+                                            <div>
+                                                <img style="width:100px;" src=<?php echo e($aClub -> logo_path); ?>>
+                                            </div>
+                                            <div>
+                                                <p><?php echo e($aClub -> description); ?></p>
+                                                <p><?php echo e($aClub -> slug); ?></p>
+                                                <p>
+                                                    <a style="text-decoration:none;" href="<?php echo e($aClub -> website); ?>"><?php echo e($aClub -> website); ?></a>
+                                                </p>
+                                                <p><?php echo e($aClub -> contact -> city); ?> <?php echo e($aClub -> contact -> state); ?> <?php echo e($aClub -> contact -> country); ?></p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>';
-                        }
-                    ?>
+                                </div>
+                            </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                     </div>
-
-
                 </div>
             </div>
         </div>

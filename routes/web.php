@@ -68,7 +68,6 @@ Route::post('/club/updateClubMessage' , 'ClubController@updateClubMessage');
 Route::post('/club/updateClubInformation', 'ClubController@updateClubInformation');
 Route::get('/club/allClubs', 'ClubController@showAllClubs');
 Route::get('/club/myClubs', 'ClubController@showMyClubs');
-Route::get('/club/clubManagement/{club_id}', 'ClubController@clubManagement');
 Route::get('/createClub', function() {
     return view('club/createClub')->with('page', 'createClub');
 });
@@ -77,6 +76,10 @@ Route::get('configclub/{id}', [
     "uses" => 'ClubController@showConfigClub',
     "as" => 'configclub'
 ]);
+
+Route::get('/{slug}', 'ClubController@clubManagement');
+
+Route::get('/{slug}/become-a-member', 'ClubController@becomeAMember');
 
 Route::get('test', function() {
     return view('test');
@@ -90,3 +93,5 @@ Route::post('/invite', 'ClubController@inviteNew');
 Route::post('/import', 'ClubController@import');
 Route::post('/club/stripe', 'ClubController@stripeInfo');
 Route::post('/enter/manual_transaction', 'ClubController@enterManual');
+Route::post('/club/payForMembership', 'ClubController@payForMembership');
+Route::post('/club/request', 'ClubController@dealRequest');

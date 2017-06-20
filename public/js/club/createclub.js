@@ -122,6 +122,10 @@ var Login = function () {
 
     }
 
+    jQuery.validator.addMethod("zipcode", function(value, element) {
+        return this.optional(element) || /^\d{5}(?:-\d{4})?$/.test(value);
+    }, "Please provide a valid zipcode.");
+
     var handleRegister = function () {
 
         $('.create-club-form').validate({
@@ -143,40 +147,25 @@ var Login = function () {
                 club_short_description: {
                     required: true
                 },
-                club_website: {
-                    required: true,
+                club_url: {
                     url: true
                 },
-                club_address: {
-                    required: true
-                },
-                club_city: {
-                    required: true
-                },
-                club_state: {
-                    required: true
-                },
                 membership_limit: {
-                    number: true,
-                    required: true
+                    number: true
                 },
-                club_zip: {
-                    required: true
-                },
-
-                club_phone: {
+                club_zipcode: {
                     required: true,
-                    digits: true
+                    zipcode: true
                 },
-                clublogo: {
+                club_type: {
                     required: true
-                }
+                },
+                club_phone: {
+                    phoneUS:true
+                },
             },
 
             messages: { // custom messages for radio buttons and checkboxes
-                clublogo: {
-                    required: "Please upload club logo."
-                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit

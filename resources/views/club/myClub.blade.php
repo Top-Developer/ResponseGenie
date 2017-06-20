@@ -247,7 +247,7 @@
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="card-header-blue">
-                                            <a href = {{url('club/clubManagement').'/'.$theClub -> id}}>
+                                            <a href = {{url('/'.$theClub -> slug)}}>
                                                 <h1 class="card-heading">{{$theClub -> name}}</h1>
                                             </a>
                                         </div>
@@ -259,10 +259,6 @@
                                                 <div class="card-date-box">
                                                     <span class="card-date-label"> Joined </span><br>
                                                     <span class="pull-right">{{$theClub -> created_at}}</span>
-                                                </div>
-                                                <div class="card-date-box">
-                                                    <span class="card-date-label"> Expires </span><br>
-                                                    <span class="pull-right">3/17/2018</span>
                                                 </div>
                                             </div>
                                         </div>

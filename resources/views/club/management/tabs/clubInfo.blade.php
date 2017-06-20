@@ -11,6 +11,7 @@
             @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                 <form method = 'post' action = '{{url('/club/stripe')}}'>
                     {{csrf_field()}}
+                    <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                     <div>
                         Stripe Public key :<input value = '{{ $theClub -> stripe_pub_key }}' name = 'str_pub_key'>
                     </div>
@@ -37,12 +38,24 @@
     </div>
     <div class="row">
         <div class="col-md-1">
-            <a href="#" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-green bg-hover-grey-salsa font-white bg-hover-white socicon-twitter tooltips" data-original-title="Twitter"></a><br>
-            <a href="#" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-blue bg-hover-grey-salsa font-white bg-hover-white socicon-facebook tooltips" data-original-title="Facebook"></a><br>
-            <a href="#" class="socicon-btn socicon-sm socicon-btn-circle socicon-solid bg-red font-white bg-hover-grey-salsa socicon-google tooltips" data-original-title="Google"></a><br>
-            <a href="#" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-green bg-hover-grey-salsa font-white bg-hover-white socicon-twitter tooltips" data-original-title="Twitter"></a><br>
-            <a href="#" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-blue bg-hover-grey-salsa font-white bg-hover-white socicon-facebook tooltips" data-original-title="Facebook"></a><br>
-            <a href="#" class="socicon-btn socicon-sm socicon-btn-circle socicon-solid bg-red font-white bg-hover-grey-salsa socicon-google tooltips" data-original-title="Google"></a>
+            @if( ($theContact -> level_in != 'Private' ||  $theUserRole == 'owner' || $theUserRole == 'admin') && $theContact -> linkedin != '')
+                <a target='_blank' href="{{$theContact -> linkedin}}" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-green bg-hover-grey-salsa font-white bg-hover-white socicon-linkedin tooltips" data-original-title="Linkedin"></a><br>
+            @endif
+            @if( ($theContact -> level_t != 'Private' ||  $theUserRole == 'owner' || $theUserRole == 'admin') && $theContact -> twitter != '' )
+                <a target='_blank' href="{{$theContact -> twitter}}" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-blue bg-hover-grey-salsa font-white bg-hover-white socicon-twitter tooltips" data-original-title="Twitter"></a><br>
+            @endif
+            @if( ($theContact -> level_f != 'Private' ||  $theUserRole == 'owner' || $theUserRole == 'admin') && $theContact -> facebook != '')
+                <a target='_blank' href="{{$theContact -> facebook}}" class="socicon-btn socicon-sm socicon-btn-circle socicon-solid bg-red font-white bg-hover-grey-salsa socicon-facebook tooltips" data-original-title="Facebook"></a><br>
+            @endif
+            @if( ($theContact -> level_y != 'Private' ||  $theUserRole == 'owner' || $theUserRole == 'admin') && $theContact -> youtube != '')
+                <a target='_blank' href="{{$theContact -> youtube}}" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-green bg-hover-grey-salsa font-white bg-hover-white socicon-youtube tooltips" data-original-title="Youtube"></a><br>
+            @endif
+            @if( ($theContact -> level_g != 'Private' ||  $theUserRole == 'owner' || $theUserRole == 'admin') && $theContact -> googleplus != '')
+                <a target='_blank' href="{{$theContact -> googleplus}}" class="socicon-btn socicon-btn-circle socicon-sm socicon-solid bg-blue bg-hover-grey-salsa font-white bg-hover-white socicon-google tooltips" data-original-title="Google"></a><br>
+            @endif
+            @if( ($theContact -> level_m != 'Private' ||  $theUserRole == 'owner' || $theUserRole == 'admin') && $theContact -> mail != '')
+                <a target='_blank' href="{{$theContact -> mail}}" class="socicon-btn socicon-sm socicon-btn-circle socicon-solid bg-red font-white bg-hover-grey-salsa socicon-mail tooltips" data-original-title="Mail"></a>
+            @endif
         </div>
         <div class="col-md-3">
             <div id="gmap_basic" class="gmaps"> </div>

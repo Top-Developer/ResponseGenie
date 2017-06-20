@@ -1,9 +1,10 @@
 <div id="add_new_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class = "ajax" action = "<?php echo e(url('/add/membership_plan')); ?>" method = "post">
+            <form action = "<?php echo e(url('/add/membership_plan')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
+                <input type = 'hidden' name = 'active_tab' value = 'tab_2_4'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title">Add new membership plan</h4>

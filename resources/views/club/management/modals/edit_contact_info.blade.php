@@ -1,11 +1,12 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class = "ajax" action = "{{url('/edit/contact')}}" method = "post">
+            <form action = "{{url('/edit/contact')}}" method = "post">
                 {{csrf_field()}}
+                <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Responsive &amp; Scrollable</h4>
+                    <h4 class="modal-title">club contact info</h4>
                 </div>
                 <div class="modal-body">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">
@@ -73,9 +74,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "inLevel" class="col-md-5 form-control">
-                                                <option @if($theContact -> level_in == 'Public'){{'selected'}}@endif> Public </option>
-                                                <option @if($theContact -> level_in == 'Members Only'){{'selected'}}@endif> Members Only </option>
-                                                <option @if($theContact -> level_in == 'Private'){{'selected'}}@endif> Private </option>
+                                                <option @if($theContact -> level_in == 'Public'){{'selected'}}@endif>Public</option>
+                                                <option @if($theContact -> level_in == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                                                <option @if($theContact -> level_in == 'Private'){{'selected'}}@endif>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -88,9 +89,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "ttLevel" class="col-md-5 form-control">
-                                                <option @if($theContact -> level_t == 'Public'){{'selected'}}@endif> Public </option>
-                                                <option @if($theContact -> level_t == 'Members Only'){{'selected'}}@endif> Members Only </option>
-                                                <option @if($theContact -> level_t == 'Private'){{'selected'}}@endif> Private </option>
+                                                <option @if($theContact -> level_t == 'Public'){{'selected'}}@endif>Public</option>
+                                                <option @if($theContact -> level_t == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                                                <option @if($theContact -> level_t == 'Private'){{'selected'}}@endif>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -103,9 +104,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "fbLevel" class="col-md-5 form-control">
-                                                <option @if($theContact -> level_f == 'Public'){{'selected'}}@endif> Public </option>
-                                                <option @if($theContact -> level_f == 'Members Only'){{'selected'}}@endif> Members Only </option>
-                                                <option @if($theContact -> level_f == 'Private'){{'selected'}}@endif> Private </option>
+                                                <option @if($theContact -> level_f == 'Public'){{'selected'}}@endif>Public</option>
+                                                <option @if($theContact -> level_f == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                                                <option @if($theContact -> level_f == 'Private'){{'selected'}}@endif>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -118,9 +119,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "ytLevel" class="col-md-5 form-control">
-                                                <option @if($theContact -> level_y == 'Public'){{'selected'}}@endif> Public </option>
-                                                <option @if($theContact -> level_y == 'Members Only'){{'selected'}}@endif> Members Only </option>
-                                                <option @if($theContact -> level_y == 'Private'){{'selected'}}@endif> Private </option>
+                                                <option @if($theContact -> level_y == 'Public'){{'selected'}}@endif>Public</option>
+                                                <option @if($theContact -> level_y == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                                                <option @if($theContact -> level_y == 'Private'){{'selected'}}@endif>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -133,9 +134,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "goLevel" class="col-md-5 form-control">
-                                                <option @if($theContact -> level_g == 'Public'){{'selected'}}@endif> Public </option>
-                                                <option @if($theContact -> level_g == 'Members Only'){{'selected'}}@endif> Members Only </option>
-                                                <option @if($theContact -> level_g == 'Private'){{'selected'}}@endif> Private </option>
+                                                <option @if($theContact -> level_g == 'Public'){{'selected'}}@endif>Public</option>
+                                                <option @if($theContact -> level_g == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                                                <option @if($theContact -> level_g == 'Private'){{'selected'}}@endif>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -148,9 +149,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "maLevel" class="col-md-5 form-control">
-                                                <option @if($theContact -> level_m == 'Public'){{'selected'}}@endif> Public </option>
-                                                <option @if($theContact -> level_m == 'Members Only'){{'selected'}}@endif> Members Only </option>
-                                                <option @if($theContact -> level_m == 'Private'){{'selected'}}@endif> Private </option>
+                                                <option @if($theContact -> level_m == 'Public'){{'selected'}}@endif>Public</option>
+                                                <option @if($theContact -> level_m == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                                                <option @if($theContact -> level_m == 'Private'){{'selected'}}@endif>Private</option>
                                             </select>
                                         </div>
                                     </div>

@@ -1,3 +1,9 @@
+<?php if($message = Session::get('members_msg')): ?>
+    <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><?php echo e($message); ?></strong>
+    </div>
+<?php endif; ?>
 <h1 style = "text-align: center;">
     club name : <?php echo e($theClub -> name); ?>
 
@@ -112,7 +118,7 @@
                 <?php $__currentLoopData = $onlineMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                     <tr>
                         <td class= "col-table-admin">
-                            <input type="checkbox" class="checkboxes" disabled <?php if($aUser -> role_description == 'owner' || $aUser -> role_description == 'admin'): ?> checked <?php endif; ?>>
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
                         <td class= "col-table-fn">
                             <?php echo e($aUser -> first_name); ?>
@@ -131,7 +137,7 @@
 
                         </td>
                         <td class= "col-table-exp">
-                            <input type="checkbox" class="checkboxes" disabled <?php if($aUser -> expiration_date == 'owner' || $aUser -> role_description == 'admin'): ?> checked <?php endif; ?>>
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>

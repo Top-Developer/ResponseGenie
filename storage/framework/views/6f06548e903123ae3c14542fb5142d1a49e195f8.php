@@ -1,12 +1,13 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class = "ajax" action = "<?php echo e(url('/edit/contact')); ?>" method = "post">
+            <form action = "<?php echo e(url('/edit/contact')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
+                <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Responsive &amp; Scrollable</h4>
+                    <h4 class="modal-title">club contact info</h4>
                 </div>
                 <div class="modal-body">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">
@@ -74,9 +75,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "inLevel" class="col-md-5 form-control">
-                                                <option <?php if($theContact -> level_in == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>> Public </option>
-                                                <option <?php if($theContact -> level_in == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>> Members Only </option>
-                                                <option <?php if($theContact -> level_in == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>> Private </option>
+                                                <option <?php if($theContact -> level_in == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                                                <option <?php if($theContact -> level_in == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                                                <option <?php if($theContact -> level_in == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -89,9 +90,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "ttLevel" class="col-md-5 form-control">
-                                                <option <?php if($theContact -> level_t == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>> Public </option>
-                                                <option <?php if($theContact -> level_t == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>> Members Only </option>
-                                                <option <?php if($theContact -> level_t == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>> Private </option>
+                                                <option <?php if($theContact -> level_t == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                                                <option <?php if($theContact -> level_t == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                                                <option <?php if($theContact -> level_t == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -104,9 +105,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "fbLevel" class="col-md-5 form-control">
-                                                <option <?php if($theContact -> level_f == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>> Public </option>
-                                                <option <?php if($theContact -> level_f == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>> Members Only </option>
-                                                <option <?php if($theContact -> level_f == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>> Private </option>
+                                                <option <?php if($theContact -> level_f == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                                                <option <?php if($theContact -> level_f == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                                                <option <?php if($theContact -> level_f == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -119,9 +120,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "ytLevel" class="col-md-5 form-control">
-                                                <option <?php if($theContact -> level_y == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>> Public </option>
-                                                <option <?php if($theContact -> level_y == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>> Members Only </option>
-                                                <option <?php if($theContact -> level_y == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>> Private </option>
+                                                <option <?php if($theContact -> level_y == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                                                <option <?php if($theContact -> level_y == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                                                <option <?php if($theContact -> level_y == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -134,9 +135,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "goLevel" class="col-md-5 form-control">
-                                                <option <?php if($theContact -> level_g == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>> Public </option>
-                                                <option <?php if($theContact -> level_g == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>> Members Only </option>
-                                                <option <?php if($theContact -> level_g == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>> Private </option>
+                                                <option <?php if($theContact -> level_g == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                                                <option <?php if($theContact -> level_g == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                                                <option <?php if($theContact -> level_g == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                                             </select>
                                         </div>
                                     </div>
@@ -149,9 +150,9 @@
                                         </div>
                                         <div class = "col-md-5">
                                             <select name = "maLevel" class="col-md-5 form-control">
-                                                <option <?php if($theContact -> level_m == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>> Public </option>
-                                                <option <?php if($theContact -> level_m == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>> Members Only </option>
-                                                <option <?php if($theContact -> level_m == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>> Private </option>
+                                                <option <?php if($theContact -> level_m == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                                                <option <?php if($theContact -> level_m == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                                                <option <?php if($theContact -> level_m == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                                             </select>
                                         </div>
                                     </div>

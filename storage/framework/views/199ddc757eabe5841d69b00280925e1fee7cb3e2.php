@@ -16,6 +16,7 @@
     <img src="images/<?php echo e(Session::get('image')); ?>">
 <?php endif; ?>
 <form class = "form-horizontal" action = "<?php echo e(url('/club/configure')); ?>" method = "post" enctype = 'multipart/form-data'>
+    <input type = 'hidden' name = 'active_tab' value = 'tab_2_5'>
     <?php echo e(csrf_field()); ?>
 
     <h1 style="text-align: center;">
@@ -60,7 +61,9 @@
             <label class="col-md-2 control-label" for = "club_logo">Club Logo</label>
             <div class = "col-md-4">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"> </div>
+                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;">
+                        <img src = '<?php echo e($theClub -> logo_path); ?>'>
+                    </div>
                     <div>
                                                                     <span class="btn red btn-outline btn-file">
                                                                         <span class="fileinput-new"> Select image </span>

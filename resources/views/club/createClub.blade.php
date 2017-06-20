@@ -155,8 +155,11 @@
     .page-title{
         margin: 50px auto 20px;
     }
+    div.has-error input ~ span.help-block, div.has-error select ~ span.help-block, div.has-error textarea ~ span.help-block{
+        opacity: 0 !important;
+    }
 
-    div.has-error input+span.help-block, div.has-error select+span.help-block{
+    div.has-error input + span.help-block, div.has-error select + span.help-block, div.has-error textarea + span.help-block{
         opacity:1 !important;
         color:#e73d4a !important;
     }
@@ -166,30 +169,30 @@
 @endpush
 
 @section('content')
-    <div class="main-container">
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong>{{ $message }}</strong>
-            </div>
-            <img src="{{ Session::get('path') }}">
-        @endif
-        <div class="container">
+    {{--<div class="main-container">--}}
+        {{--@if (count($errors) > 0)--}}
+            {{--<div class="alert alert-danger">--}}
+                {{--<strong>Whoops!</strong> There were some problems with your input.--}}
+                {{--<ul>--}}
+                    {{--@foreach ($errors->all() as $error)--}}
+                        {{--<li>{{ $error }}</li>--}}
+                    {{--@endforeach--}}
+                {{--</ul>--}}
+            {{--</div>--}}
+        {{--@endif--}}
+        {{--@if ($message = Session::get('success'))--}}
+            {{--<div class="alert alert-success alert-block">--}}
+                {{--<button type="button" class="close" data-dismiss="alert">×</button>--}}
+                {{--<strong>{{ $message }}</strong>--}}
+            {{--</div>--}}
+            {{--<img src="{{ Session::get('path') }}">--}}
+        {{--@endif--}}
+        <div class="container" style = 'margin-bottom:30px;'>
             <div class="row">
                 <div class="col-md-12">
 
                     @if(Session::has('message'))
-                        <div class="alert alert-{{ Session::get('status') }} status-box">
+                        <div class="alert alert-{{ Session::get('status') }} status-box"  style = 'text-align:center;'>
                             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             {{ Session::get('message') }}
                         </div>
@@ -346,42 +349,9 @@
 @endsection
 
 @push('script')
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="/assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
 
-<script src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
-<!-- END THEME GLOBAL SCRIPTS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="/assets/apps/scripts/calendar.min.js" type="text/javascript"></script>
-<!-- BEGIN PAGE LEVEL PLUGINS -->
 <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
-
-<!-- END PAGE LEVEL SCRIPTS -->
-
-<!-- Datatable script -->
-<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
-
-<script src="/assets/pages/scripts/table-datatables-buttons.min.js" type="text/javascript"></script>
-
-<!-- File Upload -->
-<script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/plupload/js/plupload.full.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
-
-<!-- Editable Datatable plugin -->
-<script src="/assets/pages/scripts/table-datatables-editable.min.js" type="text/javascript"></script>
-
 
 <script type="text/javascript">
     var click = false;

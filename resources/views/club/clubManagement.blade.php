@@ -357,6 +357,9 @@
 <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
+        if("{{Session::get('active_tab')}}"){
+            $("a[href=\"#{{Session::get('active_tab')}}\"").trigger('click');
+        }
         $("form.ajax").on("submit", function(event){
             event.preventDefault();
 
@@ -727,6 +730,35 @@
 
             // If CSV, don't do event.preventDefault() or return false
             // We actually need this to be a typical hyperlink
+        });
+
+        $('select#discountApply').on('change', function(){
+            if( $('select#discountApply').val() == 'selected' ){
+                $('table#membersForDiscount').find('input.checkboxes').prop('disabled', false);
+                $('table#membersForDiscount').find('div.checker').removeClass('disabled');
+            }
+            else if( $('select#discountApply').val() == 'everyone' ){
+                $('table#membersForDiscount').find('input.checkboxes').prop('disabled', true);
+                $('table#membersForDiscount').find('input.checkboxes').prop('checked', true);
+                $('table#membersForDiscount').find('span').prop('class', 'checked');
+                $('table#membersForDiscount').find('div.checker').addClass('disabled');
+            }
+            else if( $('select#discountApply').val() == 'new' ){
+                $('table#membersForDiscount').find('input.checkboxes').prop('disabled', false);
+                $('table#membersForDiscount').find('input.checkboxes').prop('checked', false);
+                $('table#membersForDiscount').find('span').prop('class', '');
+                $('table#membersForDiscount').find('div.checker').removeClass('disabled');
+            }
+            else if( $('select#discountApply').val() == 'existing' ){
+                $('table#membersForDiscount').find('input.checkboxes').prop('disabled', true);
+                $('table#membersForDiscount').find('input.checkboxes').prop('checked', true);
+                $('table#membersForDiscount').find('span').prop('class', 'checked');
+                $('table#membersForDiscount').find('div.checker').addClass('disabled');
+            }
+            $('input[name=discount_uses]').val($('table#membersForDiscount').find('input.checkboxes:checked').length);
+        });
+        $('table#membersForDiscount').find('input.checkboxes').on('click', function(){
+            $('input[name=discount_uses]').val($('table#membersForDiscount').find('input.checkboxes:checked').length);
         });
     });
 </script>

@@ -4,6 +4,7 @@
             <form action = "<?php echo e(url('/import')); ?>" method = "post" enctype="multipart/form-data">
                 <?php echo e(csrf_field()); ?>
 
+                <input type = 'hidden' name = 'active_tab' value = 'tab_2_3'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title" style = "text-align:center;">Import current members of your club</h4>

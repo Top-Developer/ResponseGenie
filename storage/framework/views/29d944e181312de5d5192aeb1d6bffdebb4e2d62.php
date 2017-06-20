@@ -153,8 +153,11 @@
     .page-title{
         margin: 50px auto 20px;
     }
+    div.has-error input ~ span.help-block, div.has-error select ~ span.help-block, div.has-error textarea ~ span.help-block{
+        opacity: 0 !important;
+    }
 
-    div.has-error input+span.help-block, div.has-error select+span.help-block{
+    div.has-error input + span.help-block, div.has-error select + span.help-block, div.has-error textarea + span.help-block{
         opacity:1 !important;
         color:#e73d4a !important;
     }
@@ -164,25 +167,25 @@
 <?php $__env->stopPush(); ?>
 
 <?php $__env->startSection('content'); ?>
-    <div class="main-container">
-        <?php if(count($errors) > 0): ?>
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.
-                <ul>
-                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                        <li><?php echo e($error); ?></li>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-        <?php if($message = Session::get('success')): ?>
-            <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong><?php echo e($message); ?></strong>
-            </div>
-            <img src="<?php echo e(Session::get('path')); ?>">
-        <?php endif; ?>
-        <div class="container">
+    
+        
+            
+                
+                
+                    
+                        
+                    
+                
+            
+        
+        
+            
+                
+                
+            
+            
+        
+        <div class="container" style = 'margin-bottom:30px;'>
             <div class="row">
                 <div class="col-md-12">
 
@@ -197,7 +200,7 @@
                     <h1 class="space-top page-title text-center">Create a New Club</h1>
                     <section class="space-top space-bottom">
 
-                        <form class="create-club-form" action="<?php echo e(url('/club/create')); ?>" method="post" enctype="multipart/form-data">
+                        <form class="create-club-form" class = ajax action="<?php echo e(url('/club/create')); ?>" method="post" enctype="multipart/form-data">
                             <?php echo e(csrf_field()); ?>
 
 
@@ -346,46 +349,46 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('script'); ?>
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="/assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
 
-<script src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
-<!-- END THEME GLOBAL SCRIPTS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="/assets/apps/scripts/calendar.min.js" type="text/javascript"></script>
-<!-- BEGIN PAGE LEVEL PLUGINS -->
 <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
-
-<!-- END PAGE LEVEL SCRIPTS -->
-
-<!-- Datatable script -->
-<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
-
-<script src="/assets/pages/scripts/table-datatables-buttons.min.js" type="text/javascript"></script>
-
-<!-- File Upload -->
-<script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/plupload/js/plupload.full.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
-
-<!-- Editable Datatable plugin -->
-<script src="/assets/pages/scripts/table-datatables-editable.min.js" type="text/javascript"></script>
-
 
 <script type="text/javascript">
     var click = false;
     $(function() {
+
+        $("form.ajax").on("submit", function(event){
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            var formMethod = $(this).attr('method');
+
+            $.ajax({
+                type : formMethod,
+                url : formAction,
+                data : formData,
+                cache : false,
+
+                beforeSend : function(){
+                    console.log(formData);
+                    $('div.modal.in').modal('toggle');
+                },
+
+                success : function(data){
+                    console.log(data);
+                    $('div.modal.success').modal('toggle');
+                },
+
+                error : function(){
+                    console.log('error');
+                    $('div.modal.error').modal('toggle');
+                }
+            });
+
+            return false;
+        });
+        
         $('#change-view-btn').on('click', function() {
             $('#member-icon-view').fadeToggle(1000);
             $('#member-spreadsheet-view').fadeToggle(1000);

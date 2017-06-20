@@ -1,8 +1,9 @@
 <div class="modal fade" id="invite" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "{{url('/invite')}}" method = "post" class = "ajax">
+            <form action = "{{url('/invite')}}" method = "post">
                 {{csrf_field()}}
+                <input type = 'hidden' name = 'active_tab' value = 'tab_2_3'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h4 class="modal-title">Invite someone to your club</h4>

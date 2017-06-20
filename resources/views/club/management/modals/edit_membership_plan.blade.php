@@ -1,8 +1,9 @@
 <div id="edit_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class = "ajax" action = "{{url('/edit/membership_plan')}}" method = "post">
+            <form action = "{{url('/edit/membership_plan')}}" method = "post">
                 {{csrf_field()}}
+                <input type = 'hidden' name = 'active_tab' value = 'tab_2_4'>
                 <input type="hidden" id = "plan_id" name = "pId">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -51,7 +52,7 @@
                                 </div>
                             </div>
                             <div class = "row form-group">
-                                <input type="checkbox" id = "plan_members_only" name = "pMO" value = 'true'>
+                                <input type="checkbox" id = "plan_members_only" name = "pMO">
                                 <label for = "plan_members_only">Members only</label>
                             </div>
                             <input type = "hidden" value = "{{$theClub -> id}}" name = "clubId">

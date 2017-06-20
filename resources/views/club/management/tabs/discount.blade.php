@@ -9,56 +9,42 @@
         <table class="table table-striped table-bordered table-hover order-column" id="sample_2">
             <thead>
             <tr>
-                <th class= "col-table-admin"> Admin </th>
-                <th class= "col-table-fn"> First Name </th>
-                <th class= "col-table-ln"> Last Name </th>
-                <th class= "col-table-jdate"> Join Date </th>
-                <th class= "col-table-edate"> Expiration Date </th>
-                <th class= "col-table-exp"> Expired </th>
+                <th> Created Date </th>
+                <th> Name </th>
+                <th> Amount </th>
+                <th> Applied to </th>
+                <th> Uses </th>
+                <th> Expires </th>
             </tr>
             </thead>
             <tbody>
-            @foreach( $onlineMembers as $aUser )
+            @foreach( $discounts as $aDiscount )
                 <tr>
-                    <td class= "col-table-admin">
-                        <input type="checkbox" class="checkboxes" disabled @if($aUser -> role_description == 'owner' || $aUser -> role_description == 'admin') checked @endif>
+                    <td>
+                        {{$aDiscount -> created_at}}
                     </td>
-                    <td class= "col-table-fn">
-                        {{$aUser -> first_name}}
+                    <td>
+                        {{$aDiscount -> name}}
                     </td>
-                    <td class= "col-table-ln">
-                        {{$aUser -> last_name}}
+                    <td>
+                        {{$aDiscount -> amount}}
                     </td>
-                    <td class= "col-table-jdate">
-                        {{$aUser -> join_date}}
+                    <td>
+                        @if( $aDiscount -> applyTo == 'existing' )
+                            Existing Members
+                        @elseif( $aDiscount -> applyTo == 'new' )
+                            New members
+                        @elseif( $aDiscount -> applyTo == 'selected' )
+                            Selected Members
+                        @elseif( $aDiscount -> applyTo == 'everyone' )
+                            Everyone
+                        @endif
                     </td>
-                    <td class= "col-table-edate">
-                        {{$aUser -> expiration_date}}
+                    <td>
+                        {{$aDiscount -> uses}}
                     </td>
-                    <td class= "col-table-exp">
-                        <input type="checkbox" class="checkboxes" disabled @if($aUser -> expiration_date == 'owner' || $aUser -> role_description == 'admin') checked @endif>
-                    </td>
-                </tr>
-            @endforeach
-            @foreach( $offlineMembers as $aUser )
-                <tr>
-                    <td class= "col-table-admin">
-                        <input type="checkbox" class="checkboxes" disabled>
-                    </td>
-                    <td class= "col-table-fn">
-                        {{$aUser -> fname}}
-                    </td>
-                    <td class= "col-table-ln">
-                        {{$aUser -> lname}}
-                    </td>
-                    <td class= "col-table-jdate">
-                        {{$aUser -> joinDate}}
-                    </td>
-                    <td class= "col-table-edate">
-                        {{$aUser -> expDate}}
-                    </td>
-                    <td class= "col-table-exp">
-                        <input type="checkbox" class="checkboxes" disabled value = '{{Carbon\Carbon::now() -> format("Y-m-d H:i:s")}}' @if(  Carbon\Carbon::now() -> format('Y-m-d H:i:s') > ($aUser -> expDate) ) checked @endif>
+                    <td>
+                        {{$aDiscount -> expDate}}
                     </td>
                 </tr>
             @endforeach

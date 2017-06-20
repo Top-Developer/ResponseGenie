@@ -245,7 +245,7 @@
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="card-header-blue">
-                                            <a href = <?php echo e(url('club/clubManagement').'/'.$theClub -> id); ?>>
+                                            <a href = <?php echo e(url('/'.$theClub -> slug)); ?>>
                                                 <h1 class="card-heading"><?php echo e($theClub -> name); ?></h1>
                                             </a>
                                         </div>
@@ -257,10 +257,6 @@
                                                 <div class="card-date-box">
                                                     <span class="card-date-label"> Joined </span><br>
                                                     <span class="pull-right"><?php echo e($theClub -> created_at); ?></span>
-                                                </div>
-                                                <div class="card-date-box">
-                                                    <span class="card-date-label"> Expires </span><br>
-                                                    <span class="pull-right">3/17/2018</span>
                                                 </div>
                                             </div>
                                         </div>
