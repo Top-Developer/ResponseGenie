@@ -70,7 +70,7 @@ class ClubController extends Controller
         $theContact = $theClub -> contact;
         $pcm_id = $theContact -> pcm_id;
         $scm_id = $theContact -> scm_id;
-        if($pcm_id != ''){
+        if($pcm_id != '' && $pcm_id != 'None'){
             $thePCM = User::find($pcm_id);
             $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) -> first() -> role_id;
             $thePCMRole = Role::find($thePCMRoleID) -> role_description;
@@ -101,6 +101,20 @@ class ClubController extends Controller
                         ->select('transaction_for_mplan.date', 'users.first_name', 'users.last_name', 'transaction_for_mplan.amount', 'transaction_for_mplan.source', 'membership_plans.name as plan_name', 'transaction_for_mplan.receipt')
                         ->get();
         $discounts = Discount::all();
+        $clubOwnnersForMembersTab = DB::table('roleships')
+            -> join('users', 'roleships.user_id', '=', 'users.id')
+            -> join('roles', 'roleships.role_id', '=', 'roles.id')
+            -> where('roleships.role_id', 2)
+            -> where('roleships.club_id', $club_id)
+            -> select('users.profile_image', 'users.id', 'users.first_name', 'users.last_name', 'roles.role_description', 'users.created_at')
+            -> get();
+        $clubAdminsForMembersTab = DB::table('roleships')
+            -> join('users', 'roleships.user_id', '=', 'users.id')
+            -> join('roles', 'roleships.role_id', '=', 'roles.id')
+            -> where('roleships.role_id', 3)
+            -> where('roleships.club_id', $club_id)
+            -> select('users.profile_image', 'users.id', 'users.first_name', 'users.last_name', 'roles.role_description', 'users.created_at')
+            -> get();
 
         return view('club/clubManagement', [
             'page' => 'clubs',
@@ -115,6 +129,8 @@ class ClubController extends Controller
             'theSCMRole' => $theSCMRole,
             'offlineMembers' => $offlineMembers,
             'onlineMembers' => $theClubOnlineMembers,
+            'clubOwnnersForMembersTab' => $clubOwnnersForMembersTab,
+            'clubAdminsForMembersTab' => $clubAdminsForMembersTab,
             'transForPlan' => $trForPlan,
             'discounts' => $discounts
         ]);
@@ -544,11 +560,17 @@ class ClubController extends Controller
         if( $roleship ){
             $role = Role::find( $roleship -> role_id ) -> role_description;
         }
+        $count = 0;
+        $clubMembershipPlans = $theClub -> membership_plans;
+        foreach($clubMembershipPlans as $plan){
+            $count++;
+        }
         return view('club/becomeAMember', [
             'page' => 'become a member',
             'clubType' => $theClub -> type,
             'clubName' => $theClub -> name,
             'membershipPlans' => $theClub -> membership_plans,
+            'count' => $count,
             'stripe_public_key' => $theClub -> stripe_pub_key,
             'role' => $role
         ]) -> with('msg', '');
@@ -588,51 +610,84 @@ class ClubController extends Controller
 
     public function payForMembership(Request $request){
 
-        \Stripe\Stripe::setApiKey(Session::get('stripe_secret_key'));
+        if($request -> has('stripeToken')){
+            \Stripe\Stripe::setApiKey(Session::get('stripe_secret_key'));
 
-        $token = $request -> stripeToken;
+            $token = $request -> stripeToken;
 
-        $charge = \Stripe\Charge::create(array(
-            "amount" => 100 * Membership_plan::find($request -> plan_id) -> cost,
-            "currency" => "usd",
-            "description" => "Example charge",
-            "source" => $token,
-        ));
+            $charge = \Stripe\Charge::create(array(
+                "amount" => 100 * Membership_plan::find($request -> plan_id) -> cost,
+                "currency" => "usd",
+                "description" => "Example charge",
+                "source" => $token,
+            ));
 
-        if($charge -> paid == true){
+            if($charge -> paid == true){
 
-            $newRoleship = new Roleship;
+                $newRoleship = new Roleship;
 
-            $newRoleship -> user_id = Auth::id();
-            $newRoleship -> club_id = Membership_plan::find($request -> plan_id) -> club_id;
-            $newRoleship -> role_id = 4;
+                $newRoleship -> user_id = Auth::id();
+                $newRoleship -> club_id = Membership_plan::find($request -> plan_id) -> club_id;
+                $newRoleship -> role_id = 4;
 
-            $newRoleship -> save();
+                $newRoleship -> save();
 
-            $newMembership = new Membership;
-            $newMembership -> user_id = Auth::id();
-            $newMembership -> membership_plan_id = $request -> plan_id;
-            $newMembership -> join_date = date('Y-m-d');
-            $duraUnit = Membership_plan::find($request -> plan_id) -> duration_unit;
-            if( $duraUnit == 'Day(s)' ){
-                $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.Membership_plan::find($request -> plan_id) -> duration_quantity).' days');
+                $newMembership = new Membership;
+                $newMembership -> user_id = Auth::id();
+                $newMembership -> membership_plan_id = $request -> plan_id;
+                $newMembership -> join_date = date('Y-m-d');
+                $duraUnit = Membership_plan::find($request -> plan_id) -> duration_unit;
+                if( $duraUnit == 'Day(s)' ){
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.Membership_plan::find($request -> plan_id) -> duration_quantity).' days');
+                }
+                else if($duraUnit == 'Month(s)'){
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));
+                }
+                else if($duraUnit == 'Quater(s)'){
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(3 * Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));
+                }
+                else{}
+
+                $newMembership -> save();
+
+                return $this -> clubManagement(Club::find( Membership_plan::find($request -> plan_id) -> club_id) -> slug);
+
             }
-            else if($duraUnit == 'Month(s)'){
-                $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));
+            else{
+                echo 123;
+                return back() -> with('msg', 'payment failed');
             }
-            else if($duraUnit == 'Quater(s)'){
-                $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(3 * Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));
-            }
-            else{}
-
-            $newMembership -> save();
-
-            return $this -> clubManagement(Club::find( Membership_plan::find($request -> plan_id) -> club_id) -> slug);
-
         }
         else{
-            echo 123;
-            return back() -> with('msg', 'payment failed');
+            if( 0 == Membership_plan::find($request -> plan_id) -> cost ){
+                $newRoleship = new Roleship;
+
+                $newRoleship -> user_id = Auth::id();
+                $newRoleship -> club_id = Membership_plan::find($request -> plan_id) -> club_id;
+                $newRoleship -> role_id = 4;
+
+                $newRoleship -> save();
+
+                $newMembership = new Membership;
+                $newMembership -> user_id = Auth::id();
+                $newMembership -> membership_plan_id = $request -> plan_id;
+                $newMembership -> join_date = date('Y-m-d');
+                $duraUnit = Membership_plan::find($request -> plan_id) -> duration_unit;
+                if( $duraUnit == 'Day(s)' ){
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.Membership_plan::find($request -> plan_id) -> duration_quantity).' days');
+                }
+                else if($duraUnit == 'Month(s)'){
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));
+                }
+                else if($duraUnit == 'Quater(s)'){
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(3 * Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));
+                }
+                else{}
+
+                $newMembership -> save();
+
+                return $this -> clubManagement(Club::find( Membership_plan::find($request -> plan_id) -> club_id) -> slug);
+            }
         }
     }
 

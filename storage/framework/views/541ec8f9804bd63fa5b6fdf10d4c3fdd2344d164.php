@@ -60,12 +60,13 @@
             <?php endif; ?>
         </div>
         <div class="col-md-3">
-            <div id="gmap_basic" class="gmaps"> </div>
+            <div id="gmap_contact" class="gmaps"> </div>
         </div>
         <div class="col-md-3">
             <h3>City : <?php echo e($theContact -> city); ?></h3><br>
             <h3>State : <?php echo e($theContact -> state); ?></h3><br>
-            <h3>Country : <?php echo e($theContact -> country); ?></h3>
+            <h3>Country : <?php echo e($theContact -> country); ?></h3><br>
+            <h3>Zipcode : <?php echo e($theContact -> zipcode); ?></h3>
         </div>
         <?php if( $thePCM || $theSCM ): ?>
             <div class="col-md-5">

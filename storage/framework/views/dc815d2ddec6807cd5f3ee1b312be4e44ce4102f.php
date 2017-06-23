@@ -353,6 +353,8 @@
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyCjKyxewbk6_hbH9tSAjNWTPCqN9hiPz-o" type="text/javascript"></script>
+<script src="<?php echo e(url('/assets/global/plugins/gmaps/gmaps.min.js')); ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
         if("<?php echo e(Session::get('active_tab')); ?>"){
@@ -759,6 +761,35 @@
             $('input[name=discount_uses]').val($('table#membersForDiscount').find('input.checkboxes:checked').length);
         });
     });
+    $(document).ready(function(){
+        var geocoder; //To use later
+        var map; //Your map
+
+        geocoder = new google.maps.Geocoder();
+        //Default setup
+        var latlng = new google.maps.LatLng(-34.397, 150.644);
+        var myOptions = {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("gmap_contact"), myOptions);
+
+        var zcode = '<?php echo e($theContact -> zipcode); ?>';
+        geocoder.geocode( { 'address': zcode }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                //Got result, center the map and put it out there
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+
+    })
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.hometemplate', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

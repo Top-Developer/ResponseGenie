@@ -30,7 +30,14 @@
                 </h3>
             </div>
             <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
-            <div id = 'plan_cost' class = 'panel-footer'><?php echo e($theMembership -> cost); ?></div>
+            <div id = 'plan_cost' class = 'panel-footer'>
+                <?php if( 0 == $theMembership -> cost ): ?>
+                    Free
+                <?php else: ?>
+                    $<?php echo e($theMembership -> cost); ?>
+
+                <?php endif; ?>
+            </div>
             <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
             <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
             <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>

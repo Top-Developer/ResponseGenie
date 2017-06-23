@@ -58,12 +58,13 @@
             @endif
         </div>
         <div class="col-md-3">
-            <div id="gmap_basic" class="gmaps"> </div>
+            <div id="gmap_contact" class="gmaps"> </div>
         </div>
         <div class="col-md-3">
             <h3>City : {{ $theContact -> city }}</h3><br>
             <h3>State : {{ $theContact -> state }}</h3><br>
-            <h3>Country : {{ $theContact -> country }}</h3>
+            <h3>Country : {{ $theContact -> country }}</h3><br>
+            <h3>Zipcode : {{ $theContact -> zipcode }}</h3>
         </div>
         @if( $thePCM || $theSCM )
             <div class="col-md-5">

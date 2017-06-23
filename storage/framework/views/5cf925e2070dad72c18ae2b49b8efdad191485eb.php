@@ -31,151 +31,173 @@
                     <div class="page-content-inner">
                         <div class="portlet light">
                             <div class="portlet-body tabbable-default">
-                                <?php if($clubType == 'Open Club'): ?>
-                                    <div class = 'row'>
-                                        <?php $__currentLoopData = $membershipPlans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                        <div class = "col-md-4">
-                                            <div class="panel panel-info">
-                                                <div class="panel-heading" style = 'text-align:center'>
-                                                    <span class="panel-title">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = 'plan_cost'>$<?php echo e($theMembership -> cost); ?></span>
-                                                    </span>
-                                                </div>
-                                                <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
-                                                <div class = 'panel-footer' style = 'text-align:right;'>
-                                                    <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
-                                                        <?php echo e(csrf_field()); ?>
-
-                                                        <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
-                                                        <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
-                                                                data-key = '<?php echo e($stripe_public_key); ?>'
-                                                                data-name = '<?php echo e($theMembership -> name); ?>'
-                                                                data-description = '<?php echo e($theMembership -> description); ?>'
-                                                                data-amount = '<?php echo e(100 * $theMembership -> cost); ?>'
-                                                                data-currecy = 'usd'
-                                                                data-locale = 'auto'>
-                                                        </script>
-                                                    </form>
-                                                </div>
-                                                <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
-                                                <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
-                                                <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>
-                                                <div id = 'plan_id' class = 'hidden'><?php echo e($theMembership -> id); ?></div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                    </div>
-                                <?php elseif($clubType == 'Privated Club'): ?>
-                                    <?php if($role == 'invited'): ?>
-                                        <div class = 'row'>
-                                            <?php $__currentLoopData = $membershipPlans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                <div class = "col-md-4">
-                                                    <div class="panel panel-info">
-                                                        <div class="panel-heading" style = 'text-align:center'>
-                                                    <span class="panel-title">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = 'plan_cost'>$<?php echo e($theMembership -> cost); ?></span>
-                                                    </span>
-                                                        </div>
-                                                        <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
-                                                        <div class = 'panel-footer' style = 'text-align:right;'>
-                                                            <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
-                                                                <?php echo e(csrf_field()); ?>
-
-                                                                <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
-                                                                <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
-                                                                        data-key = '<?php echo e($stripe_public_key); ?>'
-                                                                        data-name = '<?php echo e($theMembership -> name); ?>'
-                                                                        data-description = '<?php echo e($theMembership -> description); ?>'
-                                                                        data-amount = '<?php echo e(100 * $theMembership -> cost); ?>'
-                                                                        data-currecy = 'usd'
-                                                                        data-locale = 'auto'>
-                                                                </script>
-                                                            </form>
-                                                        </div>
-                                                        <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
-                                                        <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
-                                                        <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>
-                                                        <div id = 'plan_id' class = 'hidden'><?php echo e($theMembership -> id); ?></div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                        </div>
-                                    <?php else: ?>
-                                        <div class = 'row'>
-                                            You can not be a member of <?php echo e($clubName); ?> unless you are invited to the club.
-                                        </div>
-                                    <?php endif; ?>
-                                <?php elseif($clubType == 'Moderated Club'): ?>
-                                    <?php if($role == 'invited'): ?>
-                                        <div class = 'row'>
-                                            <?php $__currentLoopData = $membershipPlans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                <div class = "col-md-4">
-                                                    <div class="panel panel-info">
-                                                        <div class="panel-heading" style = 'text-align:center'>
-                                                    <span class="panel-title">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = 'plan_cost'>$<?php echo e($theMembership -> cost); ?></span>
-                                                    </span>
-                                                        </div>
-                                                        <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
-                                                        <div class = 'panel-footer' style = 'text-align:right;'>
-                                                            <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
-                                                                <?php echo e(csrf_field()); ?>
-
-                                                                <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
-                                                                <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
-                                                                        data-key = '<?php echo e($stripe_public_key); ?>'
-                                                                        data-name = '<?php echo e($theMembership -> name); ?>'
-                                                                        data-description = '<?php echo e($theMembership -> description); ?>'
-                                                                        data-amount = '<?php echo e(100 * $theMembership -> cost); ?>'
-                                                                        data-currecy = 'usd'
-                                                                        data-locale = 'auto'>
-                                                                </script>
-                                                            </form>
-                                                        </div>
-                                                        <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
-                                                        <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
-                                                        <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>
-                                                        <div id = 'plan_id' class = 'hidden'><?php echo e($theMembership -> id); ?></div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                        </div>
-                                    <?php elseif($role == 'pending'): ?>
-                                        <form method = 'post' action = '<?php echo e(url("/club/request")); ?>'>
-                                            <?php echo e(csrf_field()); ?>
-
-                                            <div class = 'row'>
-                                                You already sent request to become a member of <?php echo e($clubName); ?>.
-                                                If you want to resend request, click the btton below.
-                                            </div>
-                                            <div class = 'row' style = 'text-align: right;'>
-                                                <button type = 'submit' class="btn red">Resend request</button>
-                                            </div>
-                                        </form>
-                                    <?php else: ?>
-                                        <form method = 'post' action = '<?php echo e(url("/club/request")); ?>'>
-                                            <?php echo e(csrf_field()); ?>
-
-                                            <div class = 'row'>
-                                                You can request to become a member of <?php echo e($clubName); ?> by clicking the following button.
-                                                If the admin allows, you can pay and get a membership.
-                                            </div>
-                                            <div class = 'row' style = 'text-align: right;'>
-                                                <button type = 'submit' class="btn red">Request to be a member</button>
-                                            </div>
-                                        </form>
-                                    <?php endif; ?>
-                                <?php elseif($clubType == 'Closed Club'): ?>
-                                    <div class = 'row'>
-                                        You can not be a member of <?php echo e($clubName); ?> because the club is closed club.
-                                    </div>
+                                <?php if( $count == 0 ): ?>
+                                    You can not join this club because the club admin has not created my membership plans yet.
                                 <?php else: ?>
+                                    <?php if($clubType == 'Open Club'): ?>
+                                        <div class = 'row'>
+                                            <?php $__currentLoopData = $membershipPlans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                            <div class = "col-md-4">
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading" style = 'text-align:center'>
+                                                        <span class="panel-title">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <?php if( 0 == $theMembership -> cost ): ?>
+                                                                Free
+                                                            <?php else: ?>
+                                                                <span id = 'plan_cost'>$<?php echo e($theMembership -> cost); ?></span>
+                                                            <?php endif; ?>
+                                                        </span>
+                                                    </div>
+                                                    <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
+                                                    <div class = 'panel-footer' style = 'text-align:right;'>
+                                                    <?php if( 0 == $theMembership -> cost ): ?>
+                                                        <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
+                                                            <?php echo e(csrf_field()); ?>
+
+                                                            <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
+                                                            <button type="submit" class="stripe-button-el" style="visibility: visible;">
+                                                                <span style="display: block; min-height: 30px;">
+                                                                    Join
+                                                                </span>
+                                                            </button>
+                                                        </form>
+                                                    <?php else: ?>
+                                                        <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
+                                                            <?php echo e(csrf_field()); ?>
+
+                                                            <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
+                                                            <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
+                                                                    data-key = '<?php echo e($stripe_public_key); ?>'
+                                                                    data-name = '<?php echo e($theMembership -> name); ?>'
+                                                                    data-description = '<?php echo e($theMembership -> description); ?>'
+                                                                    data-amount = '<?php echo e(100 * $theMembership -> cost); ?>'
+                                                                    data-currecy = 'usd'
+                                                                    data-locale = 'auto'>
+                                                            </script>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    </div>
+                                                    <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
+                                                    <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
+                                                    <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>
+                                                    <div id = 'plan_id' class = 'hidden'><?php echo e($theMembership -> id); ?></div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                        </div>
+                                    <?php elseif($clubType == 'Privated Club'): ?>
+                                        <?php if($role == 'invited'): ?>
+                                            <div class = 'row'>
+                                                <?php $__currentLoopData = $membershipPlans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                    <div class = "col-md-4">
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading" style = 'text-align:center'>
+                                                        <span class="panel-title">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = 'plan_cost'>$<?php echo e($theMembership -> cost); ?></span>
+                                                        </span>
+                                                            </div>
+                                                            <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
+                                                            <div class = 'panel-footer' style = 'text-align:right;'>
+                                                                <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
+                                                                    <?php echo e(csrf_field()); ?>
+
+                                                                    <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
+                                                                    <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
+                                                                            data-key = '<?php echo e($stripe_public_key); ?>'
+                                                                            data-name = '<?php echo e($theMembership -> name); ?>'
+                                                                            data-description = '<?php echo e($theMembership -> description); ?>'
+                                                                            data-amount = '<?php echo e(100 * $theMembership -> cost); ?>'
+                                                                            data-currecy = 'usd'
+                                                                            data-locale = 'auto'>
+                                                                    </script>
+                                                                </form>
+                                                            </div>
+                                                            <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
+                                                            <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
+                                                            <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>
+                                                            <div id = 'plan_id' class = 'hidden'><?php echo e($theMembership -> id); ?></div>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class = 'row'>
+                                                You can not be a member of <?php echo e($clubName); ?> unless you are invited to the club.
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php elseif($clubType == 'Moderated Club'): ?>
+                                        <?php if($role == 'invited'): ?>
+                                            <div class = 'row'>
+                                                <?php $__currentLoopData = $membershipPlans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                    <div class = "col-md-4">
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading" style = 'text-align:center'>
+                                                        <span class="panel-title">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = 'plan_cost'>$<?php echo e($theMembership -> cost); ?></span>
+                                                        </span>
+                                                            </div>
+                                                            <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>
+                                                            <div class = 'panel-footer' style = 'text-align:right;'>
+                                                                <form action="<?php echo e(url('/club/payForMembership')); ?>" method="post" style = 'display:inline-block;align:center;'>
+                                                                    <?php echo e(csrf_field()); ?>
+
+                                                                    <input type = hidden name = 'plan_id' value = '<?php echo e($theMembership -> id); ?>'>
+                                                                    <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
+                                                                            data-key = '<?php echo e($stripe_public_key); ?>'
+                                                                            data-name = '<?php echo e($theMembership -> name); ?>'
+                                                                            data-description = '<?php echo e($theMembership -> description); ?>'
+                                                                            data-amount = '<?php echo e(100 * $theMembership -> cost); ?>'
+                                                                            data-currecy = 'usd'
+                                                                            data-locale = 'auto'>
+                                                                    </script>
+                                                                </form>
+                                                            </div>
+                                                            <div id = 'plan_dura' class = 'hidden'><?php echo e($theMembership -> duration_quantity); ?></div>
+                                                            <div id = 'plan_dura_unit' class = 'hidden'><?php echo e($theMembership -> duration_unit); ?></div>
+                                                            <div id = 'plan_is_for_mem' class = 'hidden'><?php echo e($theMembership -> is_for_members_only); ?></div>
+                                                            <div id = 'plan_id' class = 'hidden'><?php echo e($theMembership -> id); ?></div>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                            </div>
+                                        <?php elseif($role == 'pending'): ?>
+                                            <form method = 'post' action = '<?php echo e(url("/club/request")); ?>'>
+                                                <?php echo e(csrf_field()); ?>
+
+                                                <div class = 'row'>
+                                                    You already sent request to become a member of <?php echo e($clubName); ?>.
+                                                    If you want to resend request, click the btton below.
+                                                </div>
+                                                <div class = 'row' style = 'text-align: right;'>
+                                                    <button type = 'submit' class="btn red">Resend request</button>
+                                                </div>
+                                            </form>
+                                        <?php else: ?>
+                                            <form method = 'post' action = '<?php echo e(url("/club/request")); ?>'>
+                                                <?php echo e(csrf_field()); ?>
+
+                                                <div class = 'row'>
+                                                    You can request to become a member of <?php echo e($clubName); ?> by clicking the following button.
+                                                    If the admin allows, you can pay and get a membership.
+                                                </div>
+                                                <div class = 'row' style = 'text-align: right;'>
+                                                    <button type = 'submit' class="btn red">Request to be a member</button>
+                                                </div>
+                                            </form>
+                                        <?php endif; ?>
+                                    <?php elseif($clubType == 'Closed Club'): ?>
+                                        <div class = 'row'>
+                                            You can not be a member of <?php echo e($clubName); ?> because the club is closed club.
+                                        </div>
+                                    <?php else: ?>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </div>
                         </div>

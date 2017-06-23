@@ -30,6 +30,74 @@
 @endif
 
 <div class = "active">
+    @foreach( $clubOwnnersForMembersTab as $aUser )
+        <div class = "note note-info">
+            <div class = "row">
+                <div class = "col-md-2">
+                    @if( $aUser -> profile_image != '')
+                        <img src="/{{ $aUser -> profile_image }}">
+                    @else
+                        <img src="/uploads/images/users/0.png">
+                    @endif
+                </div>
+                <div class = "col-md-4">
+                    <h4>
+                        {{ $aUser -> first_name }} {{ $aUser -> last_name }}
+                    </h4>
+                    <h4>
+                        @if( 'special' == $aUser -> role_description )
+                            special
+                        @else
+                            {{ $aUser -> role_description }}
+                        @endif
+                    </h4>
+                </div>
+                <div class = "col-md-6">
+                    @if( 'invited' == $aUser -> role_description )
+                        <button type="button" class="btn green btn-outline disabled">Invited at {{App\Roleship::where('user_id', $aUser -> id) -> where('club_id', session('theClubID')) -> firstOrFail() -> created_at}}</button>
+                        <button type="button" class="btn red btn-outline">Resend Invitation</button>
+                    @elseif( 'pending' == $aUser -> role_description )
+                        <button type="button" class="btn green">Approve</button>
+                        <button type="button" class="btn red">Deny</button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endforeach
+    @foreach( $clubAdminsForMembersTab as $aUser )
+        <div class = "note note-info">
+            <div class = "row">
+                <div class = "col-md-2">
+                    @if( $aUser -> profile_image != '')
+                        <img src="/{{ $aUser -> profile_image }}">
+                    @else
+                        <img src="/uploads/images/users/0.png">
+                    @endif
+                </div>
+                <div class = "col-md-4">
+                    <h4>
+                        {{ $aUser -> first_name }} {{ $aUser -> last_name }}
+                    </h4>
+                    <h4>
+                        @if( 'special' == $aUser -> role_description )
+                            special
+                        @else
+                            {{ $aUser -> role_description }}
+                        @endif
+                    </h4>
+                </div>
+                <div class = "col-md-6">
+                    @if( 'invited' == $aUser -> role_description )
+                        <button type="button" class="btn green btn-outline disabled">Invited at {{App\Roleship::where('user_id', $aUser -> id) -> where('club_id', session('theClubID')) -> firstOrFail() -> created_at}}</button>
+                        <button type="button" class="btn red btn-outline">Resend Invitation</button>
+                    @elseif( 'pending' == $aUser -> role_description )
+                        <button type="button" class="btn green">Approve</button>
+                        <button type="button" class="btn red">Deny</button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endforeach
     @foreach( $onlineMembers as $aUser )
     <div class = "note note-info">
         <div class = "row">
@@ -110,6 +178,50 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach( $clubOwnnersForMembersTab as $aUser )
+                    <tr>
+                        <td class= "col-table-admin">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                        <td class= "col-table-fn">
+                            {{$aUser -> first_name}}
+                        </td>
+                        <td class= "col-table-ln">
+                            {{$aUser -> last_name}}
+                        </td>
+                        <td class= "col-table-jdate">
+                            {{$aUser -> created_at}}
+                        </td>
+                        <td class= "col-table-edate">
+                            None
+                        </td>
+                        <td class= "col-table-exp">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                    </tr>
+                @endforeach
+                @foreach( $clubAdminsForMembersTab as $aUser )
+                    <tr>
+                        <td class= "col-table-admin">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                        <td class= "col-table-fn">
+                            {{$aUser -> first_name}}
+                        </td>
+                        <td class= "col-table-ln">
+                            {{$aUser -> last_name}}
+                        </td>
+                        <td class= "col-table-jdate">
+                            {{$aUser -> created_at}}
+                        </td>
+                        <td class= "col-table-edate">
+                            None
+                        </td>
+                        <td class= "col-table-exp">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                    </tr>
+                @endforeach
                 @foreach( $onlineMembers as $aUser )
                     <tr>
                         <td class= "col-table-admin">

@@ -32,6 +32,78 @@
 <?php endif; ?>
 
 <div class = "active">
+    <?php $__currentLoopData = $clubOwnnersForMembersTab; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+        <div class = "note note-info">
+            <div class = "row">
+                <div class = "col-md-2">
+                    <?php if( $aUser -> profile_image != ''): ?>
+                        <img src="/<?php echo e($aUser -> profile_image); ?>">
+                    <?php else: ?>
+                        <img src="/uploads/images/users/0.png">
+                    <?php endif; ?>
+                </div>
+                <div class = "col-md-4">
+                    <h4>
+                        <?php echo e($aUser -> first_name); ?> <?php echo e($aUser -> last_name); ?>
+
+                    </h4>
+                    <h4>
+                        <?php if( 'special' == $aUser -> role_description ): ?>
+                            special
+                        <?php else: ?>
+                            <?php echo e($aUser -> role_description); ?>
+
+                        <?php endif; ?>
+                    </h4>
+                </div>
+                <div class = "col-md-6">
+                    <?php if( 'invited' == $aUser -> role_description ): ?>
+                        <button type="button" class="btn green btn-outline disabled">Invited at <?php echo e(App\Roleship::where('user_id', $aUser -> id) -> where('club_id', session('theClubID')) -> firstOrFail() -> created_at); ?></button>
+                        <button type="button" class="btn red btn-outline">Resend Invitation</button>
+                    <?php elseif( 'pending' == $aUser -> role_description ): ?>
+                        <button type="button" class="btn green">Approve</button>
+                        <button type="button" class="btn red">Deny</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+    <?php $__currentLoopData = $clubAdminsForMembersTab; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+        <div class = "note note-info">
+            <div class = "row">
+                <div class = "col-md-2">
+                    <?php if( $aUser -> profile_image != ''): ?>
+                        <img src="/<?php echo e($aUser -> profile_image); ?>">
+                    <?php else: ?>
+                        <img src="/uploads/images/users/0.png">
+                    <?php endif; ?>
+                </div>
+                <div class = "col-md-4">
+                    <h4>
+                        <?php echo e($aUser -> first_name); ?> <?php echo e($aUser -> last_name); ?>
+
+                    </h4>
+                    <h4>
+                        <?php if( 'special' == $aUser -> role_description ): ?>
+                            special
+                        <?php else: ?>
+                            <?php echo e($aUser -> role_description); ?>
+
+                        <?php endif; ?>
+                    </h4>
+                </div>
+                <div class = "col-md-6">
+                    <?php if( 'invited' == $aUser -> role_description ): ?>
+                        <button type="button" class="btn green btn-outline disabled">Invited at <?php echo e(App\Roleship::where('user_id', $aUser -> id) -> where('club_id', session('theClubID')) -> firstOrFail() -> created_at); ?></button>
+                        <button type="button" class="btn red btn-outline">Resend Invitation</button>
+                    <?php elseif( 'pending' == $aUser -> role_description ): ?>
+                        <button type="button" class="btn green">Approve</button>
+                        <button type="button" class="btn red">Deny</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
     <?php $__currentLoopData = $onlineMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
     <div class = "note note-info">
         <div class = "row">
@@ -115,6 +187,56 @@
                 </tr>
                 </thead>
                 <tbody>
+                <?php $__currentLoopData = $clubOwnnersForMembersTab; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                    <tr>
+                        <td class= "col-table-admin">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                        <td class= "col-table-fn">
+                            <?php echo e($aUser -> first_name); ?>
+
+                        </td>
+                        <td class= "col-table-ln">
+                            <?php echo e($aUser -> last_name); ?>
+
+                        </td>
+                        <td class= "col-table-jdate">
+                            <?php echo e($aUser -> created_at); ?>
+
+                        </td>
+                        <td class= "col-table-edate">
+                            None
+                        </td>
+                        <td class= "col-table-exp">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                    </tr>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                <?php $__currentLoopData = $clubAdminsForMembersTab; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                    <tr>
+                        <td class= "col-table-admin">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                        <td class= "col-table-fn">
+                            <?php echo e($aUser -> first_name); ?>
+
+                        </td>
+                        <td class= "col-table-ln">
+                            <?php echo e($aUser -> last_name); ?>
+
+                        </td>
+                        <td class= "col-table-jdate">
+                            <?php echo e($aUser -> created_at); ?>
+
+                        </td>
+                        <td class= "col-table-edate">
+                            None
+                        </td>
+                        <td class= "col-table-exp">
+                            <input type="checkbox" class="checkboxes" disabled>
+                        </td>
+                    </tr>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                 <?php $__currentLoopData = $onlineMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                     <tr>
                         <td class= "col-table-admin">

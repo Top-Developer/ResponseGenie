@@ -29,7 +29,13 @@
                 </h3>
             </div>
             <div id = 'plan_desc' class = 'panel-body'>{{$theMembership -> description}}</div>
-            <div id = 'plan_cost' class = 'panel-footer'>{{$theMembership -> cost}}</div>
+            <div id = 'plan_cost' class = 'panel-footer'>
+                @if( 0 == $theMembership -> cost )
+                    Free
+                @else
+                    ${{$theMembership -> cost}}
+                @endif
+            </div>
             <div id = 'plan_dura' class = 'hidden'>{{$theMembership -> duration_quantity}}</div>
             <div id = 'plan_dura_unit' class = 'hidden'>{{$theMembership -> duration_unit}}</div>
             <div id = 'plan_is_for_mem' class = 'hidden'>{{$theMembership -> is_for_members_only}}</div>

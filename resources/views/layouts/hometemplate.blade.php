@@ -307,13 +307,10 @@
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
 <script src="{{url('/assets/layouts/layout3/scripts/layout.min.js')}}" type="text/javascript"></script>
 <script src="{{url('/assets/layouts/layout3/scripts/demo.min.js')}}" type="text/javascript"></script>
-<script src="{{url('/assets/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
 
 <!-- Custom Scripts -->
+<script src="{{url('/assets/global/scripts/custom.js')}}" type="text/javascript"></script>
 @stack('script')
 </body>
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyCjKyxewbk6_hbH9tSAjNWTPCqN9hiPz-o" type="text/javascript"></script>
-<script src="{{url('/assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
-<script src="{{url('/assets/pages/scripts/maps-google.min.js')}}" type="text/javascript"></script>
 </html>

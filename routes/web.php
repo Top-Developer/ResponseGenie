@@ -15,7 +15,7 @@ Route::get('/home', function() {
     return Redirect::to('/')->with('page', 'home');
 });
 
-Route::get('/', function () { return view('home')->with('page', 'home'); });
+Route::get('/', function() { return view('home')->with('page', 'home'); });
 Auth::routes();
 Route::get('/validate-email', function () { return view('auth/validate_email'); });
 Route::get('/validate/{id}/{emailValidation}', 'AccountController@validateemail');
