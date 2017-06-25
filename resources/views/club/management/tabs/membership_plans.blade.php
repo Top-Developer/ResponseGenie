@@ -25,7 +25,9 @@
                 <h3 class="panel-title">
                     <i class="fa fa-shopping-cart"></i>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name">{{$theMembership -> name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_plan">Edit</a>
+                    @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
+                        <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_plan">Edit</a>
+                    @endif
                 </h3>
             </div>
             <div id = 'plan_desc' class = 'panel-body'>{{$theMembership -> description}}</div>
@@ -33,7 +35,7 @@
                 @if( 0 == $theMembership -> cost )
                     Free
                 @else
-                    ${{$theMembership -> cost}}
+                    ${{ $theMembership -> cost }}
                 @endif
             </div>
             <div id = 'plan_dura' class = 'hidden'>{{$theMembership -> duration_quantity}}</div>

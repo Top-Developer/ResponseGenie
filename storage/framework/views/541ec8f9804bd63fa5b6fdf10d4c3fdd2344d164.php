@@ -9,22 +9,6 @@
                 Club Description :<br><?php echo e($theClub -> description); ?>
 
             </div>
-            <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
-                <form method = 'post' action = '<?php echo e(url('/club/stripe')); ?>'>
-                    <?php echo e(csrf_field()); ?>
-
-                    <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
-                    <div>
-                        Stripe Public key :<input value = '<?php echo e($theClub -> stripe_pub_key); ?>' name = 'str_pub_key'>
-                    </div>
-                    <div>
-                        Stripe Private key :<input value = '<?php echo e($theClub -> stripe_pvt_key); ?>' name = 'str_pvt_key'>
-                    </div>
-                    <div style = 'float: right; margin: 20px 20px 0 0;'>
-                        <button class = 'btn green' type = 'submit'>Save</button>
-                    </div>
-                </form>
-            <?php endif; ?>
         </div>
     </div>
 </div>

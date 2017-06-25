@@ -62,12 +62,15 @@ class ClubController extends Controller
         $theClub = Club::find($club_id);
         $theClubOnlineMembers = DB::table('users')
             -> join('memberships', 'memberships.user_id', '=', 'users.id')
-            -> select('users.*', 'memberships.join_date', 'memberships.expiration_date')
+            -> join('roleships', 'roleships.user_id', '=', 'users.id')
+            -> join('roles', 'roles.id', '=', 'roleships.role_id')
+            -> where('roleships.club_id', $club_id)
+            -> select('users.*', 'memberships.join_date', 'memberships.expiration_date', 'roles.role_description')
             -> get();
 
         $theRoleID = Roleship::where('user_id', Auth::id()) -> where('club_id', $club_id) -> firstOrFail() -> role_id;
         $theUserRole = Role::find($theRoleID) -> role_description;
-        $theContact = $theClub -> contact;
+        $theContact = Contact::find($theClub -> contact_id);
         $pcm_id = $theContact -> pcm_id;
         $scm_id = $theContact -> scm_id;
         if($pcm_id != '' && $pcm_id != 'None'){
@@ -77,7 +80,6 @@ class ClubController extends Controller
         }
         else{
             $thePCM = NULL;
-            $thePCMRoleID = NULL;
             $thePCMRole = NULL;
         }
         if($scm_id != '' && $scm_id != 'None'){
@@ -536,44 +538,148 @@ class ClubController extends Controller
 
     public function showAllClubs()
     {
-        $allClubs = Club::all();
-        $yourRoleships = Roleship::where('user_id', '=', Auth::id())
-            -> where('role_id', '>', 1)
-            -> where('role_id', '<', 5)
-            -> select('club_id')
-            -> get();
+        $allClubs = DB::table('clubs')
+            -> join('contacts', 'contacts.id', '=', 'clubs.contact_id')
+            -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
+            -> join('users', 'roleships.user_id', '=', 'users.id')
+            -> where('clubs.access', 'Public')
+            -> orwhere(function($query){
+                $query -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 5)
+                    -> where('users.id',  '=', Auth::id())
+                    -> where('clubs.access', 'Members Only');
+            })
+            -> orwhere(function($query){
+                $query -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 4)
+                    -> where('users.id',  '=', Auth::id())
+                    -> where('clubs.access', 'Private');
+            })
+            -> select('clubs.id', 'clubs.name', 'clubs.slug', 'clubs.logo_path', 'clubs.description', 'clubs.website', 'clubs.access', 'contacts.city', 'contacts.state', 'contacts.country')
+            -> get()
+            -> unique();
+
+        $yourClubs = DB::table('clubs')
+            -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
+            -> join('users', 'roleships.user_id', '=', 'users.id')
+            -> where(function($query){
+                $query -> where('clubs.access', 'Public')
+                    -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 5)
+                    -> where('users.id',  '=', Auth::id());
+            })
+            -> orwhere(function($query){
+                $query -> where('clubs.access', 'Members Only')
+                    -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 5)
+                    -> where('users.id',  '=', Auth::id());
+            })
+            -> orwhere(function($query){
+                $query -> where('clubs.access', 'Private')
+                    -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 4)
+                    -> where('users.id',  '=', Auth::id());
+            })
+            -> select('clubs.id')
+            -> get()
+            -> unique();
 
         return view('club/allClubs', [
             'page' => 'allClubs',
             'allClubs' => $allClubs,
-            'yourClubs' => $yourRoleships
+            'yourClubs' => $yourClubs
+        ]);
+    }
+
+    public function showAllEvents(){
+
+        $allEvents = DB::table('events')
+            -> join('contacts', 'contacts.id', '=', 'events.contact_id')
+            -> join('user_event', 'user_event.event_id', '=', 'events.id')
+            -> join('users', 'user_event.user_id', '=', 'users.id')
+            -> join('event_price', 'event_price.event_id', '=', 'events.id')
+            -> join('roleships', 'roleships.user_id', '=', 'users.id')
+            -> where('roleships.club_id', '=', 'events.club_id')
+            -> where('events.access', 'Public')
+            -> orwhere(function($query){
+                $query -> where('events.access', 'Members Only')
+                    -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 5)
+                    -> where('users.id',  '=', Auth::id());
+            })
+            -> orwhere(function($query){
+                $query -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 4)
+                    -> where('users.id',  '=', Auth::id())
+                    -> where('events.access', 'Private');
+            })
+            -> select('events.id', 'events.name', 'events.slug', 'events.logo_path', 'events.description', 'events.access', 'contacts.city', 'contacts.state', 'contacts.country')
+            -> get()
+            -> unique();
+
+        $yourEvents = DB::table('events')
+            -> join('user_event', 'user_event.event_id', '=', 'events.id')
+            -> join('users', 'user_event.user_id', '=', 'users.id')
+            -> join('roleships', 'roleships.user_id', '=', 'users.id')
+            -> where('roleships.club_id', '=', 'events.club_id')
+            -> where(function($query) {
+                $query->where('events.access', 'Public')
+                    ->where('roleships.role_id', '>', 1)
+                    ->where('roleships.role_id', '<', 5)
+                    ->where('users.id', '=', Auth::id());
+            })
+            -> orwhere(function($query){
+                $query -> where('events.access', 'Members Only')
+                    -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 5)
+                    -> where('users.id',  '=', Auth::id());
+            })
+            -> orwhere(function($query){
+                $query -> where('events.access', 'Private')
+                    -> where('roleships.role_id', '>', 1)
+                    -> where('roleships.role_id', '<', 4)
+                    -> where('users.id',  '=', Auth::id());
+            })
+            -> select('events.id')
+            -> get()
+            -> unique();
+
+        return view('event/allEvents', [
+            'page' => 'allEvents',
+            'allEvents' => $allEvents,
+            'yourEvents' => $yourEvents
         ]);
     }
 
     public function becomeAMember($slug){
-        $theClub = Club::where('slug', '=', $slug)
-            -> first();
-        Session::set('stripe_secret_key', $theClub -> stripe_pvt_key);
-        Session::set('clubID', $theClub -> id);
-        $roleship = Roleship::where('user_id', Auth::id()) -> where('club_id', $theClub -> id) -> first();
-        $role = 'none';
-        if( $roleship ){
-            $role = Role::find( $roleship -> role_id ) -> role_description;
+        if( Auth::check() ){
+            $theClub = Club::where('slug', '=', $slug)
+                -> first();
+            Session::set('stripe_secret_key', $theClub -> stripe_pvt_key);
+            Session::set('clubID', $theClub -> id);
+            $roleship = Roleship::where('user_id', Auth::id()) -> where('club_id', $theClub -> id) -> first();
+            $role = 'none';
+            if( $roleship ){
+                $role = Role::find( $roleship -> role_id ) -> role_description;
+            }
+            $count = 0;
+            $clubMembershipPlans = $theClub -> membership_plans;
+            foreach($clubMembershipPlans as $plan){
+                $count++;
+            }
+            return view('club/becomeAMember', [
+                'page' => 'become a member',
+                'clubType' => $theClub -> type,
+                'clubName' => $theClub -> name,
+                'membershipPlans' => $theClub -> membership_plans,
+                'count' => $count,
+                'stripe_public_key' => $theClub -> stripe_pub_key,
+                'role' => $role
+            ]) -> with('msg', '');
         }
-        $count = 0;
-        $clubMembershipPlans = $theClub -> membership_plans;
-        foreach($clubMembershipPlans as $plan){
-            $count++;
+        else{
+
         }
-        return view('club/becomeAMember', [
-            'page' => 'become a member',
-            'clubType' => $theClub -> type,
-            'clubName' => $theClub -> name,
-            'membershipPlans' => $theClub -> membership_plans,
-            'count' => $count,
-            'stripe_public_key' => $theClub -> stripe_pub_key,
-            'role' => $role
-        ]) -> with('msg', '');
     }
 
     public function stripeInfo(Request $request){
@@ -674,7 +780,7 @@ class ClubController extends Controller
                 $newMembership -> join_date = date('Y-m-d');
                 $duraUnit = Membership_plan::find($request -> plan_id) -> duration_unit;
                 if( $duraUnit == 'Day(s)' ){
-                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.Membership_plan::find($request -> plan_id) -> duration_quantity).' days');
+                    $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(Membership_plan::find($request -> plan_id) -> duration_quantity).' days'));
                 }
                 else if($duraUnit == 'Month(s)'){
                     $newMembership -> expiration_date = date('Y-m-d', strtotime('+'.(string)(Membership_plan::find($request -> plan_id) -> duration_quantity).' Months'));

@@ -26,7 +26,9 @@
                 <h3 class="panel-title">
                     <i class="fa fa-shopping-cart"></i>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($theMembership -> name); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_plan">Edit</a>
+                    <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
+                        <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_plan">Edit</a>
+                    <?php endif; ?>
                 </h3>
             </div>
             <div id = 'plan_desc' class = 'panel-body'><?php echo e($theMembership -> description); ?></div>

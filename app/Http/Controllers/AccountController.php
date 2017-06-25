@@ -38,7 +38,7 @@ class AccountController extends Controller
             ]
         );
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find( Auth::user() -> id );
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->zip = $request->input('zip');
@@ -179,14 +179,14 @@ class AccountController extends Controller
     {
 
 
-        $authUser = User::where('provider_id', $user->id)->first();
+        $authUser = User::where('provider_id', $user -> id)->first();
 
         if ($authUser) {
             return $authUser;
         }
 
         //Check is this email present
-        $userCheck = User::where('email', '=', $user->email)->first();
+        $userCheck = User::where('email', '=', $user -> email)->first();
 
         if(!empty($userCheck))
         {
@@ -196,9 +196,9 @@ class AccountController extends Controller
         }
 
         return User::create([
-            'first_name' => $user->name,
-            'last_name' => "",
-            'email'    => $user->email,
+            'first_name' => explode(' ',trim($user->name))[0],
+            'last_name' => explode(' ',trim($user->name))[1],
+            'email'    => $user -> email,
             'address' => "",
             'city' => "",
             'state' => "",

@@ -444,7 +444,7 @@
                 console.log($(this).text());
                 if($(this).text() == plan_dura_unit) {console.log('same'); $(this).prop('selected', true);console.log($(this));}
             });
-            $('#edit_plan').find('#plan_cost').val($(this).parent().parent().parent().find('#plan_cost').text());
+            $('#edit_plan').find('#plan_cost').val($(this).parent().parent().parent().find('#plan_cost').text().trim());
             $('#edit_plan').find('input#plan_members_only').parent().removeClass('checked');
             if( $(this).parent().parent().parent().find('#plan_is_for_mem').text() == 'true' ){
                 console.log('dfd');

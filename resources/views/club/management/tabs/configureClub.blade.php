@@ -58,7 +58,7 @@
     <div class = "row">
         <div class="form-group">
             <label class="col-md-2 control-label" for = "club_logo">Club Logo</label>
-            <div class = "col-md-4">
+            <div class = "col-md-3">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;">
                         <img src = '{{$theClub -> logo_path}}'>
@@ -72,33 +72,37 @@
                     </div>
                 </div>
             </div>
-            <div class = "col-md-6">
-                <div class = "row">
-                    <div class = "form-group">
-                        <label class="col-md-4 control-label" for = "zip_code">Zip Code</label>
-                        <div class = "col-md-4">
-                            <input type="text" class="form-control" placeholder="Zip Code" id = "zip_code"  name = "zip_code" value = "{{ $theClub -> contact -> zipcode }}">
-                        </div>
+            <div class = 'col-md-6'>
+                <div class = 'row form-group'>
+                    <div class = 'col-md-4 control-label'>Stripe Public key</div>
+                    <div class = 'col-md-8'>
+                        <input class = 'form-control' value = '{{ $theClub -> stripe_pub_key }}' name = 'str_pub_key'>
                     </div>
                 </div>
-                <div class = "row">
-                    <div class = "form-group">
-                        <label class="col-md-4 control-label" for = "club_type">Club Type</label>
-                        <div class = "col-md-4">
-                            <select type="text" class="form-control" id = "club_type"  name = "club_type">
-                                <option @if($theClub -> type == 'Closed Club'){{'selected'}}@endif>Closed Club</option>
-                                <option @if($theClub -> type == 'Moderated Club'){{'selected'}}@endif>Moderated Club</option>
-                                <option @if($theClub -> type == 'Open Club'){{'selected'}}@endif>Open Club</option>
-                                <option @if($theClub -> type == 'Privated Club'){{'selected'}}@endif>Privated Club</option>
-                            </select>
-                        </div>
+                <div class = 'row form-group'>
+                    <div class = 'col-md-4 control-label'>Stripe Private key</div>
+                    <div class = 'col-md-8'>
+                        <input class = 'form-control' value = '{{ $theClub -> stripe_pvt_key }}' name = 'str_pvt_key'>
                     </div>
                 </div>
-                <div class = "row">
-                    <div class = "form-group">
-                        <div class = "col-md-offset-6 col-md-6">
-                            <button type="submit" class="btn green">Submit</button>
-                        </div>
+                <div class = "row form-group">
+                    <label class="col-md-4 control-label" for = "zip_code">Zip Code</label>
+                    <div class = "col-md-4">
+                        <input type="text" class="form-control" placeholder="Zip Code" id = "zip_code"  name = "zip_code" value = "{{ $theContact -> zipcode }}">
+                    </div>
+                </div>
+                <div class = "row form-group">
+                    <label class="col-md-4 control-label" for = "club_type">Club Type</label>
+                    <div class = "col-md-4">
+                        <select type="text" class="form-control" id = "club_type"  name = "club_type">
+                            <option @if($theClub -> type == 'Closed Club'){{'selected'}}@endif>Closed Club</option>
+                            <option @if($theClub -> type == 'Moderated Club'){{'selected'}}@endif>Moderated Club</option>
+                            <option @if($theClub -> type == 'Open Club'){{'selected'}}@endif>Open Club</option>
+                            <option @if($theClub -> type == 'Privated Club'){{'selected'}}@endif>Privated Club</option>
+                        </select>
+                    </div>
+                    <div class = "col-md-4">
+                        <button type="submit" class="btn green" style = 'float:right; margin-right:30px;'>Submit</button>
                     </div>
                 </div>
             </div>

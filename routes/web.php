@@ -25,6 +25,7 @@ Route::group(['middleware' => ['app']], function () {
     Route::get('/account/settings', 'AccountController@settings')->middleware('auth');
     Route::post('/account/settings', 'AccountController@update')->middleware('auth');
     Route::post('/account/changepassword', 'AccountController@changepassword')->middleware('auth');
+    Route::get('/{slug}/become-a-member', 'ClubController@becomeAMember')->middleware('auth');
 });
 
 //User images
@@ -79,8 +80,6 @@ Route::get('configclub/{id}', [
 
 Route::get('/{slug}', 'ClubController@clubManagement');
 
-Route::get('/{slug}/become-a-member', 'ClubController@becomeAMember');
-
 Route::get('test', function() {
     return view('test');
 });
@@ -95,3 +94,5 @@ Route::post('/club/stripe', 'ClubController@stripeInfo');
 Route::post('/enter/manual_transaction', 'ClubController@enterManual');
 Route::post('/club/payForMembership', 'ClubController@payForMembership');
 Route::post('/club/request', 'ClubController@dealRequest');
+
+Route::get('/event/allEvents', 'ClubController@showAllEvents');

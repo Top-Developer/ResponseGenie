@@ -190,7 +190,7 @@
                 <div class="col-md-12">
 
                     <?php if(Session::has('message')): ?>
-                        <div class="alert alert-<?php echo e(Session::get('status')); ?> status-box">
+                        <div class="alert alert-<?php echo e(Session::get('status')); ?> status-box"  style = 'text-align:center;'>
                             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             <?php echo e(Session::get('message')); ?>
 
@@ -200,7 +200,7 @@
                     <h1 class="space-top page-title text-center">Create a New Club</h1>
                     <section class="space-top space-bottom">
 
-                        <form class="create-club-form" class = ajax action="<?php echo e(url('/club/create')); ?>" method="post" enctype="multipart/form-data">
+                        <form class="create-club-form" action="<?php echo e(url('/club/create')); ?>" method="post" enctype="multipart/form-data">
                             <?php echo e(csrf_field()); ?>
 
 
@@ -356,39 +356,6 @@
 <script type="text/javascript">
     var click = false;
     $(function() {
-
-        $("form.ajax").on("submit", function(event){
-            event.preventDefault();
-
-            var formData = $(this).serialize();
-            var formAction = $(this).attr('action');
-            var formMethod = $(this).attr('method');
-
-            $.ajax({
-                type : formMethod,
-                url : formAction,
-                data : formData,
-                cache : false,
-
-                beforeSend : function(){
-                    console.log(formData);
-                    $('div.modal.in').modal('toggle');
-                },
-
-                success : function(data){
-                    console.log(data);
-                    $('div.modal.success').modal('toggle');
-                },
-
-                error : function(){
-                    console.log('error');
-                    $('div.modal.error').modal('toggle');
-                }
-            });
-
-            return false;
-        });
-        
         $('#change-view-btn').on('click', function() {
             $('#member-icon-view').fadeToggle(1000);
             $('#member-spreadsheet-view').fadeToggle(1000);

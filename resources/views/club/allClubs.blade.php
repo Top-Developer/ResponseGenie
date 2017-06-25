@@ -258,7 +258,7 @@
                                         <?php $count = 0?>
                                         <div class="actions">
                                             @foreach($yourClubs as $yourOneClub)
-                                                @if($yourOneClub -> club_id == $aClub -> id && $count == 0)
+                                                @if($yourOneClub -> id == $aClub -> id && $count == 0)
                                                     <a href="{{url('/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
                                                     <?php $count = 1?>
                                                 @endif
@@ -281,7 +281,7 @@
                                                 <p>
                                                     <a style="text-decoration:none;" href="{{$aClub -> website}}">{{$aClub -> website}}</a>
                                                 </p>
-                                                <p>{{$aClub -> contact -> city}} {{$aClub -> contact -> state}} {{$aClub -> contact -> country}}</p>
+                                                <p>{{$aClub -> city}} {{$aClub -> state}} {{$aClub -> country}}</p>
                                             </div>
                                         </div>
                                     </div>

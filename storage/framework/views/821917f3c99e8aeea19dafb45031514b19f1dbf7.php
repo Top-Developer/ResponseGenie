@@ -173,27 +173,32 @@
                             <span class="arrow"></span>
                         </a>
                         <ul class="dropdown-menu pull-left">
-                            <li class=" ">
+                            <li>
                                 <a href="<?php echo e(url('club/allClubs')); ?>"> All Clubs </a>
                             </li>
                             <?php if(Auth::check()): ?>
-                            <li class=" ">
-                                <a href="<?php echo e(url('club/myClubs')); ?>" class="nav-link  "> Your Clubs </a>
+                            <li>
+                                <a href="<?php echo e(url('club/myClubs')); ?>"> Your Clubs </a>
                             </li>
                             <?php endif; ?>
                         </ul>
                     </li>
 
-                    <?php if(Auth::check()): ?>
-
                     <li class="menu-dropdown classic-menu-dropdown <?php if ($page == "myevents") echo 'active'; ?>">
-                        <a href="<?php echo e(url('/configevent')); ?>"> Events
+                        <a href="javascript:;"> Events
                             <span class="arrow"></span>
                         </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li class=" ">
+                                <a href="<?php echo e(url('event/allEvents')); ?>"> All Events </a>
+                            </li>
+                            <?php if(Auth::check()): ?>
+                                <li class=" ">
+                                    <a href="<?php echo e(url('event/myEvents')); ?>"> Your Events </a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
                     </li>
-
-                    <?php endif; ?>
-
                 </ul>
             </div>
             <!-- END MEGA MENU -->

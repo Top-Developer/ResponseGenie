@@ -13,11 +13,6 @@ class Club extends Model
         return $this -> belongsToMany('App\User', 'roleships', 'club_id', 'user_id');
     }
 
-    public function contact(){
-
-        return $this -> hasOne('App\Contact', 'club_id', 'id');
-    }
-
     public function membership_plans(){
 
         return $this -> hasMany('App\Membership_plan', 'club_id', 'id');

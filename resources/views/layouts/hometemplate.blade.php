@@ -172,27 +172,32 @@
                             <span class="arrow"></span>
                         </a>
                         <ul class="dropdown-menu pull-left">
-                            <li class=" ">
+                            <li>
                                 <a href="{{url('club/allClubs')}}"> All Clubs </a>
                             </li>
                             @if(Auth::check())
-                            <li class=" ">
-                                <a href="{{url('club/myClubs')}}" class="nav-link  "> Your Clubs </a>
+                            <li>
+                                <a href="{{url('club/myClubs')}}"> Your Clubs </a>
                             </li>
                             @endif
                         </ul>
                     </li>
 
-                    @if(Auth::check())
-
                     <li class="menu-dropdown classic-menu-dropdown <?php if ($page == "myevents") echo 'active'; ?>">
-                        <a href="{{url('/configevent')}}"> Events
+                        <a href="javascript:;"> Events
                             <span class="arrow"></span>
                         </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li class=" ">
+                                <a href="{{url('event/allEvents')}}"> All Events </a>
+                            </li>
+                            @if(Auth::check())
+                                <li class=" ">
+                                    <a href="{{url('event/myEvents')}}"> Your Events </a>
+                                </li>
+                            @endif
+                        </ul>
                     </li>
-
-                    @endif
-
                 </ul>
             </div>
             <!-- END MEGA MENU -->

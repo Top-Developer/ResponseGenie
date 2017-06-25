@@ -8,21 +8,6 @@
             <div>
                 Club Description :<br>{{ $theClub -> description }}
             </div>
-            @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
-                <form method = 'post' action = '{{url('/club/stripe')}}'>
-                    {{csrf_field()}}
-                    <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
-                    <div>
-                        Stripe Public key :<input value = '{{ $theClub -> stripe_pub_key }}' name = 'str_pub_key'>
-                    </div>
-                    <div>
-                        Stripe Private key :<input value = '{{ $theClub -> stripe_pvt_key }}' name = 'str_pvt_key'>
-                    </div>
-                    <div style = 'float: right; margin: 20px 20px 0 0;'>
-                        <button class = 'btn green' type = 'submit'>Save</button>
-                    </div>
-                </form>
-            @endif
         </div>
     </div>
 </div>

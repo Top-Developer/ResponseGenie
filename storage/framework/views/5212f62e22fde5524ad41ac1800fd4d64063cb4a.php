@@ -256,7 +256,7 @@
                                         <?php $count = 0?>
                                         <div class="actions">
                                             <?php $__currentLoopData = $yourClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                <?php if($yourOneClub -> club_id == $aClub -> id && $count == 0): ?>
+                                                <?php if($yourOneClub -> id == $aClub -> id && $count == 0): ?>
                                                     <a href="<?php echo e(url('/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
                                                     <?php $count = 1?>
                                                 <?php endif; ?>
@@ -279,7 +279,7 @@
                                                 <p>
                                                     <a style="text-decoration:none;" href="<?php echo e($aClub -> website); ?>"><?php echo e($aClub -> website); ?></a>
                                                 </p>
-                                                <p><?php echo e($aClub -> contact -> city); ?> <?php echo e($aClub -> contact -> state); ?> <?php echo e($aClub -> contact -> country); ?></p>
+                                                <p><?php echo e($aClub -> city); ?> <?php echo e($aClub -> state); ?> <?php echo e($aClub -> country); ?></p>
                                             </div>
                                         </div>
                                     </div>

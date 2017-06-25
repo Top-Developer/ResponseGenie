@@ -103,7 +103,7 @@
         <div class = "row">
             <div class = "col-md-2">
                 @if( $aUser -> profile_image != '')
-                    <img src="/{{ $theSCM -> profile_image }}">
+                    <img src="/{{ $aUser -> profile_image }}">
                 @else
                     <img src="/uploads/images/users/0.png">
                 @endif
@@ -113,10 +113,10 @@
                     {{ $aUser -> first_name }} {{ $aUser -> last_name }}
                 </h4>
                 <h4>
-                    @if( 'special' == App\Role::find( App\Roleship::where('user_id', $aUser -> id) -> where('club_id', session('theClubID')) -> firstOrFail() -> role_id ) -> role_description)
+                    @if( 'special' == $aUser -> role_description )
                         special
                     @else
-                        {{App\Role::find( App\Roleship::where('user_id', $aUser -> id) -> where('club_id', session('theClubID')) -> firstOrFail() -> role_id ) -> role_description}}
+                        {{ $aUser -> role_description }}
                     @endif
                 </h4>
             </div>
@@ -181,7 +181,7 @@
                 @foreach( $clubOwnnersForMembersTab as $aUser )
                     <tr>
                         <td class= "col-table-admin">
-                            <input type="checkbox" class="checkboxes" disabled>
+                            <input type="checkbox" class="checkboxes" checked disabled>
                         </td>
                         <td class= "col-table-fn">
                             {{$aUser -> first_name}}
@@ -203,7 +203,7 @@
                 @foreach( $clubAdminsForMembersTab as $aUser )
                     <tr>
                         <td class= "col-table-admin">
-                            <input type="checkbox" class="checkboxes" disabled>
+                            <input type="checkbox" class="checkboxes" checked disabled>
                         </td>
                         <td class= "col-table-fn">
                             {{$aUser -> first_name}}
