@@ -23,7 +23,7 @@
     </h1>
     <div class = "row">
         <div class = "col-md-6">
-            <div class="form-group">
+            <div class="row form-group">
                 <label class="col-md-4 control-label" for = "club_name">Club Name</label>
                 <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="Club Name" id = "club_name" name = "club_name" value = "{{ $theClub -> name }}">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class = "col-md-6">
-            <div class="form-group">
+            <div class="row form-group">
                 <label class="col-md-4 control-label" for = "club_slug">Club Slug</label>
                 <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="Club Slug" id = "club_slug" name = "club_slug" value = "{{ $theClub -> slug }}">
@@ -65,7 +65,7 @@
                     </div>
                     <div>
                                                                     <span class="btn red btn-outline btn-file">
-                                                                        <span class="fileinput-new"> Select image </span>
+                                                                        <span class="fileinput-new"> Change image </span>
                                                                         <span class="fileinput-exists"> Change </span>
                                                                         <input type="file" name="club_logo"> </span>
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>

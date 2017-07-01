@@ -22,44 +22,25 @@
                     <i class=" icon-layers font-blue"></i>
                     <span class="caption-subject font-blue sbold uppercase">Events</span>
                 </div>
+                @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                 <div style="float:right;">
-
+                    <a href="{{url('/'.$theClub -> slug.'/create-an-event')}}" class="btn red"> Create a new event </a>
                 </div>
+                @endif
             </div>
 
             <div class="portlet-body">
+                @foreach($clubEvents as $anEvent)
                 <div class="row eventcontainer">
                     <div class="col-md-3 text-center monthdate">
-                        <span class="month">May</span>
-                        <span class="date">12th</span>
+                        <span class="date">{{$anEvent->start_date}}</span>
                     </div>
                     <div class="col-md-9">
-                        <span class="small mb-10 text-muted">South Louisiana IDPA</span>
-                        <h6 class="title">Club Match</h6>
+                        <span class="small mb-10 text-muted">{{$anEvent->name}}</span>
+                        <h6 class="title">{{$anEvent->description}}</h6>
                     </div>
                 </div>
-
-                <div class="row eventcontainer">
-                    <div class="col-md-3 text-center monthdate">
-                        <span class="month">May</span>
-                        <span class="date">15th</span>
-                    </div>
-                    <div class="col-md-9">
-                        <span class="small mb-10 text-muted">South Louisiana IDPA</span>
-                        <h6 class="title">Club Membership Expiration</h6>
-                    </div>
-                </div>
-
-                <div class="row eventcontainer">
-                    <div class="col-md-3 text-center monthdate">
-                        <span class="month">May</span>
-                        <span class="date">17th</span>
-                    </div>
-                    <div class="col-md-9">
-                        <span class="small mb-10 text-muted">ToastMasters</span>
-                        <h6 class="title">Monthly Meeting</h6>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <!-- End Portlet -->

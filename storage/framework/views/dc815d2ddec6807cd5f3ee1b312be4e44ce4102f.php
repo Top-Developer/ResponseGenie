@@ -582,9 +582,18 @@
             }
         });
         $('#calendar').fullCalendar({
-            eventSources: [
-                '/feed2.php'
-            ]
+            eventSources: [{
+                url: '/event/getEventDates',
+                error: function(){
+                    alert('There was an error while fetching events!');
+                },
+                color: 'yellow',
+                textColor: 'black'
+            }]
+        });
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // TODO: check href of e.target to detect your tab
+            $('#calendar').fullCalendar('render');
         });
         $('input[name="discount_type"]').on('click', function(){
             if($(this).val() == 'amount'){

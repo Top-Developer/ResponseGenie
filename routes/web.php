@@ -58,7 +58,7 @@ Route::get('/configevent', function () {
 });
 
 
-//###################### Social Authentication #############################
+//###################### Social Authentication #############################//
 Route::get('/social/{provider}', 'AccountController@redirectToProvider');
 Route::get('/social/{provider}/callback', 'AccountController@handleProviderCallback');
 
@@ -95,4 +95,15 @@ Route::post('/enter/manual_transaction', 'ClubController@enterManual');
 Route::post('/club/payForMembership', 'ClubController@payForMembership');
 Route::post('/club/request', 'ClubController@dealRequest');
 
+Route::get('/{slug}/create-an-event', 'ClubController@eventCreate');
+
 Route::get('/event/allEvents', 'ClubController@showAllEvents');
+Route::get('/event/myEvents', 'ClubController@showMyEvents');
+
+Route::post('/event/create', 'ClubController@createEvent');
+
+//------------------------------- Event ---------------------------------//
+
+Route::get('event/getEventDates', 'EventController@getEventDates');
+
+//-----------------------------------------------------------------------//

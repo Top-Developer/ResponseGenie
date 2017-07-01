@@ -164,6 +164,10 @@
         color:#e73d4a !important;
     }
 
+    textarea {
+        resize: none;
+    }
+
 </style>
 
 @endpush

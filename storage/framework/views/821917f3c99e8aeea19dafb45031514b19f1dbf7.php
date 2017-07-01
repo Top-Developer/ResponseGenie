@@ -31,7 +31,7 @@
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="<?php echo e(url('/assets/global/css/components-md.min.css')); ?>" rel="stylesheet" id="style_components" type="text/css" />
-    <link href="<?php echo e(url('/assets/global/css/plugins-md.min.css')); ?>" rel="stylesheet" type="text/css" />
+    
     <!-- END THEME GLOBAL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
     <link href="<?php echo e(url('/assets/layouts/layout3/css/layout.css')); ?>" rel="stylesheet" type="text/css" />
@@ -295,25 +295,13 @@
 <script src="<?php echo e(url('/assets/global/plugins/morris/raphael-min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/counterup/jquery.waypoints.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/counterup/jquery.counterup.min.js')); ?>" type="text/javascript"></script>
-<script src="<?php echo e(url('/assets/global/plugins/fullcalendar/fullcalendar.min.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo e(url('/assets/global/plugins/fullcalendar/fullcalendar.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/flot/jquery.flot.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/flot/jquery.flot.resize.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/flot/jquery.flot.categories.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js')); ?>" type="text/javascript"></script>
 <script src="<?php echo e(url('/assets/global/plugins/jquery.sparkline.min.js')); ?>" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
-
-
-<!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="<?php echo e(url('/assets/global/scripts/app.min.js')); ?>" type="text/javascript"></script>
-<!-- END THEME GLOBAL SCRIPTS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="<?php echo e(url('/assets/pages/scripts/dashboard.min.js')); ?>" type="text/javascript"></script>
-<!-- END PAGE LEVEL SCRIPTS -->
-<!-- BEGIN THEME LAYOUT SCRIPTS -->
-<script src="<?php echo e(url('/assets/layouts/layout3/scripts/layout.min.js')); ?>" type="text/javascript"></script>
-<script src="<?php echo e(url('/assets/layouts/layout3/scripts/demo.min.js')); ?>" type="text/javascript"></script>
-<!-- END THEME LAYOUT SCRIPTS -->
 
 <!-- Custom Scripts -->
 <script src="<?php echo e(url('/assets/global/scripts/custom.js')); ?>" type="text/javascript"></script>
