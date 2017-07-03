@@ -22,13 +22,6 @@
     <link href="<?php echo e(url('/assets/global/plugins/uniform/css/uniform.default.css')); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo e(url('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')); ?>" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <?php echo $__env->yieldPushContent(''); ?>
-    <link href="<?php echo e(url('/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo e(url('/assets/global/plugins/morris/morris.css" rel="stylesheet" type="text/css')); ?>" />
-    <link href="<?php echo e(url('/assets/global/plugins/fullcalendar/fullcalendar.min.css')); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo e(url('/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css')); ?>" />
-    <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="<?php echo e(url('/assets/global/css/components-md.min.css')); ?>" rel="stylesheet" id="style_components" type="text/css" />
     

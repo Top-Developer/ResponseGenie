@@ -252,12 +252,12 @@
                                             <div class="actions">
                                                 <?php $__currentLoopData = $yourEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneEvent): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                                     <?php if($yourOneEvent -> id == $anEvent -> id && $count == 0): ?>
-                                                        <a href="<?php echo e(url('/'.$yourOneEvent -> slug)); ?>" class="btn green">Go to the event</a>
+                                                        <a href="<?php echo e(url('/events/'.$anEvent -> slug)); ?>" class="btn green">Go to the event</a>
                                                         <?php $count = 1?>
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                                 <?php if($count == 0): ?>
-                                                    <a href="<?php echo e(url('/'.$yourOneEvent -> slug.'/become-a-member')); ?>" class="btn red">Pay for membership</a>
+                                                    <a href="<?php echo e(url('/events/'.$anEvent -> slug.'/become-a-member')); ?>" class="btn red">Pay for membership</a>
                                                 <?php else: ?>
                                                     <?php $count = 0?>
                                                 <?php endif; ?>
@@ -266,12 +266,12 @@
                                         <div class="portlet-body">
                                             <div class = "row">
                                                 <div>
-                                                    <img style="width:100px;" src=<?php echo e($yourOneEvent -> logo_path); ?>>
+                                                    <img style="width:100px;" src=<?php echo e($anEvent -> logo_path); ?>>
                                                 </div>
                                                 <div>
-                                                    <p><?php echo e($yourOneEvent -> description); ?></p>
-                                                    <p><?php echo e($yourOneEvent -> slug); ?></p>
-                                                    <p><?php echo e($yourOneEvent -> city); ?> <?php echo e($yourOneEvent -> state); ?> <?php echo e($yourOneEvent -> country); ?></p>
+                                                    <p>description : <?php echo e($anEvent -> description); ?></p>
+                                                    <p>slug : <?php echo e($anEvent -> slug); ?></p>
+                                                    <p>Location : <?php echo e($anEvent -> city); ?> <?php echo e($anEvent -> state); ?> <?php echo e($anEvent -> country); ?></p>
                                                 </div>
                                             </div>
                                         </div>

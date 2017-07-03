@@ -36,7 +36,6 @@ class ClubController extends Controller
         $discount -> save();
     }
 
-    //First screen after user logged in "MY Clubs"
     public function showMyClubs()
     {
         $theClubs = DB::table('users')
@@ -51,41 +50,6 @@ class ClubController extends Controller
         return view('club/myClub', [
             'page' => 'clubs',
             'myClubs' => $theClubs
-        ]);
-    }
-
-    public function showMyEvents(){
-
-        $myEvents = DB::table('events')
-            -> join('user_event', 'user_event.event_id', '=', 'events.id')
-            -> join('users', 'user_event.user_id', '=', 'users.id')
-            -> join('roleships', 'roleships.user_id', '=', 'users.id')
-            -> where('roleships.club_id', '=', 'events.club_id')
-            -> where(function($query) {
-                $query->where('events.access', 'Public')
-                    ->where('roleships.role_id', '>', 1)
-                    ->where('roleships.role_id', '<', 5)
-                    ->where('users.id', '=', Auth::id());
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Private')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4)
-                    -> where('users.id',  '=', Auth::id());
-            })
-            -> select('events.id')
-            -> get()
-            -> unique();
-
-        return view('event/myEvents', [
-            'page' => 'events',
-            'myEvents' => $myEvents
         ]);
     }
 
@@ -201,7 +165,6 @@ class ClubController extends Controller
         ]);
     }
 
-    //Receive post request and create new club with requested data
     public function createClub(Request $request)
     {
         if( $request -> hasFile('club_logo') ){
@@ -222,6 +185,13 @@ class ClubController extends Controller
             -> with('message', 'The slug already exist. Failed to create the club.');
         }
         else{
+
+            $contact = new Contact;
+            $contact -> zipcode = $request -> input( 'club_zipcode' );
+            $contact -> city = $request -> input( 'club_city' );
+            $contact -> state = $request -> input( 'club_state' );
+            $contact -> save();
+
             $club = new Club;
             $club -> name = $request -> input( 'club_name' );
             $club -> slug = $request -> input( 'club_slug' );
@@ -232,14 +202,8 @@ class ClubController extends Controller
             $club -> phone_number = $request -> input( 'club_phone' );
             $club -> membership_limit = $request -> input( 'club_memberlimit' );
             $club -> type = $request -> input( 'club_type' );
+            $club -> contact_id = $contact -> id;
             $club -> save();
-
-            $contact = new Contact;
-            $contact -> zipcode = $request -> input( 'club_zipcode' );
-            $contact -> city = $request -> input( 'club_city' );
-            $contact -> state = $request -> input( 'club_state' );
-            $contact -> club_id = $club -> id;
-            $contact -> save();
 
             $roleship = new Roleship;
             $roleship -> user_id = Auth::id();
@@ -250,61 +214,6 @@ class ClubController extends Controller
             return back()
                 -> with('message', 'Welcome! Club created successfully.');
         }
-    }
-
-    public function createEvent(Request $request){
-
-        if( $request -> hasFile('event_logo') ){
-            $this -> validate($request, [
-                'event_logo' => 'required|image|mimes:jpeg,png,jpg',
-            ]);
-            $logoName = time().'.'.$request -> event_logo -> getClientOriginalExtension();
-            $request -> file('event_logo') -> move(public_path('uploads/images'), $logoName);
-            $imagePath = asset('uploads/images/')."/".$logoName;
-        }
-        else{
-            $imagePath = asset('uploads/images/')."/".'event.png';
-        }
-
-        $slug = Club::where('slug', '=', $request -> input( 'club_slug' ))->first();
-        if ($slug !== null) {
-            return back()
-                -> with('message', 'The slug already exist. Failed to create the club.');
-        }
-        else{
-            $club = new Club;
-            $club -> name = $request -> input( 'club_name' );
-            $club -> slug = $request -> input( 'club_slug' );
-            $club -> description = $request -> input( 'club_description' );
-            $club -> short_description = $request -> input( 'club_short_description' );
-            $club -> website = $request -> input( 'club_url' );
-            $club -> logo_path = $imagePath;
-            $club -> phone_number = $request -> input( 'club_phone' );
-            $club -> membership_limit = $request -> input( 'club_memberlimit' );
-            $club -> type = $request -> input( 'club_type' );
-            $club -> save();
-
-            $contact = new Contact;
-            $contact -> zipcode = $request -> input( 'club_zipcode' );
-            $contact -> city = $request -> input( 'club_city' );
-            $contact -> state = $request -> input( 'club_state' );
-            $contact -> club_id = $club -> id;
-            $contact -> save();
-
-            $roleship = new Roleship;
-            $roleship -> user_id = Auth::id();
-            $roleship -> club_id = $club -> id;
-            $roleship -> role_id = 2;
-            $roleship -> save();
-
-            return back()
-                -> with('message', 'Welcome! Club created successfully.');
-        }
-    }
-
-    public function eventCreate(){
-
-        return view('event/createEvent')->with('page', 'createEvent');
     }
 
     public function configureClub(Request $request){
@@ -706,66 +615,6 @@ class ClubController extends Controller
             'page' => 'allClubs',
             'allClubs' => $allClubs,
             'yourClubs' => $yourClubs
-        ]);
-    }
-
-    public function showAllEvents(){
-
-        $allEvents = DB::table('events')
-            -> join('contacts', 'contacts.id', '=', 'events.contact_id')
-            -> join('user_event', 'user_event.event_id', '=', 'events.id')
-            -> join('users', 'user_event.user_id', '=', 'users.id')
-            -> join('event_price', 'event_price.event_id', '=', 'events.id')
-            -> join('roleships', 'roleships.user_id', '=', 'users.id')
-            -> where('roleships.club_id', '=', 'events.club_id')
-            -> where('events.access', 'Public')
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
-            })
-            -> orwhere(function($query){
-                $query -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4)
-                    -> where('users.id',  '=', Auth::id())
-                    -> where('events.access', 'Private');
-            })
-            -> select('events.id', 'events.name', 'events.slug', 'events.logo_path', 'events.description', 'events.access', 'contacts.city', 'contacts.state', 'contacts.country')
-            -> get()
-            -> unique();
-
-        $yourEvents = DB::table('events')
-            -> join('user_event', 'user_event.event_id', '=', 'events.id')
-            -> join('users', 'user_event.user_id', '=', 'users.id')
-            -> join('roleships', 'roleships.user_id', '=', 'users.id')
-            -> where('roleships.club_id', '=', 'events.club_id')
-            -> where(function($query) {
-                $query->where('events.access', 'Public')
-                    ->where('roleships.role_id', '>', 1)
-                    ->where('roleships.role_id', '<', 5)
-                    ->where('users.id', '=', Auth::id());
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Private')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4)
-                    -> where('users.id',  '=', Auth::id());
-            })
-            -> select('events.id')
-            -> get()
-            -> unique();
-
-        return view('event/allEvents', [
-            'page' => 'allEvents',
-            'allEvents' => $allEvents,
-            'yourEvents' => $yourEvents
         ]);
     }
 

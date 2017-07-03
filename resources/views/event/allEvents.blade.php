@@ -254,12 +254,12 @@
                                             <div class="actions">
                                                 @foreach($yourEvents as $yourOneEvent)
                                                     @if($yourOneEvent -> id == $anEvent -> id && $count == 0)
-                                                        <a href="{{url('/'.$yourOneEvent -> slug)}}" class="btn green">Go to the event</a>
+                                                        <a href="{{url('/events/'.$anEvent -> slug)}}" class="btn green">Go to the event</a>
                                                         <?php $count = 1?>
                                                     @endif
                                                 @endforeach
                                                 @if($count == 0)
-                                                    <a href="{{url('/'.$yourOneEvent -> slug.'/become-a-member')}}" class="btn red">Pay for membership</a>
+                                                    <a href="{{url('/events/'.$anEvent -> slug.'/become-a-member')}}" class="btn red">Pay for membership</a>
                                                 @else
                                                     <?php $count = 0?>
                                                 @endif
@@ -268,12 +268,12 @@
                                         <div class="portlet-body">
                                             <div class = "row">
                                                 <div>
-                                                    <img style="width:100px;" src={{$yourOneEvent -> logo_path}}>
+                                                    <img style="width:100px;" src={{$anEvent -> logo_path}}>
                                                 </div>
                                                 <div>
-                                                    <p>{{$yourOneEvent -> description}}</p>
-                                                    <p>{{$yourOneEvent -> slug}}</p>
-                                                    <p>{{$yourOneEvent -> city}} {{$yourOneEvent -> state}} {{$yourOneEvent -> country}}</p>
+                                                    <p>description : {{$anEvent -> description}}</p>
+                                                    <p>slug : {{$anEvent -> slug}}</p>
+                                                    <p>Location : {{$anEvent -> city}} {{$anEvent -> state}} {{$anEvent -> country}}</p>
                                                 </div>
                                             </div>
                                         </div>

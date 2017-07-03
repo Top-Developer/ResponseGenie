@@ -1,7 +1,7 @@
 @extends('layouts.hometemplate')
 
 @section('title')
-    Your Clubs
+    Your Events
 @endsection
 
 @push('asset')
@@ -209,14 +209,9 @@
                 <div class="container">
                     <!-- BEGIN PAGE TITLE -->
                     <div class="page-title">
-                        <h1> All clubs that you are associated with.</h1>
+                        <h1> All events that you are associated with.</h1>
                     </div>
                     <!-- END PAGE TITLE -->
-                    <!-- BEGIN PAGE TOOLBAR -->
-                    <div class="page-toolbar">
-                        <a href="{{url('/createClub')}}" class="btn blue" style="margin-top: 15px;">Create a new club</a>
-                    </div>
-                    <!-- END PAGE TOOLBAR -->
                 </div>
             </div>
             <!-- END PAGE HEAD-->

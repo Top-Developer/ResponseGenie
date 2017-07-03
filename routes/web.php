@@ -78,9 +78,9 @@ Route::get('configclub/{id}', [
     "as" => 'configclub'
 ]);
 
-Route::get('/{slug}', 'ClubController@clubManagement');
+Route::get('/clubs/{slug}', 'ClubController@clubManagement');
 
-Route::get('test', function() {
+Route::get('/test', function() {
     return view('test');
 });
 
@@ -95,15 +95,14 @@ Route::post('/enter/manual_transaction', 'ClubController@enterManual');
 Route::post('/club/payForMembership', 'ClubController@payForMembership');
 Route::post('/club/request', 'ClubController@dealRequest');
 
-Route::get('/{slug}/create-an-event', 'ClubController@eventCreate');
-
-Route::get('/event/allEvents', 'ClubController@showAllEvents');
-Route::get('/event/myEvents', 'ClubController@showMyEvents');
-
-Route::post('/event/create', 'ClubController@createEvent');
-
 //------------------------------- Event ---------------------------------//
 
-Route::get('event/getEventDates', 'EventController@getEventDates');
+Route::get('/event/allEvents', 'EventController@showAllEvents');
+Route::post('/event/create', 'EventController@createEvent');
+Route::get('/event/getEventDates', 'EventController@getEventDates');
+Route::get('/event/myEvents', 'EventController@showMyEvents');
+
+Route::get('/events/{slug}', 'EventController@eventManagement');
+Route::get('/events/{slug}/create-an-event', 'EventController@eventCreate');
 
 //-----------------------------------------------------------------------//

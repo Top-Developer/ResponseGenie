@@ -4,6 +4,7 @@
 
 <?php $__env->startPush('asset'); ?>
 <link href="<?php echo e(url('/assets/global/plugins/socicon/socicon.css')); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(url('/assets/global/plugins/fullcalendar/fullcalendar.min.css')); ?>" rel="stylesheet" type="text/css" />
 <!-- File Input -->
 <link href=<?php echo e(url('/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')); ?> rel="stylesheet" type="text/css" />
 <style>
@@ -592,7 +593,7 @@
             }]
         });
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            // TODO: check href of e.target to detect your tab
+            // TODO : check href of e.target to detect your tab
             $('#calendar').fullCalendar('render');
         });
         $('input[name="discount_type"]').on('click', function(){

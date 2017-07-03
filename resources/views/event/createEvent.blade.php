@@ -8,6 +8,7 @@
 
 <!-- File Input -->
 <link href="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+<link href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
     .plan-body h3{
@@ -56,7 +57,7 @@
                         <div class = "row">
                             <div class="col-xs-12 col-sm-offset-2 col-sm-3">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_event_name" name = "event_name">
+                                    <input type="text" class="md-input form-control" id="form_control_event_name" name = "event_name">
                                     <label for="form_control_event_name">Event Name</label>
                                     <span class="help-block">The name of the event</span>
                                 </div>
@@ -64,7 +65,7 @@
 
                             <div class="col-xs-12 col-sm-offset-2 col-sm-3">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_event_slug" name = "event_slug">
+                                    <input type="text" class="md-input form-control" id="form_control_event_slug" name = "event_slug">
                                     <label for="form_control_event_slug">Event Slug</label>
                                     <span class="help-block">Short name of the event</span>
                                 </div>
@@ -74,7 +75,7 @@
                         <div class = "row">
                             <div class = "col-xs-12 col-sm-offset-2 col-sm-8">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <textarea class="form-control" rows="3" id ="form_control_event_description" name ="event_description"></textarea>
+                                    <textarea class="md-input form-control" rows="3" id ="form_control_event_description" name ="event_description"></textarea>
                                     <label for="form_control_event_description">Event Description</label>
                                     <span class="help-block">Public description of the event</span>
                                 </div>
@@ -84,9 +85,32 @@
                         <div class = "row">
                             <div class = "col-xs-12 col-sm-offset-2 col-sm-8">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <textarea class="form-control" rows="2" id ="form_control_event_short_description" name ="event_short_description"></textarea>
+                                    <textarea class="md-input form-control" rows="2" id ="form_control_event_short_description" name ="event_short_description"></textarea>
                                     <label for="form_control_event_short_description">Event Short Description</label>
                                     <span class="help-block">Private description for members only</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class = 'row'>
+                            <div class = 'col-xs-12 col-sm-offset-2 col-sm-3'>
+                                <div class="form-group">
+                                    <div >
+                                        <label class="control-label">Start Date/Time</label>
+                                    </div>
+                                    <div>
+                                        <div class = 'datetimepicker start' data-date-format = 'yyyy-MM-dd hh:mm-ss'></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = 'col-xs-12 col-sm-offset-2 col-sm-3'>
+                                <div class="form-group">
+                                    <div>
+                                        <label class="control-label">End Date/Time</label>
+                                    </div>
+                                    <div>
+                                        <div class = 'datetimepicker end' data-date-format = 'yyyy-MM-dd hh:mm-ss'> </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +135,7 @@
                         <div class = "row">
                             <div class="col-xs-12 col-sm-offset-2 col-sm-2">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_event_addr" name ="event_addr">
+                                    <input type="text" class="md-input form-control" id="form_control_event_addr" name ="event_addr">
                                     <label for="form_control_event_addr">Address</label>
                                     <span class="help-block">The address of the event</span>
                                 </div>
@@ -119,15 +143,15 @@
 
                             <div class="col-xs-12 col-sm-offset-1 col-sm-2">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_club_city" name ="club_city">
-                                    <label for="form_control_club_city">City</label>
+                                    <input type="text" class="md-input form-control" id="form_control_event_city" name ="event_city">
+                                    <label for="form_control_event_city">City</label>
                                     <span class="help-block">The city of the event</span>
                                 </div>
                             </div>
 
                             <div class="col-xs-12 col-sm-offset-1 col-sm-2">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_event_stat" name ="event_state">
+                                    <input type="text" class="md-input form-control" id="form_control_event_stat" name ="event_state">
                                     <label for="form_control_event_stat">State</label>
                                     <span class="help-block">The state of the event</span>
                                 </div>
@@ -135,9 +159,22 @@
                         </div>
 
                         <div class = "row">
-                            <div class="col-xs-12 col-sm-offset-2 col-sm-2">
+                            <div class = "col-xs-12 col-sm-offset-2 col-sm-2">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_event_zcod" name = "event_zipcode">
+                                    <select class="md-input form-control" id="form_control_event_type"  name = "event_type">
+                                        <option value="" selected></option>
+                                        <option value="Private"> Private </option>
+                                        <option value="Members Only"> Members Only </option>
+                                        <option value="Public"> Public </option>
+                                    </select>
+                                    <label for="form_control_event_type">Event Type</label>
+                                    <span class="help-block">Type of the Event</span>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-offset-1 col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <input type="text" class="md-input form-control" id="form_control_event_zcod" name = "event_zipcode">
                                     <label for="form_control_event_zcod">Zip Code</label>
                                     <span class="help-block">The zip code of the event</span>
                                 </div>
@@ -145,9 +182,9 @@
 
                             <div class="col-xs-12 col-sm-offset-1 col-sm-2">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <input type="text" class="form-control" id="form_control_event_mlim" name ="event_memberlimit">
-                                    <label for="form_control_event_mlim">Membership Limit</label>
-                                    <span class="help-block">The limit of membership</span>
+                                    <input type="text" class="md-input form-control" id="form_control_event_mlim" name ="event_memberlimit">
+                                    <label for="form_control_event_mlim">Member Limit</label>
+                                    <span class="help-block">The limit of members</span>
                                 </div>
                             </div>
                         </div>
@@ -155,6 +192,8 @@
                         <div class="form-actions">
                             <button type="submit" class="btn green pull-right"> Event Create </button>
                         </div>
+                        <input type = 'hidden' name = 'event_start'>
+                        <input type = 'hidden' name = 'event_end'>
                     </form>
                 </section>
             </div>
@@ -167,6 +206,7 @@
 
 <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     var click = false;
@@ -191,9 +231,27 @@
             }
         });
     });
+    $(function() {
+        $('.datetimepicker').datetimepicker({
+            format: "yyyy-mm-ddThh:ii:ss"
+        });
+    });
+    $(function(){
+        $('.create-event-form').on('submit', function(e){
+            var start = $('.datetimepicker.start').data('datetimepicker');
+            var end = $('.datetimepicker.end').data('datetimepicker');
+            var start_iso = start.date.toISOString();
+            var start_date = start_iso.substring(0, start_iso.length-5).replace('T', ' ');
+            var end_iso = end.date.toISOString();
+            var end_date = end_iso.substring(0, end_iso.length-5).replace('T', ' ');
+
+            $('input[name="event_start"]').val(start_date);
+            $('input[name="event_end"]').val(end_date);
+        })
+    });
 
 </script>
 
-<script src="/js/club/createclub.js" type="text/javascript"></script>
+<script src="/js/event/create-event.js" type="text/javascript"></script>
 
 @endpush
