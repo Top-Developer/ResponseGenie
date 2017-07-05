@@ -100,8 +100,10 @@ Route::post('/club/request', 'ClubController@dealRequest');
 Route::post('/event/add/price', 'EventController@addPrice');
 Route::get('/event/allEvents', 'EventController@showAllEvents');
 Route::post('/event/create', 'EventController@createEvent');
+Route::post('/event/contact/edit', 'EventController@editContact');
 Route::get('/event/getEventDates', 'EventController@getEventDates');
 Route::get('/event/myEvents', 'EventController@showMyEvents');
+Route::post('/event/price/edit', 'EventController@editPrice');
 
 Route::get('/events/{slug}', 'EventController@eventManagement');
 Route::get('/events/{slug}/create-an-event', 'EventController@eventCreate');

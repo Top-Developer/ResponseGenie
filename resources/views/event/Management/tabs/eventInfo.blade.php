@@ -24,17 +24,22 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <i class="fa fa-shopping-cart"></i>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name">{{$anEventPrice -> name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "price_name">{{$anEventPrice -> name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                         <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_event_price">Edit</a>
                     @endif
                 </h3>
             </div>
-            <div id = 'plan_desc' class = 'panel-body'>{{$anEventPrice -> description}}</div>
-            <div id = 'plan_cost' class = 'panel-footer'>
-                @if( 0 == $anEventPrice -> cost )
-                    Free
-                @else
+            <div id = 'price_desc' class = 'panel-body'>{{$anEventPrice -> description}}</div>
+            <div class = 'panel-footer'>
+                <div id ='price_cost'>
+                    @if( 0 == $anEventPrice -> cost )
+                        Free
+                    @else
+                        ${{$anEventPrice -> cost}}
+                    @endif
+                </div>
+                <div>
                     <form action="{{url('/event/payForEvent')}}" method="post" style = 'display:inline-block;align:center;'>
                         {{csrf_field()}}
                         <input type = hidden name = 'ePrice_id' value = '{{$anEventPrice -> id}}'>
@@ -47,8 +52,10 @@
                                 data-locale = 'auto'>
                         </script>
                     </form>
-                @endif
+                </div>
             </div>
+            <div id = 'price_is_for_mem' class = 'hidden'>{{$anEventPrice -> members_only}}</div>
+            <div id = 'price_id' class = 'hidden'>{{$anEventPrice -> id}}</div>
         </div>
     </div>
 @endforeach

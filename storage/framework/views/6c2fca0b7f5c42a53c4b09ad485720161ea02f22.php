@@ -1,17 +1,23 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action = "<?php echo e(url('/edit/contact')); ?>" method = "post">
+            <form action = "<?php echo e(url('event/contact/edit')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">club contact info</h4>
+                    <h4 class="modal-title">Event contact info</h4>
                 </div>
                 <div class="modal-body">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">
                         <div class="scroller" style="margin-right:-17px; height: 317px; overflow: scroll; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+                            <div class = "row">
+                                <div class = "col-xs-12">
+                                    <input id = "use_club" type = "checkbox" name = "use_club">
+                                    <label for = "use_club">Use club contact information</label>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class = "row">
@@ -39,7 +45,7 @@
                                     </div>
                                     <div class = "row">
                                         <div class="col-md-12">
-                                            <div id="gmap_marker" class="gmaps"></div>
+                                            <div id="gmap_contact" class="gmaps"></div>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -47,7 +53,7 @@
                                             <label for = "">Primary Contact</label>
                                             <select name = "pcmid">
                                                 <option>None</option>
-                                                <?php $__currentLoopData = $theClubUsers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                                     <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> pcm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                             </select>
@@ -58,7 +64,7 @@
                                             <label for = "zcod">Secondary Contact</label>
                                             <select name = "scmid">
                                                 <option>None</option>
-                                                <?php $__currentLoopData = $theClubUsers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                                     <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> scm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                             </select>

@@ -354,7 +354,7 @@ class ClubController extends Controller
 
     public function contactUpdate(Request $request)
     {
-        $contact = Contact::find(Club::find(session('theClubID')) -> contact -> id);
+        $contact = Contact::find(Club::find(session('theClubID')) -> contact_id);
 
         $contact -> city = $request -> city;
         $contact -> state = $request -> state;

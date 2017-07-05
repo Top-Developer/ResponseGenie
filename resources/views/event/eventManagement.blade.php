@@ -230,6 +230,21 @@
         margin : 5px;
     }
 
+    div.panel-footer::after{
+        clear: both;
+        display: table;
+        content: " ";
+    }
+
+    div.panel-footer div{
+        width:50%;
+        float:left;
+    }
+
+    div.panel-footer div#price_cost{
+        padding-top: 7px;
+    }
+
 </style>
 @endpush
 
@@ -329,6 +344,23 @@
         if("{{Session::get('active_tab')}}"){
             $("a[href=\"#{{Session::get('active_tab')}}\"").trigger('click');
         }
+    });
+    $(".panel-title a[href='#edit_event_price']").on("click", function(event){
+        event.preventDefault();
+        $('#edit_event_price').find('#price_name').val($(this).parent().find('#price_name').text());
+        $('#edit_event_price').find('#price_desc').val($(this).parent().parent().parent().find('#price_desc').text());
+        var cost = $(this).parent().parent().parent().find('#price_cost').text().trim();
+        if( 'Free' == cost){
+            $('#edit_event_price').find('#price_cost').val(0);
+        }
+        else if( "$" == cost.substring(0,1) ){
+            $('#edit_event_price').find('#price_cost').val(cost.substring(1));
+        }
+        $('#edit_event_price').find('input#price_members_only').parent().removeClass('checked');
+        if( $(this).parent().parent().parent().find('#price_is_for_mem').text() == '1' ){
+            $('#edit_event_price').find('input#price_members_only').parent().attr('class', 'checked');
+        }
+        $('#edit_event_price').find('#price_id').val($(this).parent().parent().parent().find('#price_id').text());
     });
     $(document).ready(function(){
         var geocoder; //To use later

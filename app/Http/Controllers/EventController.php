@@ -101,6 +101,97 @@ class EventController extends Controller{
         }
     }
 
+    public function editContact(Request $request){
+
+        $contact = Contact::find(Event::find(session('eventID')) -> contact_id);
+
+        if( '' != $request -> use_club ){
+            $clubContact = Contact::find(Club::find(Event::find(session('eventID')) -> club_id));
+            $contact -> city = $clubContact -> city;
+            $contact -> state = $clubContact -> state;
+            $contact -> zipcode = $clubContact -> zipcode;
+            $contact -> pcm_id = $clubContact -> pcmid;
+            $contact -> scm_id = $clubContact -> scmid;
+            $contact -> linkedin = $clubContact -> inLink;
+            $contact -> level_in = $clubContact -> inLevel;
+            $contact -> twitter = $clubContact -> ttLink;
+            $contact -> level_t = $clubContact -> ttLevel;
+            $contact -> facebook = $clubContact -> fbLink;
+            $contact -> level_f = $clubContact -> fbLevel;
+            $contact -> youtube = $clubContact -> ytLink;
+            $contact -> level_y = $clubContact -> ytLevel;
+            $contact -> googleplus = $clubContact -> goLink;
+            $contact -> level_g = $clubContact -> goLevel;
+            $contact -> mail = $clubContact -> maLink;
+            $contact -> level_m = $clubContact -> maLevel;
+        }
+        else{
+            $contact -> city = $request -> city;
+            $contact -> state = $request -> state;
+            $contact -> zipcode = $request -> zipcode;
+            $contact -> pcm_id = $request -> pcmid;
+            $contact -> scm_id = $request -> scmid;
+            $contact -> linkedin = $request -> inLink;
+            $contact -> level_in = $request -> inLevel;
+            $contact -> twitter = $request -> ttLink;
+            $contact -> level_t = $request -> ttLevel;
+            $contact -> facebook = $request -> fbLink;
+            $contact -> level_f = $request -> fbLevel;
+            $contact -> youtube = $request -> ytLink;
+            $contact -> level_y = $request -> ytLevel;
+            $contact -> googleplus = $request -> goLink;
+            $contact -> level_g = $request -> goLevel;
+            $contact -> mail = $request -> maLink;
+            $contact -> level_m = $request -> maLevel;
+        }
+
+        $contact -> save();
+
+        return back()
+            -> with('active_tab', $request -> active_tab);
+    }
+
+    public function editPrice(Request $request){
+        if ($request->price_id != '') {
+
+            $ePrice = EventPrice::find($request->price_id);
+
+            if( $request -> pName != '' ){
+                $ePrice -> name = $request -> pName;
+                if( $request -> pDesc != '' ){
+                    $ePrice -> description = $request -> pDesc;
+                    if( $request -> pCost != '' ){
+                        $ePrice -> cost = $request -> pCost;
+                        if( $request -> pMO != '' ){
+                            $plan_isMemberOnly = 1;
+                        }else{
+                            $plan_isMemberOnly = 0;
+                        }
+                        $ePrice -> members_only = $plan_isMemberOnly;
+                        $ePrice -> timestamps = false;
+                        $ePrice -> save();
+                        return back()
+                            -> with('active_tab', $request -> active_tab);
+                    }else
+                        return back()
+                            -> with('active_tab', $request -> active_tab)
+                            -> with('plan_msg', 'price cost missed');
+                }else
+                    return back()
+                        -> with('active_tab', $request -> active_tab)
+                        -> with('plan_msg', 'price description missed');
+            }else{
+                return back()
+                    -> with('active_tab', $request -> active_tab)
+                    -> with('plan_msg', 'price name missed');
+            }
+
+        } else
+            return back()
+                -> with('active_tab', $request -> active_tab)
+                -> with('plan_msg', 'unexpected exception with price ID');
+    }
+
     public function eventCreate(){
 
         return view('event/createEvent')->with('page', 'createEvent');
@@ -137,6 +228,12 @@ class EventController extends Controller{
             $theSCM = NULL;
             $theSCMRole = NULL;
         }
+        $eventMembers = DB::table('events')
+            -> where('events.id', $event -> id)
+            -> join('event_members', 'event_members.event_id', '=', 'events.id')
+            -> join('users', 'users.id', '=', 'event_members.user_id')
+            -> select('users.id', 'users.email')
+            -> get();
 
         return view('event/eventManagement', [
             'page' => 'Event Management',
@@ -149,7 +246,8 @@ class EventController extends Controller{
             'thePCM' => $thePCM,
             'thePCMRole' => $thePCMRole,
             'theSCM' => $theSCM,
-            'theSCMRole' => $theSCMRole
+            'theSCMRole' => $theSCMRole,
+            'eventMembers' => $eventMembers
         ]);
 
 

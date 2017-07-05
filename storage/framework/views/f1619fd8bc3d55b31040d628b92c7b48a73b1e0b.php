@@ -25,17 +25,23 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <i class="fa fa-shopping-cart"></i>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "plan_name"><?php echo e($anEventPrice -> name); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "price_name"><?php echo e($anEventPrice -> name); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
                         <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_event_price">Edit</a>
                     <?php endif; ?>
                 </h3>
             </div>
-            <div id = 'plan_desc' class = 'panel-body'><?php echo e($anEventPrice -> description); ?></div>
-            <div id = 'plan_cost' class = 'panel-footer'>
-                <?php if( 0 == $anEventPrice -> cost ): ?>
-                    Free
-                <?php else: ?>
+            <div id = 'price_desc' class = 'panel-body'><?php echo e($anEventPrice -> description); ?></div>
+            <div class = 'panel-footer'>
+                <div id ='price_cost'>
+                    <?php if( 0 == $anEventPrice -> cost ): ?>
+                        Free
+                    <?php else: ?>
+                        $<?php echo e($anEventPrice -> cost); ?>
+
+                    <?php endif; ?>
+                </div>
+                <div>
                     <form action="<?php echo e(url('/event/payForEvent')); ?>" method="post" style = 'display:inline-block;align:center;'>
                         <?php echo e(csrf_field()); ?>
 
@@ -49,8 +55,10 @@
                                 data-locale = 'auto'>
                         </script>
                     </form>
-                <?php endif; ?>
+                </div>
             </div>
+            <div id = 'price_is_for_mem' class = 'hidden'><?php echo e($anEventPrice -> members_only); ?></div>
+            <div id = 'price_id' class = 'hidden'><?php echo e($anEventPrice -> id); ?></div>
         </div>
     </div>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
