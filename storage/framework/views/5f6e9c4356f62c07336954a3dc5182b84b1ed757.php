@@ -296,10 +296,10 @@
                                     </li>
                                     <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
                                         <li>
-                                            <a href="#tab_2_5" data-toggle="tab"> Configure Event </a>
+                                            <a href="#tab_2_3" data-toggle="tab"> Configure Event </a>
                                         </li>
                                         <li>
-                                            <a href="#tab_2_6" data-toggle="tab"> Transactions </a>
+                                            <a href="#tab_2_4" data-toggle="tab"> Transactions </a>
                                         </li>
                                     <?php endif; ?>
                                 </ul>
@@ -330,6 +330,7 @@
     <?php echo $__env->make('event.management.modals.editContactInfo', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php echo $__env->make('event.management.modals.addEventPrice', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php echo $__env->make('event.management.modals.editEventPrice', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('event.management.modals.manualTransactions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script'); ?>
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>

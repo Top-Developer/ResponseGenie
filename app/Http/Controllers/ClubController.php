@@ -219,6 +219,7 @@ class ClubController extends Controller
     public function configureClub(Request $request){
 
         $club = Club::find(Session::get('theClubID'));
+        $contact = Contact::find($club -> contact_id);
         if( $request -> input( 'club_name' ) != '' ){
             $club -> name = $request -> input( 'club_name' );
         }else
@@ -241,7 +242,7 @@ class ClubController extends Controller
         }else
             echo 'type wrong';
         if( $request -> input( 'zip_code' ) ){
-            $club -> contact -> zipcode = $request -> input( 'zip_code' );
+            $contact -> zipcode = $request -> input( 'zip_code' );
         }else
             echo 'zcod wrong';
 
@@ -255,7 +256,7 @@ class ClubController extends Controller
             $club -> logo_path = $imagePath;
         }
 
-        $club -> contact -> save();
+        $contact -> save();
         $club -> save();
 
         return back()

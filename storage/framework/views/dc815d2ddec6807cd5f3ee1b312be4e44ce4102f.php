@@ -798,7 +798,6 @@
                 alert("Geocode was not successful for the following reason: " + status);
             }
         });
-
     })
 </script>
 <?php $__env->stopPush(); ?>

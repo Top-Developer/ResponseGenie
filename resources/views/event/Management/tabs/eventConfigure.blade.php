@@ -16,75 +16,63 @@
     <img src="images/{{ Session::get('image') }}">
 @endif
 <form class = "form-horizontal" action = "{{url('/event/configure')}}" method = "post" enctype = 'multipart/form-data'>
-    <input type = 'hidden' name = 'active_tab' value = 'tab_2_5'>
+    <input type = 'hidden' name = 'active_tab' value = 'tab_2_3'>
     {{csrf_field()}}
     <h1 style="text-align: center;">
-        Configure club
+        Configure event
     </h1>
     <div class = "row">
         <div class = "col-md-6">
             <div class="row form-group">
-                <label class="col-md-4 control-label" for = "club_name">Club Name</label>
+                <label class="col-md-4 control-label" for = "event_name">Event Name</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Club Name" id = "club_name" name = "club_name" value = "{{ $theClub -> name }}">
+                    <input type="text" class="form-control" placeholder="Event Name" id = "event_name" name = "event_name" value = "{{ $event -> name }}">
                 </div>
             </div>
         </div>
         <div class = "col-md-6">
             <div class="row form-group">
-                <label class="col-md-4 control-label" for = "club_slug">Club Slug</label>
+                <label class="col-md-4 control-label" for = "event_slug">Event Slug</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Club Slug" id = "club_slug" name = "club_slug" value = "{{ $theClub -> slug }}">
+                    <input type="text" class="form-control" placeholder="Evnt Slug" id = "event_slug" name = "event_slug" value = "{{ $event -> slug }}">
                 </div>
             </div>
         </div>
     </div>
     <div class = "row">
         <div class="form-group">
-            <label class="col-md-2 control-label" for = "club_desc_pub">Club Description<br>( Public )</label>
+            <label class="col-md-2 control-label" for = "event_desc_pub">Event Description<br>( Public )</label>
             <div class="col-md-9">
-                <textarea class="form-control" rows = "5" placeholder="Club Description" id = "club_desc_pub" name = "club_desc_pub">{{ $theClub -> description }}</textarea>
+                <textarea class="form-control" rows = "5" placeholder="Event Description" id = "event_desc_pub" name = "event_desc_pub">{{ $event -> description }}</textarea>
             </div>
         </div>
     </div>
     <div class = "row">
         <div class="form-group">
-            <label class="col-md-2 control-label" for = "club_desc_prv">Club Description<br>( Members Only )</label>
+            <label class="col-md-2 control-label" for = "event_desc_prv">Event Description<br>( Members Only )</label>
             <div class="col-md-9">
-                <textarea class="form-control" rows = "5" placeholder="Club Description" id = "club_desc_prv" name = "club_desc_prv">{{ $theClub -> short_description }}</textarea>
+                <textarea class="form-control" rows = "5" placeholder="Event Description" id = "event_desc_prv" name = "event_desc_prv">{{ $event -> short_description }}</textarea>
             </div>
         </div>
     </div>
     <div class = "row">
         <div class="form-group">
-            <label class="col-md-2 control-label" for = "club_logo">Club Logo</label>
+            <label class="col-md-2 control-label" for = "event_logo">event Logo</label>
             <div class = "col-md-3">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;">
-                        <img src = '{{$theClub -> logo_path}}'>
+                        <img src = '{{$event -> logo_path}}'>
                     </div>
                     <div>
                                                                     <span class="btn red btn-outline btn-file">
                                                                         <span class="fileinput-new"> Change image </span>
                                                                         <span class="fileinput-exists"> Change </span>
-                                                                        <input type="file" name="club_logo"> </span>
+                                                                        <input type="file" name="cevent_logo"> </span>
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                     </div>
                 </div>
             </div>
             <div class = 'col-md-6'>
-                <div class = 'row form-group'>
-                    <div class = 'col-md-4 control-label'>Stripe Public key</div>
-                    <div class = 'col-md-8'>
-                        <input class = 'form-control' value = '{{ $theClub -> stripe_pub_key }}' name = 'str_pub_key'>
-                    </div>
-                </div>
-                <div class = 'row form-group'>
-                    <div class = 'col-md-4 control-label'>Stripe Private key</div>
-                    <div class = 'col-md-8'>
-                        <input class = 'form-control' value = '{{ $theClub -> stripe_pvt_key }}' name = 'str_pvt_key'>
-                    </div>
-                </div>
                 <div class = "row form-group">
                     <label class="col-md-4 control-label" for = "zip_code">Zip Code</label>
                     <div class = "col-md-4">
@@ -92,17 +80,22 @@
                     </div>
                 </div>
                 <div class = "row form-group">
-                    <label class="col-md-4 control-label" for = "club_type">Club Type</label>
+                    <label class="col-md-4 control-label" for = "event_type">Event Type</label>
                     <div class = "col-md-4">
-                        <select type="text" class="form-control" id = "club_type"  name = "club_type">
-                            <option @if($theClub -> type == 'Closed Club'){{'selected'}}@endif>Closed Club</option>
-                            <option @if($theClub -> type == 'Moderated Club'){{'selected'}}@endif>Moderated Club</option>
-                            <option @if($theClub -> type == 'Open Club'){{'selected'}}@endif>Open Club</option>
-                            <option @if($theClub -> type == 'Privated Club'){{'selected'}}@endif>Privated Club</option>
+                        <select type="text" class="form-control" id = "event_type"  name = "event_type">
+                            <option @if($event -> type == 'Public Event'){{'selected'}}@endif>Public Event</option>
+                            <option @if($event -> type == 'Member Only Event'){{'selected'}}@endif>Member Only Event</option>
+                            <option @if($event -> type == 'Invite Event'){{'selected'}}@endif>Invite Event</option>
                         </select>
                     </div>
                     <div class = "col-md-4">
                         <button type="submit" class="btn green" style = 'float:right; margin-right:30px;'>Submit</button>
+                    </div>
+                </div>
+                <div class = "row form-group">
+                    <div class = "col-md-offset-4 col-md-8">
+                        <input type="checkbox" id = "display_guest" name = "dg">
+                        <label for = "display_guest">Display guest list to all guests?</label>
                     </div>
                 </div>
             </div>

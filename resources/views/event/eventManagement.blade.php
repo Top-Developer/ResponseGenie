@@ -298,10 +298,10 @@
                                     </li>
                                     @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                                         <li>
-                                            <a href="#tab_2_5" data-toggle="tab"> Configure Event </a>
+                                            <a href="#tab_2_3" data-toggle="tab"> Configure Event </a>
                                         </li>
                                         <li>
-                                            <a href="#tab_2_6" data-toggle="tab"> Transactions </a>
+                                            <a href="#tab_2_4" data-toggle="tab"> Transactions </a>
                                         </li>
                                     @endif
                                 </ul>
@@ -332,6 +332,7 @@
     @include('event.management.modals.editContactInfo')
     @include('event.management.modals.addEventPrice')
     @include('event.management.modals.editEventPrice')
+    @include('event.management.modals.manualTransactions')
 @endsection
 @push('script')
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>

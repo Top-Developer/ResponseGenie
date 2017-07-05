@@ -101,6 +101,54 @@ class EventController extends Controller{
         }
     }
 
+    public function configureEvent(Request $request){
+
+        $event = Event::find(Session::get('eventID'));
+        $contact = Contact::find($event -> contact_id);
+        if( $request -> input( 'event_name' ) != '' ){
+            $event -> name = $request -> input( 'event_name' );
+        }else
+            echo 'name wrong';
+        if( $request -> input( 'event_slug' ) != '' ){
+            $event -> slug = $request -> input( 'event_slug' );
+        }else
+            echo 'slug wrong';
+        if( $request -> input( 'event_desc_pub' ) != '' ){
+            $event -> description = $request -> input( 'event_desc_pub' );
+        }else
+            echo 'pub wrong';
+        if( $request -> input( 'event_desc_prv' ) != '' ){
+            $event -> short_description = $request -> input( 'event_desc_prv' );
+        }else
+            echo 'prv wrong';
+
+        if( $request -> input( 'event_type' ) != '' ){
+            $event -> type = $request -> input( 'event_type' );
+        }else
+            echo 'type wrong';
+        if( $request -> input( 'zip_code' ) ){
+            $contact -> zipcode = $request -> input( 'zip_code' );
+        }else
+            echo 'zcod wrong';
+
+        if( $request -> hasFile('event_logo') ){
+            $this -> validate($request, [
+                'event_logo' => 'required|image|mimes:jpeg,png,jpg',
+            ]);
+            $logoName = time().'.'.$request -> event_logo -> getClientOriginalExtension();
+            $request -> file('event_logo') -> move(public_path('uploads/images'), $logoName);
+            $imagePath = asset('uploads/images/')."/".$logoName;
+            $event -> event_path = $imagePath;
+        }
+        $contact -> save();
+        $event -> save();
+
+        return back()
+//            -> withErrors('msg', 'The Message')
+            -> with('active_tab', $request -> active_tab)
+            ;
+    }
+
     public function editContact(Request $request){
 
         $contact = Contact::find(Event::find(session('eventID')) -> contact_id);
@@ -232,8 +280,14 @@ class EventController extends Controller{
             -> where('events.id', $event -> id)
             -> join('event_members', 'event_members.event_id', '=', 'events.id')
             -> join('users', 'users.id', '=', 'event_members.user_id')
-            -> select('users.id', 'users.email')
+            -> select('users.id', 'users.email', 'users.first_name', 'users.last_name')
             -> get();
+        $trForEvent = DB::table('transaction_for_cevent')
+            ->where('transaction_for_cevent.event_id', $event -> id)
+            ->join('event_members', 'transaction_for_cevent.event_id', '=', 'event_members.event_id')
+            ->join('users', 'transaction_for_cevent.user_id', '=', 'users.id')
+            ->select('transaction_for_cevent.date', 'users.first_name', 'users.last_name', 'transaction_for_cevent.amount', 'transaction_for_cevent.source', 'transaction_for_cevent.receipt')
+            ->get();
 
         return view('event/eventManagement', [
             'page' => 'Event Management',
@@ -247,10 +301,9 @@ class EventController extends Controller{
             'thePCMRole' => $thePCMRole,
             'theSCM' => $theSCM,
             'theSCMRole' => $theSCMRole,
-            'eventMembers' => $eventMembers
+            'eventMembers' => $eventMembers,
+            'transForEvent' => $trForEvent
         ]);
-
-
     }
 
     public function getEventDates(Request $request){
