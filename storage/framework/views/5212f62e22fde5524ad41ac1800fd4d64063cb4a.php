@@ -257,12 +257,12 @@
                                         <div class="actions">
                                             <?php $__currentLoopData = $yourClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                                 <?php if($yourOneClub -> id == $aClub -> id && $count == 0): ?>
-                                                    <a href="<?php echo e(url('/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
+                                                    <a href="<?php echo e(url('/clubs/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
                                                     <?php $count = 1?>
                                                 <?php endif; ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                             <?php if($count == 0): ?>
-                                                <a href="<?php echo e(url('/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
+                                                <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
                                             <?php else: ?>
                                                 <?php $count = 0?>
                                             <?php endif; ?>

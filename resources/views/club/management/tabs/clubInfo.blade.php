@@ -11,7 +11,6 @@
         </div>
     </div>
 </div>
-
 <div class="note note-info">
     <div class = "row">
         @if( $theUserRole == 'owner' || $theUserRole == 'admin' )

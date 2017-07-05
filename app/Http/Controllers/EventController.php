@@ -5,11 +5,52 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 use App\Event;
+use App\EventPrice;
+use App\Club;
 use App\Contact;
+use App\Role;
+use App\Roleship;
+use App\TransactionForEvent;
 
 class EventController extends Controller{
+
+    public function addPrice(Request $request){
+        $ePrice = new EventPrice;
+
+        if( $request -> pName != '' ){
+            $ePrice -> name = $request -> pName;
+            if( $request -> pDesc != '' ){
+                $ePrice -> description = $request -> pDesc;
+                if( $request -> pCost != '' ){
+                    $ePrice -> cost = $request -> pCost;
+                    if( $request -> pMO != '' ){
+                        $price_isMemberOnly = 1;
+                    }else{
+                        $price_isMemberOnly = 0;
+                    }
+                    $ePrice -> members_only = $price_isMemberOnly;
+                    $ePrice -> event_id = Session::get('eventID');
+                    $ePrice -> timestamps = false;
+                    $ePrice -> save();
+                    return back()
+                        -> with('active_tab', $request -> active_tab);
+                }else{
+                    return back()
+                        -> with('active_tab', $request -> active_tab)
+                        -> with('plan_msg', 'price cost missed');}
+            }else
+                return back()
+                    -> with('active_tab', $request -> active_tab)
+                    -> with('plan_msg', 'price description missed');
+        }else{
+            return back()
+                -> with('active_tab', $request -> active_tab)
+                -> with('plan_msg', 'price name missed');
+        }
+    }
 
     public function createEvent(Request $request){
 
@@ -67,13 +108,48 @@ class EventController extends Controller{
 
     public function eventManagement($slug){
 
-        $event = Event::where('slug', '=', $slug) -> get();
+        $event = Event::where('slug', '=', $slug) -> first();
+        session(['eventID' => $event -> id]);
+
         $theRoleID = Roleship::where('user_id', Auth::id()) -> where('club_id', $event -> club_id) -> firstOrFail() -> role_id;
         $theUserRole = Role::find($theRoleID) -> role_description;
+        $club = Club::find($event -> club_id);
+        $eventPrices = EventPrice::where('event_id', $event->id)
+            -> select('*')
+            -> get();
+        $theContact = Contact::find($event -> contact_id);
+        $pcm_id = $theContact -> pcm_id;
+        $scm_id = $theContact -> scm_id;
+        if($pcm_id != '' && $pcm_id != 'None'){
+            $thePCM = User::find($pcm_id);
+            $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) -> first() -> role_id;
+            $thePCMRole = Role::find($thePCMRoleID) -> role_description;
+        }
+        else{
+            $thePCM = NULL;
+            $thePCMRole = NULL;
+        }
+        if($scm_id != '' && $scm_id != 'None'){
+            $theSCM = User::find($scm_id);
+            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) -> first() -> role_id || NULL;
+            $theSCMRole = Role::find($theSCMRoleID) -> role_description;
+        }else{
+            $theSCM = NULL;
+            $theSCMRole = NULL;
+        }
 
         return view('event/eventManagement', [
+            'page' => 'Event Management',
             'event' => $event,
-            'theUserRole' => $theUserRole
+            'theUserRole' => $theUserRole,
+            'theClub' => $club,
+            'eventPrices' => $eventPrices,
+            'stripe_public_key' => $club -> stripe_pub_key,
+            'theContact' => $theContact,
+            'thePCM' => $thePCM,
+            'thePCMRole' => $thePCMRole,
+            'theSCM' => $theSCM,
+            'theSCMRole' => $theSCMRole
         ]);
 
 
@@ -120,7 +196,7 @@ class EventController extends Controller{
             -> join('clubs', 'clubs.id', '=', 'events.club_id')
             -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
             -> join('users', 'users.id', '=', 'roleships.user_id')
-            ->where('users.id', '=', Auth::id())
+            -> where('users.id', '=', Auth::id())
             -> where(function($query) {
                 $query->where('events.access', 'Public')
                     ->where('roleships.role_id', '>', 1)

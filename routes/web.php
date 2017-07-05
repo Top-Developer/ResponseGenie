@@ -97,6 +97,7 @@ Route::post('/club/request', 'ClubController@dealRequest');
 
 //------------------------------- Event ---------------------------------//
 
+Route::post('/event/add/price', 'EventController@addPrice');
 Route::get('/event/allEvents', 'EventController@showAllEvents');
 Route::post('/event/create', 'EventController@createEvent');
 Route::get('/event/getEventDates', 'EventController@getEventDates');

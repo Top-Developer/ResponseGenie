@@ -259,12 +259,12 @@
                                         <div class="actions">
                                             @foreach($yourClubs as $yourOneClub)
                                                 @if($yourOneClub -> id == $aClub -> id && $count == 0)
-                                                    <a href="{{url('/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
+                                                    <a href="{{url('/clubs/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
                                                     <?php $count = 1?>
                                                 @endif
                                             @endforeach
                                             @if($count == 0)
-                                                <a href="{{url('/'.$aClub -> slug.'/become-a-member')}}" class="btn red">Become a member</a>
+                                                <a href="{{url('/clubs/'.$aClub -> slug.'/become-a-member')}}" class="btn red">Become a member</a>
                                             @else
                                                 <?php $count = 0?>
                                             @endif

@@ -24,7 +24,7 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="<?php echo e(url('/assets/global/css/components-md.min.css')); ?>" rel="stylesheet" id="style_components" type="text/css" />
-    
+    <link href="<?php echo e(url('/assets/global/css/plugins-md.min.css')); ?>" rel="stylesheet" type="text/css" />
     <!-- END THEME GLOBAL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
     <link href="<?php echo e(url('/assets/layouts/layout3/css/layout.css')); ?>" rel="stylesheet" type="text/css" />

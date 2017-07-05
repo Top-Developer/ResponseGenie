@@ -12,7 +12,6 @@
         </div>
     </div>
 </div>
-
 <div class="note note-info">
     <div class = "row">
         <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>

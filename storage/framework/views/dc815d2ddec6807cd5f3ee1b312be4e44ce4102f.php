@@ -588,7 +588,7 @@
                 error: function(){
                     alert('There was an error while fetching events!');
                 },
-                color: 'yellow',
+                color: 'red',
                 textColor: 'black'
             }]
         });

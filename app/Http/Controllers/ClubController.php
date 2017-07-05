@@ -18,7 +18,7 @@ use App\Contact;
 use App\Offline_member;
 use App\Discount;
 use App\TransactionForPlan;
-use App\TransactionForEvent;
+
 
 class ClubController extends Controller
 {

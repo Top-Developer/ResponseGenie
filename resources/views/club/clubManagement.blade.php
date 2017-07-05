@@ -590,7 +590,7 @@
                 error: function(){
                     alert('There was an error while fetching events!');
                 },
-                color: 'yellow',
+                color: 'red',
                 textColor: 'black'
             }]
         });
@@ -800,7 +800,6 @@
                 alert("Geocode was not successful for the following reason: " + status);
             }
         });
-
     })
 </script>
 @endpush
