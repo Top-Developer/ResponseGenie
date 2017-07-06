@@ -333,6 +333,7 @@
     @include('event.management.modals.addEventPrice')
     @include('event.management.modals.editEventPrice')
     @include('event.management.modals.manualTransactions')
+    @include('event.management.modals.inviteEventMember')
 @endsection
 @push('script')
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
