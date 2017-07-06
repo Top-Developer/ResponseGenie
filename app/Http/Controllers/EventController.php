@@ -280,7 +280,7 @@ class EventController extends Controller{
             -> where('events.id', $event -> id)
             -> join('event_members', 'event_members.event_id', '=', 'events.id')
             -> join('users', 'users.id', '=', 'event_members.user_id')
-            -> select('users.id', 'users.email', 'users.first_name', 'users.last_name')
+            -> select('users.id', 'users.email', 'users.first_name', 'users.last_name', 'users.profile_image', 'event_members.invited', 'event_members.created_at as invite_date', 'event_members.updated_at as accept_date')
             -> get();
         $trForEvent = DB::table('transaction_for_cevent')
             ->where('transaction_for_cevent.event_id', $event -> id)
