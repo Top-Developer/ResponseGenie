@@ -16,7 +16,7 @@ class AddLogopathToEvent extends Migration
         Schema::table('events', function(Blueprint $table){
 
             $table->integer('logo_path')
-                ->after('short_description');
+                ->after('short_description')->change();
 
         });
     }
