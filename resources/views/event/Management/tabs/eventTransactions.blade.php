@@ -10,23 +10,23 @@
         <table class="table table-striped table-bordered table-hover order-column" id="dataTb">
             <thead>
             <tr>
-                <th class = 'col-table-date'> Date </th>
-                <th class = 'col-table-fn'> First Name </th>
-                <th class = 'col-table-ln'> Last Name </th>
-                <th class = 'col-table-amount'> Amount </th>
-                <th class = 'col-table-source'> Source </th>
-                <th class = 'col-table-re'> Receipt </th>
+                <th class = 'col-tr-date'> Date </th>
+                <th class = 'col-tr-fn'> First Name </th>
+                <th class = 'col-tr-ln'> Last Name </th>
+                <th class = 'col-tr-amount'> Amount </th>
+                <th class = 'col-tr-source'> Source </th>
+                <th class = 'col-tr-re'> Receipt </th>
             </tr>
             </thead>
             <tbody>
             @foreach($transForEvent as $aTrans)
                 <tr>
-                    <td class = 'col-table-date'>{{$aTrans -> date}}</td>
-                    <td class = 'col-table-fn'>{{$aTrans -> first_name}}</td>
-                    <td class = 'col-table-ln'>{{$aTrans -> last_name}}</td>
-                    <td class = 'col-table-amount'>{{$aTrans -> amount}}</td>
-                    <td class = 'col-table-source'>{{$aTrans -> source}}</td>
-                    <td class = 'col-table-re'>{{$aTrans -> receipt}}</td>
+                    <td class = 'col-tr-date'>{{$aTrans -> date}}</td>
+                    <td class = 'col-tr-fn'>{{$aTrans -> first_name}}</td>
+                    <td class = 'col-tr-ln'>{{$aTrans -> last_name}}</td>
+                    <td class = 'col-tr-amount'>{{$aTrans -> amount}}</td>
+                    <td class = 'col-tr-source'>{{$aTrans -> source}}</td>
+                    <td class = 'col-tr-re'>{{$aTrans -> receipt}}</td>
                 </tr>
             @endforeach
             </tbody>

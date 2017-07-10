@@ -14,6 +14,7 @@ use App\Contact;
 use App\Role;
 use App\Roleship;
 use App\TransactionForEvent;
+use App\User;
 
 class EventController extends Controller{
 
@@ -318,6 +319,40 @@ class EventController extends Controller{
         echo $eventDate;
     }
 
+    public function inviteAMember(Request $request){
+
+        $isExist = User::where('first_name', $request -> input( 'first_name' )) ->
+        where('last_name', $request -> input( 'last_name' )) ->
+        where('email', $request -> input( 'email' )) -> count();
+
+        if( $isExist > 0 ){
+
+            $user = User::where('first_name', $request -> input( 'first_name' )) ->
+            where('last_name', $request -> input( 'last_name' )) ->
+            where('email', $request -> input( 'email' )) -> first();
+
+            if($user -> id == Auth::id())
+            {
+                return back()
+                    -> with('active_tab',  $request -> active_tab)
+                    -> with('members_msg', 'can not invite yourself');
+            }
+            else{
+                $eventMembers = new EventMember;
+                $eventMembers -> user_id = $user -> id ;
+                $eventMembers -> event_id = session('eventID');
+                $eventMembers -> invited = 1;
+                $eventMembers -> save();
+                return back() -> with('active_tab',  $request -> active_tab);
+            }
+        }
+        else{
+            return back()
+                -> with('active_tab',  $request -> active_tab)
+                -> with('members_msg', 'the user does not exist');
+        }
+    }
+
     public function showAllEvents(){
 
         $allEvents = DB::table('events')
@@ -376,16 +411,13 @@ class EventController extends Controller{
 
     public function showMyEvents(){
 
-        $myEvents = DB::table('events')
-            -> join('user_event', 'user_event.event_id', '=', 'events.id')
-            -> join('users', 'user_event.user_id', '=', 'users.id')
-            -> join('roleships', 'roleships.user_id', '=', 'users.id')
-            -> where('roleships.club_id', '=', 'events.club_id')
+        $myEvents = DB::table('event_members')
+            -> where('users.id', '=', Auth::id())
+            -> join('events', 'event_members.event_id', '=', 'events.id')
             -> where(function($query) {
                 $query->where('events.access', 'Public')
                     ->where('roleships.role_id', '>', 1)
-                    ->where('roleships.role_id', '<', 5)
-                    ->where('users.id', '=', Auth::id());
+                    ->where('roleships.role_id', '<', 5);
             })
             -> orwhere(function($query){
                 $query -> where('events.access', 'Members Only')

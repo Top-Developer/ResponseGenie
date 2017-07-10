@@ -1,7 +1,7 @@
 <div class="modal fade" id="invite" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "<?php echo e(url('/event/inviteMembr')); ?>" method = "post">
+            <form action = "<?php echo e(url('/event/invite-a-member')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_2'>

@@ -71,8 +71,8 @@
                     <th class= "col-table-admin"> Admin </th>
                     <th class= "col-table-fn"> First Name </th>
                     <th class= "col-table-ln"> Last Name </th>
-                    <th class= "col-table-jdate"> Invited Date </th>
-                    <th class= "col-table-edate"> Accepted Date </th>
+                    <th class= "col-table-idate"> Invited Date </th>
+                    <th class= "col-table-adate"> Accepted Date </th>
                     
                     
                     
@@ -94,11 +94,11 @@
                             <?php echo e($aUser -> last_name); ?>
 
                         </td>
-                        <td class= "col-table-jdate">
+                        <td class= "col-table-idate">
                             <?php echo e($aUser -> invite_date); ?>
 
                         </td>
-                        <td class= "col-table-edate">
+                        <td class= "col-table-adate">
                             <?php echo e($aUser -> accept_date); ?>
 
                         </td>

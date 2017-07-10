@@ -10,23 +10,23 @@
         <table class="table table-striped table-bordered table-hover order-column" id="dataTb">
             <thead>
             <tr>
-                <th class = 'col-table-date'> Date </th>
-                <th class = 'col-table-fn'> First Name </th>
-                <th class = 'col-table-ln'> Last Name </th>
-                <th class = 'col-table-amount'> Amount </th>
-                <th class = 'col-table-source'> Source </th>
-                <th class = 'col-table-re'> Receipt </th>
+                <th class = 'col-tr-date'> Date </th>
+                <th class = 'col-tr-fn'> First Name </th>
+                <th class = 'col-tr-ln'> Last Name </th>
+                <th class = 'col-tr-amount'> Amount </th>
+                <th class = 'col-tr-source'> Source </th>
+                <th class = 'col-tr-re'> Receipt </th>
             </tr>
             </thead>
             <tbody>
             <?php $__currentLoopData = $transForEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aTrans): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                 <tr>
-                    <td class = 'col-table-date'><?php echo e($aTrans -> date); ?></td>
-                    <td class = 'col-table-fn'><?php echo e($aTrans -> first_name); ?></td>
-                    <td class = 'col-table-ln'><?php echo e($aTrans -> last_name); ?></td>
-                    <td class = 'col-table-amount'><?php echo e($aTrans -> amount); ?></td>
-                    <td class = 'col-table-source'><?php echo e($aTrans -> source); ?></td>
-                    <td class = 'col-table-re'><?php echo e($aTrans -> receipt); ?></td>
+                    <td class = 'col-tr-date'><?php echo e($aTrans -> date); ?></td>
+                    <td class = 'col-tr-fn'><?php echo e($aTrans -> first_name); ?></td>
+                    <td class = 'col-tr-ln'><?php echo e($aTrans -> last_name); ?></td>
+                    <td class = 'col-tr-amount'><?php echo e($aTrans -> amount); ?></td>
+                    <td class = 'col-tr-source'><?php echo e($aTrans -> source); ?></td>
+                    <td class = 'col-tr-re'><?php echo e($aTrans -> receipt); ?></td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
             </tbody>

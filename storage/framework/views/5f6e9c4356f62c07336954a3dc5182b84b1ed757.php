@@ -330,8 +330,11 @@
     <?php echo $__env->make('event.management.modals.editContactInfo', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php echo $__env->make('event.management.modals.addEventPrice', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php echo $__env->make('event.management.modals.editEventPrice', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-    <?php echo $__env->make('event.management.modals.manualTransactions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php echo $__env->make('event.management.modals.inviteEventMember', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('event.management.modals.manualTransactions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('event.management.modals.memberSelectColumns', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('event.management.modals.transactionSelectColumns', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script'); ?>
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
@@ -375,6 +378,118 @@
                 $('#edit_event_price').find('input#price_members_only').parent().attr('class', 'checked');
             }
             $('#edit_event_price').find('#price_id').val($(this).parent().parent().parent().find('#price_id').text());
+        });
+        $('div#sel-col button#ref-col').on('click', function(event){
+            if( $('input[type="checkbox"]#admin').is(':checked') ){
+                $('.col-table-admin').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-admin').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#ct').is(':checked') ){
+                $('.col-table-city').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-city').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#fname').is(':checked') ){
+                $('.col-table-fn').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-fn').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#stet').is(':checked') ){
+                $('.col-table-state').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-state').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#lname').is(':checked') ){
+                $('.col-table-ln').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-ln').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#zcode').is(':checked') ){
+                $('.col-table-zcode').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-zcode').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#idate').is(':checked') ){
+                $('.col-table-idate').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-idate').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#phone').is(':checked') ){
+                $('.col-table-phone').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-phone').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#adate').is(':checked') ){
+                $('.col-table-adate').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-adate').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#mail').is(':checked') ){
+                $('.col-table-email').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-email').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#exp').is(':checked') ){
+                $('.col-table-exp').css('display', 'table-cell');
+            }
+            else{
+                $('.col-table-exp').css('display', 'none');
+            }
+        });
+        $('div#sel-trans-cols button#ref-cols').on('click', function(){
+            if( $('input[type="checkbox"]#_date').is(':checked') ){
+                $('.col-tr-date').css('display', 'table-cell');
+            }
+            else{
+                $('.col-tr-date').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_fname').is(':checked') ){
+                $('.col-tr-fn').css('display', 'table-cell');
+            }
+            else{
+                $('.col-tr-fn').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_lname').is(':checked') ){
+                $('.col-tr-ln').css('display', 'table-cell');
+            }
+            else{
+                $('.col-tr-ln').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_amt').is(':checked') ){
+                $('.col-tr-amount').css('display', 'table-cell');
+            }
+            else{
+                $('.col-tr-amount').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_src').is(':checked') ){
+                $('.col-tr-source').css('display', 'table-cell');
+            }
+            else{
+                $('.col-tr-source').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_evp').is(':checked') ){
+                $('.col-tr-plan').css('display', 'table-cell');
+            }
+            else {
+                $('.col-tr-plan').css('display', 'none');
+            }
+            if( $('input[type="checkbox"]#_re').is(':checked') ){
+                $('.col-tr-re').css('display', 'table-cell');
+            }
+            else {
+                $('.col-tr-re').css('display', 'none');
+            }
         });
     });
     $(document).ready(function(){

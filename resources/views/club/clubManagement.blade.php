@@ -538,7 +538,6 @@
             }
         });
         $('div#sel-trans-cols button#ref-cols').on('click', function(){
-            console.log('clicked');
             if( $('input[type="checkbox"]#_date').is(':checked') ){
                 $('.col-table-date').css('display', 'table-cell');
             }

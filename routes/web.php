@@ -103,6 +103,7 @@ Route::post('/event/create', 'EventController@createEvent');
 Route::post('/event/configure', 'EventController@configureEvent');
 Route::post('/event/contact/edit', 'EventController@editContact');
 Route::get('/event/getEventDates', 'EventController@getEventDates');
+Route::post('/event/invite-a-member', 'EventController@inviteAMember');
 Route::get('/event/myEvents', 'EventController@showMyEvents');
 Route::post('/event/price/edit', 'EventController@editPrice');
 

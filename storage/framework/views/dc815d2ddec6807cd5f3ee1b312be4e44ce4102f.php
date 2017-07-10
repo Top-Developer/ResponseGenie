@@ -454,7 +454,6 @@
             $('#edit_plan').find('#plan_id').val($(this).parent().parent().parent().find('#plan_id').text());
         });
         $("div#tab_2_3 button#member_view_toggle").on("click", function(event){
-            console.log($(this).text());
             if( ' Icon View ' == $(this).text() ){
                 $(this).text(' Spreadsheet View ');
                 $(this).parent().parent().next().removeClass('active').addClass('hidden');
@@ -469,7 +468,6 @@
             }
         });
         $('div#sel-col button#ref-col').on('click', function(event){
-            console.log('clicked');
             if( $('input[type="checkbox"]#admin').is(':checked') ){
                 $('.col-table-admin').css('display', 'table-cell');
             }

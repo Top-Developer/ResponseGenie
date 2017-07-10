@@ -68,8 +68,8 @@
                     <th class= "col-table-admin"> Admin </th>
                     <th class= "col-table-fn"> First Name </th>
                     <th class= "col-table-ln"> Last Name </th>
-                    <th class= "col-table-jdate"> Invited Date </th>
-                    <th class= "col-table-edate"> Accepted Date </th>
+                    <th class= "col-table-idate"> Invited Date </th>
+                    <th class= "col-table-adate"> Accepted Date </th>
                     {{--<th class= "col-table-city"> City </th>--}}
                     {{--<th class= "col-table-state"> State </th>--}}
                     {{--<th class= "col-table-zcode"> Zipcode </th>--}}
@@ -89,10 +89,10 @@
                         <td class= "col-table-ln">
                             {{$aUser -> last_name}}
                         </td>
-                        <td class= "col-table-jdate">
+                        <td class= "col-table-idate">
                             {{$aUser -> invite_date}}
                         </td>
-                        <td class= "col-table-edate">
+                        <td class= "col-table-adate">
                             {{$aUser -> accept_date}}
                         </td>
                     </tr>
