@@ -248,12 +248,12 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="card-body-section">
-                                                        <img src="{{$theClub -> logo_path}}" class="card-body-image">
+                                                        <img src="{{$theEvent -> logo_path}}" class="card-body-image">
                                                     </div>
                                                     <div class="card-body-section">
                                                         <div class="card-date-box">
                                                             <span class="card-date-label"> Joined </span><br>
-                                                            <span class="pull-right">{{$theClub -> created_at}}</span>
+                                                            <span class="pull-right">{{$theEvent -> created_at}}</span>
                                                         </div>
                                                     </div>
                                                 </div>

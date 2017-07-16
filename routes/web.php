@@ -94,6 +94,7 @@ Route::post('/club/stripe', 'ClubController@stripeInfo');
 Route::post('/enter/manual_transaction', 'ClubController@enterManual');
 Route::post('/club/payForMembership', 'ClubController@payForMembership');
 Route::post('/club/request', 'ClubController@dealRequest');
+Route::get('/clubs/{slug}/create-an-event', 'EventController@eventCreate');
 
 //------------------------------- Event ---------------------------------//
 
@@ -108,6 +109,5 @@ Route::get('/event/myEvents', 'EventController@showMyEvents');
 Route::post('/event/price/edit', 'EventController@editPrice');
 
 Route::get('/events/{slug}', 'EventController@eventManagement');
-Route::get('/events/{slug}/create-an-event', 'EventController@eventCreate');
 
 //-----------------------------------------------------------------------//

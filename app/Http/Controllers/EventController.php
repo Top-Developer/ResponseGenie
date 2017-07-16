@@ -412,8 +412,11 @@ class EventController extends Controller{
     public function showMyEvents(){
 
         $myEvents = DB::table('event_members')
+            -> join('users', 'event_members.user_id', '=', 'users.id')
             -> where('users.id', '=', Auth::id())
             -> join('events', 'event_members.event_id', '=', 'events.id')
+            -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
+            -> where('roleships.user_id', '=', 'events.club_id')
             -> where(function($query) {
                 $query->where('events.access', 'Public')
                     ->where('roleships.role_id', '>', 1)
@@ -422,14 +425,12 @@ class EventController extends Controller{
             -> orwhere(function($query){
                 $query -> where('events.access', 'Members Only')
                     -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
+                    -> where('roleships.role_id', '<', 5);
             })
             -> orwhere(function($query){
                 $query -> where('events.access', 'Private')
                     -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4)
-                    -> where('users.id',  '=', Auth::id());
+                    -> where('roleships.role_id', '<', 4);
             })
             -> select('events.id')
             -> get()

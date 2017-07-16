@@ -247,7 +247,7 @@
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="card-header-blue">
-                                            <a href = {{url('/'.$theClub -> slug)}}>
+                                            <a href = {{url('/clubs/'.$theClub -> slug)}}>
                                                 <h1 class="card-heading">{{$theClub -> name}}</h1>
                                             </a>
                                         </div>

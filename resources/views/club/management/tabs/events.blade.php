@@ -24,7 +24,7 @@
                 </div>
                 @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                 <div style="float:right;">
-                    <a href="{{url('/'.$theClub -> slug.'/create-an-event')}}" class="btn red"> Create a new event </a>
+                    <a href="{{url('/clubs/'.$theClub -> slug.'/create-an-event')}}" class="btn red"> Create a new event </a>
                 </div>
                 @endif
             </div>

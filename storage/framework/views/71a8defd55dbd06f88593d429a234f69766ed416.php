@@ -246,12 +246,12 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="card-body-section">
-                                                        <img src="<?php echo e($theClub -> logo_path); ?>" class="card-body-image">
+                                                        <img src="<?php echo e($theEvent -> logo_path); ?>" class="card-body-image">
                                                     </div>
                                                     <div class="card-body-section">
                                                         <div class="card-date-box">
                                                             <span class="card-date-label"> Joined </span><br>
-                                                            <span class="pull-right"><?php echo e($theClub -> created_at); ?></span>
+                                                            <span class="pull-right"><?php echo e($theEvent -> created_at); ?></span>
                                                         </div>
                                                     </div>
                                                 </div>

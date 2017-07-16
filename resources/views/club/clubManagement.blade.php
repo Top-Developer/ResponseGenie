@@ -356,6 +356,8 @@
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/moment.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyCjKyxewbk6_hbH9tSAjNWTPCqN9hiPz-o" type="text/javascript"></script>
 <script src="{{url('/assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 <script>
@@ -797,6 +799,31 @@
                 alert("Geocode was not successful for the following reason: " + status);
             }
         });
+
+        var c_map = new google.maps.Map(document.getElementById("gmap_marker"), myOptions);
+
+        geocoder.geocode( { 'address': zcode }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                //Got result, center the map and put it out there
+                c_map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: c_map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+
+        var observer = new MutationObserver(function(mutations){
+           mutations.forEach(function(mutationRecord){
+               console.log(mutationRecord);
+               google.maps.event.trigger(c_map, "resize");
+           });
+        });
+
+        var target = document.getElementById('edit_contact_info');
+        observer.observe(target, {attributes: true, attributeFilter: ['style']})
     })
 </script>
 @endpush

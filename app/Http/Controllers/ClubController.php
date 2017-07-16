@@ -570,18 +570,19 @@ class ClubController extends Controller
             -> join('contacts', 'contacts.id', '=', 'clubs.contact_id')
             -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
             -> join('users', 'roleships.user_id', '=', 'users.id')
-            -> where('clubs.access', 'Public')
+            -> where('clubs.type', 'Open Club')
+            -> orwhere('clubs.type', 'Closed Club')
             -> orwhere(function($query){
                 $query -> where('roleships.role_id', '>', 1)
                     -> where('roleships.role_id', '<', 5)
                     -> where('users.id',  '=', Auth::id())
-                    -> where('clubs.access', 'Members Only');
+                    -> where('clubs.access', 'Moderated Club');
             })
             -> orwhere(function($query){
                 $query -> where('roleships.role_id', '>', 1)
                     -> where('roleships.role_id', '<', 4)
                     -> where('users.id',  '=', Auth::id())
-                    -> where('clubs.access', 'Private');
+                    -> where('clubs.access', 'Private Club');
             })
             -> select('clubs.id', 'clubs.name', 'clubs.slug', 'clubs.logo_path', 'clubs.description', 'clubs.website', 'clubs.access', 'contacts.city', 'contacts.state', 'contacts.country')
             -> get()
@@ -590,23 +591,15 @@ class ClubController extends Controller
         $yourClubs = DB::table('clubs')
             -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
             -> join('users', 'roleships.user_id', '=', 'users.id')
+            -> where('users.id',  '=', Auth::id())
+            -> where('roleships.role_id', '>', 1)
             -> where(function($query){
-                $query -> where('clubs.access', 'Public')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
+                $query -> where('clubs.type', 'Private Club')
+                    -> where('roleships.role_id', '<', 4);
             })
             -> orwhere(function($query){
-                $query -> where('clubs.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
-            })
-            -> orwhere(function($query){
-                $query -> where('clubs.access', 'Private')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4)
-                    -> where('users.id',  '=', Auth::id());
+                $query -> where('clubs.type', '!=', 'Private Club')
+                    -> where('roleships.role_id', '<', 5);
             })
             -> select('clubs.id')
             -> get()

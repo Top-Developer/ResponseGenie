@@ -24,7 +24,7 @@
                 </div>
                 <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
                 <div style="float:right;">
-                    <a href="<?php echo e(url('/'.$theClub -> slug.'/create-an-event')); ?>" class="btn red"> Create a new event </a>
+                    <a href="<?php echo e(url('/clubs/'.$theClub -> slug.'/create-an-event')); ?>" class="btn red"> Create a new event </a>
                 </div>
                 <?php endif; ?>
             </div>
