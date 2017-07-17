@@ -93,6 +93,23 @@
                             </div>
                         </div>
 
+                        <div class = "row">
+                            <div class="col-xs-12 col-sm-offset-2 col-sm-3">
+                                <label style="color: #888;">Event Logo</label>
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"> </div>
+                                    <div>
+                                            <span class="btn green btn-outline btn-file">
+                                                <span class="fileinput-new"> Select image </span>
+                                                <span class="fileinput-exists"> Change </span>
+                                                <input type="file" name="event_logo">
+                                            </span>
+                                        <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class = 'row'>
                             <div class = 'col-xs-12 col-sm-offset-2 col-sm-3'>
                                 <div class="form-group">
@@ -111,23 +128,6 @@
                                     </div>
                                     <div>
                                         <div class = 'datetimepicker end' data-date-format = 'yyyy-MM-dd hh:mm-ss'> </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class = "row">
-                            <div class="col-xs-12 col-sm-offset-2 col-sm-3">
-                                <label style="color: #888;">Event Logo</label>
-                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"> </div>
-                                    <div>
-                                            <span class="btn green btn-outline btn-file">
-                                                <span class="fileinput-new"> Select image </span>
-                                                <span class="fileinput-exists"> Change </span>
-                                                <input type="file" name="event_logo">
-                                            </span>
-                                        <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                     </div>
                                 </div>
                             </div>
@@ -187,6 +187,12 @@
                                     <label for="form_control_event_mlim">Member Limit</label>
                                     <span class="help-block">The limit of members</span>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class = 'row'>
+                            <div class="col-xs-12 col-sm-offset-2 col-sm-10">
+                                <input name='disp_guest' type="checkbox" checked> Display guest list to all guests?
                             </div>
                         </div>
 

@@ -13,52 +13,70 @@
 </div>
 <h1 style="text-align: center;">
     Event Prices
-    <div style="float:right;">
-        <a type="button" class="btn btn-danger" data-toggle="modal" href="#add_event_price"> Add event price </a>
-    </div>
+    @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
+        <div style="float:right;">
+            <a type="button" class="btn btn-danger" data-toggle="modal" href="#add_event_price"> Add event price </a>
+        </div>
+    @endif
 </h1>
 <div class = "row">
-@foreach($eventPrices as $anEventPrice)
-    <div class = "col-md-4">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <i class="fa fa-shopping-cart"></i>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "price_name">{{$anEventPrice -> name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
-                        <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_event_price">Edit</a>
-                    @endif
-                </h3>
-            </div>
-            <div id = 'price_desc' class = 'panel-body'>{{$anEventPrice -> description}}</div>
-            <div class = 'panel-footer'>
-                <div id ='price_cost'>
-                    @if( 0 == $anEventPrice -> cost )
-                        Free
-                    @else
-                        ${{$anEventPrice -> cost}}
-                    @endif
+    @if(!is_null($isAlreadyEventMember) && $theUserRole != 'owner' && $theUserRole != 'admin')
+        You are already a member of this event.
+    @else
+        @foreach($eventPrices as $anEventPrice)
+            <div class = "col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <i class="fa fa-shopping-cart"></i>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "price_name">{{$anEventPrice -> name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
+                                <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_event_price">Edit</a>
+                            @endif
+                        </h3>
+                    </div>
+                    <div id = 'price_desc' class = 'panel-body'>{{$anEventPrice -> description}}</div>
+                    <div class = 'panel-footer'>
+                        <div id ='price_cost'>
+                            @if( 0 == $anEventPrice -> cost )
+                                Free
+                            @else
+                                ${{$anEventPrice -> cost}}
+                            @endif
+                        </div>
+                        @if( $theUserRole != 'owner' && $theUserRole != 'admin' )
+                        <div>
+                            @if( 0 != $anEventPrice -> cost )
+                                <form action="{{url('/event/payForEvent')}}" method="post" style = 'display:inline-block;align:center;'>
+                                    {{csrf_field()}}
+                                    <input type = hidden name = 'ePrice_id' value = '{{$anEventPrice -> id}}'>
+                                    <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
+                                            data-key = '{{$stripe_public_key}}'
+                                            data-name = '{{$anEventPrice -> name}}'
+                                            data-description = '{{$anEventPrice -> description}}'
+                                            data-amount = '{{100 * $anEventPrice -> cost}}'
+                                            data-currency = 'usd'
+                                            data-locale = 'auto'>
+                                    </script>
+                                </form>
+                            @else
+                                <form action="{{url('/event/payForEvent')}}" method="post" style = 'display:inline-block;align:center;'>
+                                    <button type="submit" class="stripe-button-el" style="visibility: visible;">
+                                        <span style="display: block; min-height: 30px;">
+                                            RSVP
+                                        </span>
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                        @endif
+                    </div>
+                    <div id = 'price_is_for_mem' class = 'hidden'>{{$anEventPrice -> members_only}}</div>
+                    <div id = 'price_id' class = 'hidden'>{{$anEventPrice -> id}}</div>
                 </div>
-                <div>
-                    <form action="{{url('/event/payForEvent')}}" method="post" style = 'display:inline-block;align:center;'>
-                        {{csrf_field()}}
-                        <input type = hidden name = 'ePrice_id' value = '{{$anEventPrice -> id}}'>
-                        <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
-                                data-key = '{{$stripe_public_key}}'
-                                data-name = '{{$anEventPrice -> name}}'
-                                data-description = '{{$anEventPrice -> description}}'
-                                data-amount = '{{100 * $anEventPrice -> cost}}'
-                                data-currency = 'usd'
-                                data-locale = 'auto'>
-                        </script>
-                    </form>
-                </div>
             </div>
-            <div id = 'price_is_for_mem' class = 'hidden'>{{$anEventPrice -> members_only}}</div>
-            <div id = 'price_id' class = 'hidden'>{{$anEventPrice -> id}}</div>
-        </div>
-    </div>
-@endforeach
+        @endforeach
+    @endif
 </div>
 <div class="note note-info">
     <div class = "row">

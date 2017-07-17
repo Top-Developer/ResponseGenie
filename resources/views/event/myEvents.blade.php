@@ -235,6 +235,7 @@
                     <!-- END PAGE BREADCRUMBS -->
 
                     <div class="page-content-inner">
+                        @if( $myEvents -> count() > 0 )
                         <div class="portlet light">
                             <div class="row">
                                 @foreach( $myEvents as $theEvent )
@@ -242,7 +243,7 @@
                                         <div class="card">
                                             <div class="card-content">
                                                 <div class="card-header-blue">
-                                                    <a href = {{url('/'.$theEvent -> slug)}}>
+                                                    <a href = {{url('/evevts/'.$theEvent -> slug)}}>
                                                         <h1 class="card-heading">{{$theEvent -> name}}</h1>
                                                     </a>
                                                 </div>
@@ -266,6 +267,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

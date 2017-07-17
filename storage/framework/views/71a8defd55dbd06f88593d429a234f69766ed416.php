@@ -233,6 +233,7 @@
                     <!-- END PAGE BREADCRUMBS -->
 
                     <div class="page-content-inner">
+                        <?php if( $myEvents -> count() > 0 ): ?>
                         <div class="portlet light">
                             <div class="row">
                                 <?php $__currentLoopData = $myEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theEvent): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
@@ -240,7 +241,7 @@
                                         <div class="card">
                                             <div class="card-content">
                                                 <div class="card-header-blue">
-                                                    <a href = <?php echo e(url('/'.$theEvent -> slug)); ?>>
+                                                    <a href = <?php echo e(url('/evevts/'.$theEvent -> slug)); ?>>
                                                         <h1 class="card-heading"><?php echo e($theEvent -> name); ?></h1>
                                                     </a>
                                                 </div>
@@ -264,6 +265,7 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                             </div>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

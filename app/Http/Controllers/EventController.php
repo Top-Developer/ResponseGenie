@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 
 use App\Event;
+use App\EventMember;
 use App\EventPrice;
 use App\Club;
 use App\Contact;
@@ -33,7 +34,7 @@ class EventController extends Controller{
                         $price_isMemberOnly = 0;
                     }
                     $ePrice -> members_only = $price_isMemberOnly;
-                    $ePrice -> event_id = Session::get('eventID');
+                    $ePrice -> event_id = Session::get('eventId');
                     $ePrice -> timestamps = false;
                     $ePrice -> save();
                     return back()
@@ -95,6 +96,11 @@ class EventController extends Controller{
             if( null == $memberLimit ) $memberLimit = 9999;
             $event -> member_limit = $memberLimit;
             $event -> contact_id = $contact -> id;
+            if( 'on' == $request -> input( 'disp_guest' ) ){
+                $event -> guest_display =  1;
+            }else{
+                $event -> guest_display =  0;
+            }
             $event -> save();
 
             return back()
@@ -104,7 +110,7 @@ class EventController extends Controller{
 
     public function configureEvent(Request $request){
 
-        $event = Event::find(Session::get('eventID'));
+        $event = Event::find(Session::get('eventId'));
         $contact = Contact::find($event -> contact_id);
         if( $request -> input( 'event_name' ) != '' ){
             $event -> name = $request -> input( 'event_name' );
@@ -152,10 +158,10 @@ class EventController extends Controller{
 
     public function editContact(Request $request){
 
-        $contact = Contact::find(Event::find(session('eventID')) -> contact_id);
+        $contact = Contact::find(Event::find(session('eventId')) -> contact_id);
 
         if( '' != $request -> use_club ){
-            $clubContact = Contact::find(Club::find(Event::find(session('eventID')) -> club_id));
+            $clubContact = Contact::find(Club::find(Event::find(session('eventId')) -> club_id));
             $contact -> city = $clubContact -> city;
             $contact -> state = $clubContact -> state;
             $contact -> zipcode = $clubContact -> zipcode;
@@ -249,37 +255,69 @@ class EventController extends Controller{
     public function eventManagement($slug){
 
         $event = Event::where('slug', '=', $slug) -> first();
-        session(['eventID' => $event -> id]);
+        session(['eventId' => $event -> id]);
 
-        $theRoleID = Roleship::where('user_id', Auth::id()) -> where('club_id', $event -> club_id) -> firstOrFail() -> role_id;
-        $theUserRole = Role::find($theRoleID) -> role_description;
         $club = Club::find($event -> club_id);
-        $eventPrices = EventPrice::where('event_id', $event->id)
-            -> select('*')
-            -> get();
+
+        $isAlreadyEventMember = EventMember::where('event_id', $event -> id)
+            -> where('user_id', Auth::id())
+            -> first();
+        $role = NULL;
+        $eventPrices = NULL;
+
+        $roleship = Roleship::where('user_id', Auth::id()) -> where('club_id', $event -> club_id) -> first();
+        if(!is_null($roleship)){
+            $role = Role::find($roleship -> role_id) -> role_description;
+        }
+
+        if(is_null($isAlreadyEventMember)){
+            Session::set('stripe_secret_key', $club -> stripe_pvt_key);
+
+            if('owner' == $role || 'admin' == $role){
+                $eventPrices = EventPrice::where('event_id', $event->id)
+                    -> select('*')
+                    -> get();
+            }elseif('member' == $role) {
+                $eventPrices = EventPrice::where('event_id', $event->id)
+                    -> where('members_only', '1')
+                    ->select('*')
+                    ->get();
+            }else{
+                $eventPrices = EventPrice::where('event_id', $event->id)
+                    -> where('members_only', '0')
+                    -> select('*')
+                    -> get();
+            }
+        }else{
+            Session::set('stripe_secret_key', NULL);
+        }
+
         $theContact = Contact::find($event -> contact_id);
+
         $pcm_id = $theContact -> pcm_id;
         $scm_id = $theContact -> scm_id;
+
         if($pcm_id != '' && $pcm_id != 'None'){
             $thePCM = User::find($pcm_id);
-            $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $club_id) -> first() -> role_id;
+            $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $event -> club_id) -> first() -> role_id;
             $thePCMRole = Role::find($thePCMRoleID) -> role_description;
         }
         else{
             $thePCM = NULL;
             $thePCMRole = NULL;
         }
+
         if($scm_id != '' && $scm_id != 'None'){
             $theSCM = User::find($scm_id);
-            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $club_id) -> first() -> role_id || NULL;
+            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $event -> club_id) -> first() -> role_id || NULL;
             $theSCMRole = Role::find($theSCMRoleID) -> role_description;
         }else{
             $theSCM = NULL;
             $theSCMRole = NULL;
         }
-        $eventMembers = DB::table('events')
-            -> where('events.id', $event -> id)
-            -> join('event_members', 'event_members.event_id', '=', 'events.id')
+
+        $eventMembers = DB::table('event_members')
+            -> where('event_id', '=', $event -> id)
             -> join('users', 'users.id', '=', 'event_members.user_id')
             -> select('users.id', 'users.email', 'users.first_name', 'users.last_name', 'users.profile_image', 'event_members.invited', 'event_members.created_at as invite_date', 'event_members.updated_at as accept_date')
             -> get();
@@ -292,8 +330,9 @@ class EventController extends Controller{
 
         return view('event/eventManagement', [
             'page' => 'Event Management',
+            'isAlreadyEventMember' => $isAlreadyEventMember,
             'event' => $event,
-            'theUserRole' => $theUserRole,
+            'theUserRole' => $role,
             'theClub' => $club,
             'eventPrices' => $eventPrices,
             'stripe_public_key' => $club -> stripe_pub_key,
@@ -340,7 +379,7 @@ class EventController extends Controller{
             else{
                 $eventMembers = new EventMember;
                 $eventMembers -> user_id = $user -> id ;
-                $eventMembers -> event_id = session('eventID');
+                $eventMembers -> event_id = session('eventId');
                 $eventMembers -> invited = 1;
                 $eventMembers -> save();
                 return back() -> with('active_tab',  $request -> active_tab);
@@ -440,6 +479,37 @@ class EventController extends Controller{
             'page' => 'events',
             'myEvents' => $myEvents
         ]);
+    }
+
+    public function payForEvent(Request $request){
+
+        if($request -> has('stripeToken')){
+            \Stripe\Stripe::setApiKey(Session::get('stripe_secret_key'));
+
+            $token = $request -> stripeToken;
+
+            $charge = \Stripe\Charge::create(array(
+                "amount" => 100 * Event_Price::find($request -> ePrice_id) -> cost,
+                "currency" => "usd",
+                "description" => "Example charge",
+                "source" => $token,
+            ));
+
+            if($charge -> paid == true){
+                $newEventMember = new EventMember;
+                $newEventMember -> user_id = Auth::id();
+                $newEventMember -> club_id = Event_Member::find($request -> plan_id) -> club_id;
+                $newEventMember -> role_id = 4;
+                $newEventMember -> save();
+                return back();
+            }else{
+                return back() -> with('msg', 'payment failed');
+            }
+        }else{
+            if( 0 == Membership_plan::find($request -> plan_id) -> cost ){
+                return $this -> clubManagement(Club::find( Membership_plan::find($request -> plan_id) -> club_id) -> slug);
+            }
+        }
     }
 
 }

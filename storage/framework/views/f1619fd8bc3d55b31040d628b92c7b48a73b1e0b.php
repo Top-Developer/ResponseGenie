@@ -14,54 +14,72 @@
 </div>
 <h1 style="text-align: center;">
     Event Prices
-    <div style="float:right;">
-        <a type="button" class="btn btn-danger" data-toggle="modal" href="#add_event_price"> Add event price </a>
-    </div>
+    <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
+        <div style="float:right;">
+            <a type="button" class="btn btn-danger" data-toggle="modal" href="#add_event_price"> Add event price </a>
+        </div>
+    <?php endif; ?>
 </h1>
 <div class = "row">
-<?php $__currentLoopData = $eventPrices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $anEventPrice): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-    <div class = "col-md-4">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <i class="fa fa-shopping-cart"></i>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "price_name"><?php echo e($anEventPrice -> name); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
-                        <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_event_price">Edit</a>
-                    <?php endif; ?>
-                </h3>
-            </div>
-            <div id = 'price_desc' class = 'panel-body'><?php echo e($anEventPrice -> description); ?></div>
-            <div class = 'panel-footer'>
-                <div id ='price_cost'>
-                    <?php if( 0 == $anEventPrice -> cost ): ?>
-                        Free
-                    <?php else: ?>
-                        $<?php echo e($anEventPrice -> cost); ?>
+    <?php if(!is_null($isAlreadyEventMember) && $theUserRole != 'owner' && $theUserRole != 'admin'): ?>
+        You are already a member of this event.
+    <?php else: ?>
+        <?php $__currentLoopData = $eventPrices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $anEventPrice): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+            <div class = "col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <i class="fa fa-shopping-cart"></i>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "price_name"><?php echo e($anEventPrice -> name); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
+                                <a type="button" class="btn red-mint btn-outline sbold" data-toggle="modal" href="#edit_event_price">Edit</a>
+                            <?php endif; ?>
+                        </h3>
+                    </div>
+                    <div id = 'price_desc' class = 'panel-body'><?php echo e($anEventPrice -> description); ?></div>
+                    <div class = 'panel-footer'>
+                        <div id ='price_cost'>
+                            <?php if( 0 == $anEventPrice -> cost ): ?>
+                                Free
+                            <?php else: ?>
+                                $<?php echo e($anEventPrice -> cost); ?>
 
-                    <?php endif; ?>
-                </div>
-                <div>
-                    <form action="<?php echo e(url('/event/payForEvent')); ?>" method="post" style = 'display:inline-block;align:center;'>
-                        <?php echo e(csrf_field()); ?>
+                            <?php endif; ?>
+                        </div>
+                        <?php if( $theUserRole != 'owner' && $theUserRole != 'admin' ): ?>
+                        <div>
+                            <?php if( 0 != $anEventPrice -> cost ): ?>
+                                <form action="<?php echo e(url('/event/payForEvent')); ?>" method="post" style = 'display:inline-block;align:center;'>
+                                    <?php echo e(csrf_field()); ?>
 
-                        <input type = hidden name = 'ePrice_id' value = '<?php echo e($anEventPrice -> id); ?>'>
-                        <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
-                                data-key = '<?php echo e($stripe_public_key); ?>'
-                                data-name = '<?php echo e($anEventPrice -> name); ?>'
-                                data-description = '<?php echo e($anEventPrice -> description); ?>'
-                                data-amount = '<?php echo e(100 * $anEventPrice -> cost); ?>'
-                                data-currency = 'usd'
-                                data-locale = 'auto'>
-                        </script>
-                    </form>
+                                    <input type = hidden name = 'ePrice_id' value = '<?php echo e($anEventPrice -> id); ?>'>
+                                    <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
+                                            data-key = '<?php echo e($stripe_public_key); ?>'
+                                            data-name = '<?php echo e($anEventPrice -> name); ?>'
+                                            data-description = '<?php echo e($anEventPrice -> description); ?>'
+                                            data-amount = '<?php echo e(100 * $anEventPrice -> cost); ?>'
+                                            data-currency = 'usd'
+                                            data-locale = 'auto'>
+                                    </script>
+                                </form>
+                            <?php else: ?>
+                                <form action="<?php echo e(url('/event/payForEvent')); ?>" method="post" style = 'display:inline-block;align:center;'>
+                                    <button type="submit" class="stripe-button-el" style="visibility: visible;">
+                                        <span style="display: block; min-height: 30px;">
+                                            RSVP
+                                        </span>
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <div id = 'price_is_for_mem' class = 'hidden'><?php echo e($anEventPrice -> members_only); ?></div>
+                    <div id = 'price_id' class = 'hidden'><?php echo e($anEventPrice -> id); ?></div>
                 </div>
             </div>
-            <div id = 'price_is_for_mem' class = 'hidden'><?php echo e($anEventPrice -> members_only); ?></div>
-            <div id = 'price_id' class = 'hidden'><?php echo e($anEventPrice -> id); ?></div>
-        </div>
-    </div>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+    <?php endif; ?>
 </div>
 <div class="note note-info">
     <div class = "row">
