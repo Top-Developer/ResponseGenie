@@ -162,14 +162,14 @@
                         <div class = "row">
                             <div class = "col-xs-12 col-sm-offset-2 col-sm-2">
                                 <div class="form-group form-md-line-input form-md-floating-label">
-                                    <select class="form-control" id="form_control_event_type"  name = "event_type">
+                                    <select class="form-control" id="form_control_event_access"  name = "event_access">
                                         <option value="" selected></option>
-                                        <option value="Private"> Private </option>
-                                        <option value="Members Only"> Members Only </option>
-                                        <option value="Public"> Public </option>
+                                        <option value="Private">Private</option>
+                                        <option value="Members Only">Members Only</option>
+                                        <option value="Public">Public</option>
                                     </select>
-                                    <label for="form_control_event_type">Event Type</label>
-                                    <span class="help-block">Type of the Event</span>
+                                    <label for="form_control_event_access">Event Access</label>
+                                    <span class="help-block">Access of the Event</span>
                                 </div>
                             </div>
 

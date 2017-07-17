@@ -89,7 +89,7 @@ class EventController extends Controller{
             $event -> short_description = $request -> input( 'event_short_description' );
             $event -> start_date = $request -> input( 'event_start' );
             $event -> end_date = $request -> input( 'event_end' );
-            $event -> access = $request -> input( 'event_type' );
+            $event -> access = $request -> input( 'event_access' );
             $event -> club_id = session('theClubID');
             $event -> creater_user_id = Auth::id();
             $memberLimit = $request -> input( 'event_memberlimit' );
@@ -129,8 +129,8 @@ class EventController extends Controller{
         }else
             echo 'prv wrong';
 
-        if( $request -> input( 'event_type' ) != '' ){
-            $event -> type = $request -> input( 'event_type' );
+        if( $request -> input( 'event_access' ) != '' ){
+            $event -> access = $request -> input( 'event_access' );
         }else
             echo 'type wrong';
         if( $request -> input( 'zip_code' ) ){
@@ -396,8 +396,7 @@ class EventController extends Controller{
 
         $allEvents = DB::table('events')
             -> join('contacts', 'contacts.id', '=', 'events.contact_id')
-            -> join('clubs', 'clubs.id', '=', 'events.club_id')
-            -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
+            -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
             -> join('users', 'users.id', '=', 'roleships.user_id')
             -> where('events.access', 'Public')
             -> orwhere(function($query){
@@ -450,30 +449,23 @@ class EventController extends Controller{
 
     public function showMyEvents(){
 
-        $myEvents = DB::table('event_members')
-            -> join('users', 'event_members.user_id', '=', 'users.id')
-            -> where('users.id', '=', Auth::id())
-            -> join('events', 'event_members.event_id', '=', 'events.id')
+        $adminEvents = DB::table('events')
             -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
-            -> where('roleships.user_id', '=', 'events.club_id')
-            -> where(function($query) {
-                $query->where('events.access', 'Public')
-                    ->where('roleships.role_id', '>', 1)
-                    ->where('roleships.role_id', '<', 5);
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5);
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Private')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4);
-            })
-            -> select('events.id')
+            -> where('roleships.user_id', '=', Auth::id())
+            -> where('roleships.role_id', '>', 1)
+            -> where('roleships.role_id', '<', 4)
+            -> select('events.slug', 'events.name', 'events.logo_path', 'events.created_at')
             -> get()
             -> unique();
+
+        $memberEvents = DB::table('event_members')
+            -> where('event_members.user_id', Auth::id())
+            -> join('events', 'event_members.event_id', '=', 'events.id')
+            -> select('events.slug', 'events.name', 'events.logo_path', 'events.created_at')
+            -> get()
+            -> unique();
+
+        $myEvents = $adminEvents -> merge($memberEvents);
 
         return view('event/myEvents', [
             'page' => 'events',

@@ -80,12 +80,12 @@
                     </div>
                 </div>
                 <div class = "row form-group">
-                    <label class="col-md-4 control-label" for = "event_type">Event Type</label>
+                    <label class="col-md-4 control-label" for = "event_access">Event Access</label>
                     <div class = "col-md-4">
-                        <select type="text" class="form-control" id = "event_type"  name = "event_type">
-                            <option @if($event -> type == 'Public Event'){{'selected'}}@endif>Public Event</option>
-                            <option @if($event -> type == 'Member Only Event'){{'selected'}}@endif>Member Only Event</option>
-                            <option @if($event -> type == 'Invite Event'){{'selected'}}@endif>Invite Event</option>
+                        <select type="text" class="form-control" id = "event_access"  name = "event_access">
+                            <option @if($event -> access == 'Public'){{'selected'}}@endif>Public</option>
+                            <option @if($event -> access == 'Members Only'){{'selected'}}@endif>Members Only</option>
+                            <option @if($event -> access == 'Private'){{'selected'}}@endif>Private</option>
                         </select>
                     </div>
                     <div class = "col-md-4">

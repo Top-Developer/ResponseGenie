@@ -166,7 +166,7 @@ var Login = function () {
                     required: true,
                     zipcode: true
                 },
-                event_type: {
+                event_access: {
                     required: true
                 }
             },

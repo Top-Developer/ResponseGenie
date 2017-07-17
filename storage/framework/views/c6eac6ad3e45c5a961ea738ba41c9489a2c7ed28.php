@@ -81,12 +81,12 @@
                     </div>
                 </div>
                 <div class = "row form-group">
-                    <label class="col-md-4 control-label" for = "event_type">Event Type</label>
+                    <label class="col-md-4 control-label" for = "event_access">Event Access</label>
                     <div class = "col-md-4">
-                        <select type="text" class="form-control" id = "event_type"  name = "event_type">
-                            <option <?php if($event -> type == 'Public Event'): ?><?php echo e('selected'); ?><?php endif; ?>>Public Event</option>
-                            <option <?php if($event -> type == 'Member Only Event'): ?><?php echo e('selected'); ?><?php endif; ?>>Member Only Event</option>
-                            <option <?php if($event -> type == 'Invite Event'): ?><?php echo e('selected'); ?><?php endif; ?>>Invite Event</option>
+                        <select type="text" class="form-control" id = "event_access"  name = "event_access">
+                            <option <?php if($event -> access == 'Public'): ?><?php echo e('selected'); ?><?php endif; ?>>Public</option>
+                            <option <?php if($event -> access == 'Members Only'): ?><?php echo e('selected'); ?><?php endif; ?>>Members Only</option>
+                            <option <?php if($event -> access == 'Private'): ?><?php echo e('selected'); ?><?php endif; ?>>Private</option>
                         </select>
                     </div>
                     <div class = "col-md-4">

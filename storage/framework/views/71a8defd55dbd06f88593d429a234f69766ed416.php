@@ -241,7 +241,7 @@
                                         <div class="card">
                                             <div class="card-content">
                                                 <div class="card-header-blue">
-                                                    <a href = <?php echo e(url('/evevts/'.$theEvent -> slug)); ?>>
+                                                    <a href = <?php echo e(url('/events/'.$theEvent -> slug)); ?>>
                                                         <h1 class="card-heading"><?php echo e($theEvent -> name); ?></h1>
                                                     </a>
                                                 </div>

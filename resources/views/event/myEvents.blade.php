@@ -243,7 +243,7 @@
                                         <div class="card">
                                             <div class="card-content">
                                                 <div class="card-header-blue">
-                                                    <a href = {{url('/evevts/'.$theEvent -> slug)}}>
+                                                    <a href = {{url('/events/'.$theEvent -> slug)}}>
                                                         <h1 class="card-heading">{{$theEvent -> name}}</h1>
                                                     </a>
                                                 </div>
