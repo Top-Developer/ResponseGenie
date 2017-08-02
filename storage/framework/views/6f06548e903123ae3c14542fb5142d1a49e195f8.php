@@ -1,7 +1,7 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action = "<?php echo e(url('/edit/contact')); ?>" method = "post">
+            <form action = "<?php echo e(url('/contact/club/edit')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>

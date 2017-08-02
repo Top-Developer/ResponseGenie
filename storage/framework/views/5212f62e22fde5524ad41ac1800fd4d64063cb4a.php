@@ -252,7 +252,7 @@
                                 <div class="portlet portlet-sortable box blue-hoki">
                                     <div class="portlet-title ui-sortable-handle">
                                         <div class = "caption"><?php echo e($aClub -> name); ?></div>
-                                        <?php $count = 0?>
+                                        <?php $count = 0;?>
                                         <div class="actions">
                                             <?php $__currentLoopData = $yourClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                                 <?php if($yourOneClub -> id == $aClub -> id && $count == 0): ?>
@@ -263,7 +263,7 @@
                                             <?php if($count == 0): ?>
                                                 <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
                                             <?php else: ?>
-                                                <?php $count = 0?>
+                                                <?php $count = 0;?>
                                             <?php endif; ?>
                                         </div>
                                     </div>

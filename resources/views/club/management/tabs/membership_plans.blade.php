@@ -18,7 +18,7 @@
     @endif
 </h1>
 <div class = "row">
-    @foreach($theClub -> membership_plans as $theMembership)
+    @foreach($theClub->membership_plans as $theMembership)
     <div class = "col-md-4">
         <div class="panel panel-info">
             <div class="panel-heading">

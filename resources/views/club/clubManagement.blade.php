@@ -28,10 +28,6 @@
         transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .card-body{
-        display:flex;
-    }
-
     .card-content {
         width: 100%;
     }
@@ -98,8 +94,8 @@
         -webkit-transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .card-header-orange{
-        background-color:#E65100;
+    .card-header-green{
+        background-color:#32c5d2;
         color:#FFFFFF;
         border-bottom:3px solid #BBB;
         box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -471,7 +467,7 @@
                 $(this).parent().parent().parent().next().next().removeClass('hidden').addClass('active');
             }
         });
-        $('div#sel-col button#ref-col').on('click', function(event){
+        $('div#sel-col button#ref-col').on('click', function(){
             if( $('input[type="checkbox"]#admin').is(':checked') ){
                 $('.col-table-admin').css('display', 'table-cell');
             }

@@ -11,48 +11,12 @@ use App\Event;
 use App\EventMember;
 use App\EventPrice;
 use App\Club;
-use App\Contact;
 use App\Role;
 use App\Roleship;
 use App\TransactionForEvent;
 use App\User;
 
 class EventController extends Controller{
-
-    public function addPrice(Request $request){
-        $ePrice = new EventPrice;
-
-        if( $request -> pName != '' ){
-            $ePrice -> name = $request -> pName;
-            if( $request -> pDesc != '' ){
-                $ePrice -> description = $request -> pDesc;
-                if( $request -> pCost != '' ){
-                    $ePrice -> cost = $request -> pCost;
-                    if( $request -> pMO != '' ){
-                        $price_isMemberOnly = 1;
-                    }else{
-                        $price_isMemberOnly = 0;
-                    }
-                    $ePrice -> members_only = $price_isMemberOnly;
-                    $ePrice -> event_id = Session::get('eventId');
-                    $ePrice -> timestamps = false;
-                    $ePrice -> save();
-                    return back()
-                        -> with('active_tab', $request -> active_tab);
-                }else{
-                    return back()
-                        -> with('active_tab', $request -> active_tab)
-                        -> with('plan_msg', 'price cost missed');}
-            }else
-                return back()
-                    -> with('active_tab', $request -> active_tab)
-                    -> with('plan_msg', 'price description missed');
-        }else{
-            return back()
-                -> with('active_tab', $request -> active_tab)
-                -> with('plan_msg', 'price name missed');
-        }
-    }
 
     public function createEvent(Request $request){
 
@@ -108,7 +72,7 @@ class EventController extends Controller{
         }
     }
 
-    public function configureEvent(Request $request){
+    public function updateEvent(Request $request){
 
         $event = Event::find(Session::get('eventId'));
         $contact = Contact::find($event -> contact_id);
@@ -156,103 +120,7 @@ class EventController extends Controller{
             ;
     }
 
-    public function editContact(Request $request){
-
-        $contact = Contact::find(Event::find(session('eventId')) -> contact_id);
-
-        if( '' != $request -> use_club ){
-            $clubContact = Contact::find(Club::find(Event::find(session('eventId')) -> club_id));
-            $contact -> city = $clubContact -> city;
-            $contact -> state = $clubContact -> state;
-            $contact -> zipcode = $clubContact -> zipcode;
-            $contact -> pcm_id = $clubContact -> pcmid;
-            $contact -> scm_id = $clubContact -> scmid;
-            $contact -> linkedin = $clubContact -> inLink;
-            $contact -> level_in = $clubContact -> inLevel;
-            $contact -> twitter = $clubContact -> ttLink;
-            $contact -> level_t = $clubContact -> ttLevel;
-            $contact -> facebook = $clubContact -> fbLink;
-            $contact -> level_f = $clubContact -> fbLevel;
-            $contact -> youtube = $clubContact -> ytLink;
-            $contact -> level_y = $clubContact -> ytLevel;
-            $contact -> googleplus = $clubContact -> goLink;
-            $contact -> level_g = $clubContact -> goLevel;
-            $contact -> mail = $clubContact -> maLink;
-            $contact -> level_m = $clubContact -> maLevel;
-        }
-        else{
-            $contact -> city = $request -> city;
-            $contact -> state = $request -> state;
-            $contact -> zipcode = $request -> zipcode;
-            $contact -> pcm_id = $request -> pcmid;
-            $contact -> scm_id = $request -> scmid;
-            $contact -> linkedin = $request -> inLink;
-            $contact -> level_in = $request -> inLevel;
-            $contact -> twitter = $request -> ttLink;
-            $contact -> level_t = $request -> ttLevel;
-            $contact -> facebook = $request -> fbLink;
-            $contact -> level_f = $request -> fbLevel;
-            $contact -> youtube = $request -> ytLink;
-            $contact -> level_y = $request -> ytLevel;
-            $contact -> googleplus = $request -> goLink;
-            $contact -> level_g = $request -> goLevel;
-            $contact -> mail = $request -> maLink;
-            $contact -> level_m = $request -> maLevel;
-        }
-
-        $contact -> save();
-
-        return back()
-            -> with('active_tab', $request -> active_tab);
-    }
-
-    public function editPrice(Request $request){
-        if ($request->price_id != '') {
-
-            $ePrice = EventPrice::find($request->price_id);
-
-            if( $request -> pName != '' ){
-                $ePrice -> name = $request -> pName;
-                if( $request -> pDesc != '' ){
-                    $ePrice -> description = $request -> pDesc;
-                    if( $request -> pCost != '' ){
-                        $ePrice -> cost = $request -> pCost;
-                        if( $request -> pMO != '' ){
-                            $plan_isMemberOnly = 1;
-                        }else{
-                            $plan_isMemberOnly = 0;
-                        }
-                        $ePrice -> members_only = $plan_isMemberOnly;
-                        $ePrice -> timestamps = false;
-                        $ePrice -> save();
-                        return back()
-                            -> with('active_tab', $request -> active_tab);
-                    }else
-                        return back()
-                            -> with('active_tab', $request -> active_tab)
-                            -> with('plan_msg', 'price cost missed');
-                }else
-                    return back()
-                        -> with('active_tab', $request -> active_tab)
-                        -> with('plan_msg', 'price description missed');
-            }else{
-                return back()
-                    -> with('active_tab', $request -> active_tab)
-                    -> with('plan_msg', 'price name missed');
-            }
-
-        } else
-            return back()
-                -> with('active_tab', $request -> active_tab)
-                -> with('plan_msg', 'unexpected exception with price ID');
-    }
-
-    public function eventCreate(){
-
-        return view('event/createEvent')->with('page', 'createEvent');
-    }
-
-    public function eventManagement($slug){
+    public function readEvent($slug){
 
         $event = Event::where('slug', '=', $slug) -> first();
         session(['eventId' => $event -> id]);
@@ -346,16 +214,62 @@ class EventController extends Controller{
         ]);
     }
 
-    public function getEventDates(Request $request){
-        //echo 'here';
-        $eventDate = json_encode(array(
-            array(
-                'title'=>'test',
-                'start'=>'2017-07-02T12:00:00',
-                'end'=>'2017-07-03T13:00:00'
-            )
-        ));
-        echo $eventDate;
+    public function readEventDates(){
+        if(Auth::check()){
+            $publicEventDates = DB::table('events')
+                -> where('events.club_id', session('theClubID'))
+                -> where('access', 'Public')
+                -> select('events.name', 'events.start_date', 'events.end_date')
+                -> get();
+            $membersOnlyEventDates = DB::table('events')
+                -> where('events.club_id', session('theClubID'))
+                -> where('events.access', 'Members Only')
+                -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
+                -> where('roleships.user_id', '=', Auth::id())
+                -> where('roleships.role_id', '>', 1)
+                -> where('roleships.role_id', '<', 5)
+                -> select('events.name', 'events.start_date', 'events.end_date')
+                -> get();
+            $inviteOnlyMemberEventDates = DB::table('events')
+                -> where('events.club_id', session('theClubID'))
+                -> where('events.access', 'Invite Only')
+                -> join('event_members', 'event_members.event_id', '=', 'events.id')
+                -> where('event_members.user_id', '=', Auth::id())
+                -> where('event_members.invited', '=', 1)
+                -> select('events.name', 'events.start_date', 'events.end_date')
+                -> get();
+            $inviteOnlyAdminEventDates = DB::table('events')
+                -> where('events.club_id', session('theClubID'))
+                -> where('events.access', 'Invite Only')
+                -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
+                -> where('roleships.user_id', '=', Auth::id())
+                -> where('roleships.role_id', '>', 1)
+                -> where('roleships.role_id', '<', 4)
+                -> select('events.name', 'events.start_date', 'events.end_date')
+                -> get();
+            $eventDates = $publicEventDates -> merge($membersOnlyEventDates);
+            $eventDates = $eventDates -> merge($inviteOnlyMemberEventDates);
+            $eventDates = $eventDates -> merge($inviteOnlyAdminEventDates);
+
+        }else{
+            $eventDates = DB::table('events')
+                -> where('events.club_id', session('theClubID'))
+                -> where('access', 'Public')
+                -> select('events.name', 'events.start_date', 'events.end_date')
+                -> get();
+        }
+        $obj = array();
+        foreach($eventDates as $event){
+            $e = $event -> name;
+            $arr = array(
+                'title' => $event -> name,
+                'start' => $event ->start_date,
+                'end' => $event -> end_date
+            );
+            array_push($obj, $arr);
+        }
+        $events = json_encode($obj);
+        echo $events;
     }
 
     public function inviteAMember(Request $request){
@@ -392,7 +306,7 @@ class EventController extends Controller{
         }
     }
 
-    public function showAllEvents(){
+    public function readAllEvents(){
 
         $allEvents = DB::table('events')
             -> join('contacts', 'contacts.id', '=', 'events.contact_id')
@@ -447,7 +361,7 @@ class EventController extends Controller{
         ]);
     }
 
-    public function showMyEvents(){
+    public function readMyEvents(){
 
         $adminEvents = DB::table('events')
             -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
@@ -460,6 +374,7 @@ class EventController extends Controller{
 
         $memberEvents = DB::table('event_members')
             -> where('event_members.user_id', Auth::id())
+            -> where('event_members.invited', 0)
             -> join('events', 'event_members.event_id', '=', 'events.id')
             -> select('events.slug', 'events.name', 'events.logo_path', 'events.created_at')
             -> get()
@@ -473,35 +388,8 @@ class EventController extends Controller{
         ]);
     }
 
-    public function payForEvent(Request $request){
+    public function becomeAnEventMember(){
 
-        if($request -> has('stripeToken')){
-            \Stripe\Stripe::setApiKey(Session::get('stripe_secret_key'));
-
-            $token = $request -> stripeToken;
-
-            $charge = \Stripe\Charge::create(array(
-                "amount" => 100 * Event_Price::find($request -> ePrice_id) -> cost,
-                "currency" => "usd",
-                "description" => "Example charge",
-                "source" => $token,
-            ));
-
-            if($charge -> paid == true){
-                $newEventMember = new EventMember;
-                $newEventMember -> user_id = Auth::id();
-                $newEventMember -> club_id = Event_Member::find($request -> plan_id) -> club_id;
-                $newEventMember -> role_id = 4;
-                $newEventMember -> save();
-                return back();
-            }else{
-                return back() -> with('msg', 'payment failed');
-            }
-        }else{
-            if( 0 == Membership_plan::find($request -> plan_id) -> cost ){
-                return $this -> clubManagement(Club::find( Membership_plan::find($request -> plan_id) -> club_id) -> slug);
-            }
-        }
     }
 
 }

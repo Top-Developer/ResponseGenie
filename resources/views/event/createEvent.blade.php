@@ -164,7 +164,7 @@
                                 <div class="form-group form-md-line-input form-md-floating-label">
                                     <select class="form-control" id="form_control_event_access"  name = "event_access">
                                         <option value="" selected></option>
-                                        <option value="Private">Private</option>
+                                        <option value="Ivite Only">Invite Only</option>
                                         <option value="Members Only">Members Only</option>
                                         <option value="Public">Public</option>
                                     </select>

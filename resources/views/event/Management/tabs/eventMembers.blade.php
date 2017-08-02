@@ -81,7 +81,7 @@
                 @foreach( $eventMembers as $aUser )
                     <tr>
                         <td class= "col-table-admin">
-                            <input type="checkbox" class="checkboxes" checked disabled>
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
                         <td class= "col-table-fn">
                             {{$aUser -> first_name}}
@@ -93,12 +93,19 @@
                             {{$aUser -> invite_date}}
                         </td>
                         <td class= "col-table-adate">
-                            {{$aUser -> accept_date}}
+                            @if(!$aUser -> invited)
+                                {{$aUser -> accept_date}}
+                            @else
+                                invited
+                            @endif
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            <button type="button" class="btn purple btn-outline">
+                Export CSV
+            </button>
         </div>
     </div>
 </div>

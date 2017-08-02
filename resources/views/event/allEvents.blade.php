@@ -259,7 +259,7 @@
                                                     @endif
                                                 @endforeach
                                                 @if($count == 0)
-                                                    <a href="{{url('/events/'.$anEvent -> slug.'/become-a-member')}}" class="btn red">Pay for membership</a>
+                                                    <a href="{{url('/events/'.$anEvent -> slug.'/become-a-member')}}" class="btn red">Pay for event membership</a>
                                                 @else
                                                     <?php $count = 0?>
                                                 @endif

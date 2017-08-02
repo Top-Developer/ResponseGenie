@@ -167,11 +167,11 @@
                         </a>
                         <ul class="dropdown-menu pull-left">
                             <li>
-                                <a href="<?php echo e(url('club/allClubs')); ?>"> All Clubs </a>
+                                <a href="<?php echo e(url('club/all-clubs')); ?>"> All Clubs </a>
                             </li>
                             <?php if(Auth::check()): ?>
                             <li>
-                                <a href="<?php echo e(url('club/myClubs')); ?>"> Your Clubs </a>
+                                <a href="<?php echo e(url('club/my-clubs')); ?>"> Your Clubs </a>
                             </li>
                             <?php endif; ?>
                         </ul>
@@ -183,11 +183,11 @@
                         </a>
                         <ul class="dropdown-menu pull-left">
                             <li class=" ">
-                                <a href="<?php echo e(url('event/allEvents')); ?>"> All Events </a>
+                                <a href="<?php echo e(url('event/all-events')); ?>"> All Events </a>
                             </li>
                             <?php if(Auth::check()): ?>
                                 <li class=" ">
-                                    <a href="<?php echo e(url('event/myEvents')); ?>"> Your Events </a>
+                                    <a href="<?php echo e(url('event/my-events')); ?>"> Your Events </a>
                                 </li>
                             <?php endif; ?>
                         </ul>

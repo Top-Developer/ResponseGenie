@@ -166,11 +166,11 @@
                         </a>
                         <ul class="dropdown-menu pull-left">
                             <li>
-                                <a href="{{url('club/allClubs')}}"> All Clubs </a>
+                                <a href="{{url('club/all-clubs')}}"> All Clubs </a>
                             </li>
                             @if(Auth::check())
                             <li>
-                                <a href="{{url('club/myClubs')}}"> Your Clubs </a>
+                                <a href="{{url('club/my-clubs')}}"> Your Clubs </a>
                             </li>
                             @endif
                         </ul>
@@ -182,11 +182,11 @@
                         </a>
                         <ul class="dropdown-menu pull-left">
                             <li class=" ">
-                                <a href="{{url('event/allEvents')}}"> All Events </a>
+                                <a href="{{url('event/all-events')}}"> All Events </a>
                             </li>
                             @if(Auth::check())
                                 <li class=" ">
-                                    <a href="{{url('event/myEvents')}}"> Your Events </a>
+                                    <a href="{{url('event/my-events')}}"> Your Events </a>
                                 </li>
                             @endif
                         </ul>

@@ -1,7 +1,7 @@
 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-full">
         <div class="modal-content">
-            <form action = "{{url('/import')}}" method = "post" enctype="multipart/form-data">
+            <form action = "{{url('/offline-member/import')}}" method = "post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_3'>
                 <div class="modal-header">

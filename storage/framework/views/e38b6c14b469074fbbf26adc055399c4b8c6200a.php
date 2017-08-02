@@ -1,7 +1,7 @@
 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-full">
         <div class="modal-content">
-            <form action = "<?php echo e(url('/import')); ?>" method = "post" enctype="multipart/form-data">
+            <form action = "<?php echo e(url('/offline-member/import')); ?>" method = "post" enctype="multipart/form-data">
                 <?php echo e(csrf_field()); ?>
 
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_3'>

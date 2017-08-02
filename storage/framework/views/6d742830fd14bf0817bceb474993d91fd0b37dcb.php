@@ -257,7 +257,7 @@
                                                     <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                                 <?php if($count == 0): ?>
-                                                    <a href="<?php echo e(url('/events/'.$anEvent -> slug.'/become-a-member')); ?>" class="btn red">Pay for membership</a>
+                                                    <a href="<?php echo e(url('/events/'.$anEvent -> slug.'/become-a-member')); ?>" class="btn red">Pay for event membership</a>
                                                 <?php else: ?>
                                                     <?php $count = 0?>
                                                 <?php endif; ?>

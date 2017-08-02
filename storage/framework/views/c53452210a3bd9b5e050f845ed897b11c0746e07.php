@@ -19,7 +19,7 @@
     <?php endif; ?>
 </h1>
 <div class = "row">
-    <?php $__currentLoopData = $theClub -> membership_plans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+    <?php $__currentLoopData = $theClub->membership_plans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $theMembership): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
     <div class = "col-md-4">
         <div class="panel panel-info">
             <div class="panel-heading">

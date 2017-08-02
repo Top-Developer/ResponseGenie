@@ -254,7 +254,7 @@
                                 <div class="portlet portlet-sortable box blue-hoki">
                                     <div class="portlet-title ui-sortable-handle">
                                         <div class = "caption">{{$aClub -> name}}</div>
-                                        <?php $count = 0?>
+                                        <?php $count = 0;?>
                                         <div class="actions">
                                             @foreach($yourClubs as $yourOneClub)
                                                 @if($yourOneClub -> id == $aClub -> id && $count == 0)
@@ -265,7 +265,7 @@
                                             @if($count == 0)
                                                 <a href="{{url('/clubs/'.$aClub -> slug.'/become-a-member')}}" class="btn red">Become a member</a>
                                             @else
-                                                <?php $count = 0?>
+                                                <?php $count = 0;?>
                                             @endif
                                         </div>
                                     </div>

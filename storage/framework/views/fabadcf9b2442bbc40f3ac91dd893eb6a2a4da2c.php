@@ -84,7 +84,7 @@
                 <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                     <tr>
                         <td class= "col-table-admin">
-                            <input type="checkbox" class="checkboxes" checked disabled>
+                            <input type="checkbox" class="checkboxes" disabled>
                         </td>
                         <td class= "col-table-fn">
                             <?php echo e($aUser -> first_name); ?>
@@ -99,13 +99,20 @@
 
                         </td>
                         <td class= "col-table-adate">
-                            <?php echo e($aUser -> accept_date); ?>
+                            <?php if(!$aUser -> invited): ?>
+                                <?php echo e($aUser -> accept_date); ?>
 
+                            <?php else: ?>
+                                invited
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                 </tbody>
             </table>
+            <button type="button" class="btn purple btn-outline">
+                Export CSV
+            </button>
         </div>
     </div>
 </div>

@@ -223,11 +223,11 @@
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <a href="#"> Clubs </a>
+                            <a href="#"> Events </a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <span> Your clubs </span>
+                            <span> Your events </span>
                         </li>
                     </ul>
                     <!-- END PAGE BREADCRUMBS -->

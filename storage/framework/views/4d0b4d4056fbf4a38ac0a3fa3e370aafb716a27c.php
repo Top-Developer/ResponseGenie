@@ -24,20 +24,37 @@
                 </div>
                 <?php if( $theUserRole == 'owner' || $theUserRole == 'admin' ): ?>
                 <div style="float:right;">
-                    <a href="<?php echo e(url('/clubs/'.$theClub -> slug.'/create-an-event')); ?>" class="btn red"> Create a new event </a>
+                    <a href="<?php echo e(url('/event/create/'.$theClub->slug)); ?>" class="btn red"> Create a new event </a>
                 </div>
                 <?php endif; ?>
             </div>
 
             <div class="portlet-body">
-                <?php $__currentLoopData = $clubEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $anEvent): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                <div class="row eventcontainer">
-                    <div class="col-md-3 text-center monthdate">
-                        <span class="date"><?php echo e($anEvent->start_date); ?></span>
-                    </div>
-                    <div class="col-md-9">
-                        <span class="small mb-10 text-muted"><?php echo e($anEvent->name); ?></span>
-                        <h6 class="title"><?php echo e($anEvent->description); ?></h6>
+                <?php $__currentLoopData = $eventDates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $anEvent): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-header-green">
+                            <a href="<?php echo e(url('/events/'.$anEvent->slug)); ?>">
+                                <h1 class="card-heading"><?php echo e($anEvent->name); ?></h1>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                Start Date : <?php echo e($anEvent->start_date); ?>
+
+                            </div>
+                            <div>
+                                End Date : <?php echo e($anEvent->end_date); ?>
+
+                            </div>
+                            <div>
+                                Description : <?php echo e($anEvent->description); ?>
+
+                            </div>
+                        </div>
+                        <div class="card-footer">
+
+                        </div>
                     </div>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>

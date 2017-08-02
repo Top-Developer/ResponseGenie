@@ -24,20 +24,34 @@
                 </div>
                 @if( $theUserRole == 'owner' || $theUserRole == 'admin' )
                 <div style="float:right;">
-                    <a href="{{url('/clubs/'.$theClub -> slug.'/create-an-event')}}" class="btn red"> Create a new event </a>
+                    <a href="{{url('/event/create/'.$theClub->slug)}}" class="btn red"> Create a new event </a>
                 </div>
                 @endif
             </div>
 
             <div class="portlet-body">
-                @foreach($clubEvents as $anEvent)
-                <div class="row eventcontainer">
-                    <div class="col-md-3 text-center monthdate">
-                        <span class="date">{{$anEvent->start_date}}</span>
-                    </div>
-                    <div class="col-md-9">
-                        <span class="small mb-10 text-muted">{{$anEvent->name}}</span>
-                        <h6 class="title">{{$anEvent->description}}</h6>
+                @foreach($eventDates as $anEvent)
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-header-green">
+                            <a href="{{url('/events/'.$anEvent->slug)}}">
+                                <h1 class="card-heading">{{$anEvent->name}}</h1>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                Start Date : {{$anEvent->start_date}}
+                            </div>
+                            <div>
+                                End Date : {{$anEvent->end_date}}
+                            </div>
+                            <div>
+                                Description : {{$anEvent->description}}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+
+                        </div>
                     </div>
                 </div>
                 @endforeach

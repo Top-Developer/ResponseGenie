@@ -1,7 +1,7 @@
 <div class="modal fade" id="manual-trans" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class = 'ajax' method = 'post' action = '{{url("/enter/manual_transaction")}}' id = 'mtForm'>
+            <form class = 'ajax' method = 'post' action = '{{url("/transaction/insert-manually")}}' id = 'mtForm'>
                 {{csrf_field()}}
                 <div class="modal-header">
                     <h4 style = "text-align: center;">Enter Manual Transaction</h4>

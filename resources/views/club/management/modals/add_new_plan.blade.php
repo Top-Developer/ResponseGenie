@@ -1,7 +1,7 @@
 <div id="add_new_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "{{url('/add/membership_plan')}}" method = "post">
+            <form action = "{{url('/membership-plan/create')}}" method = "post">
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_4'>
                 <div class="modal-header">

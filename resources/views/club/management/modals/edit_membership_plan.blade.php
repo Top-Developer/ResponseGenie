@@ -1,7 +1,7 @@
 <div id="edit_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "{{url('/edit/membership_plan')}}" method = "post">
+            <form action = "{{url('/membership-plan/update')}}" method = "post">
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_4'>
                 <input type="hidden" id = "plan_id" name = "pId">

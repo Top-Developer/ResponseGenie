@@ -15,6 +15,6 @@ class Club extends Model
 
     public function membership_plans(){
 
-        return $this -> hasMany('App\Membership_plan', 'club_id', 'id');
+        return $this -> hasMany('App\MembershipPlan', 'club_id', 'id');
     }
 }

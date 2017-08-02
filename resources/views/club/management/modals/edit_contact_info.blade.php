@@ -1,7 +1,7 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action = "{{url('/edit/contact')}}" method = "post">
+            <form action = "{{url('/contact/club/edit')}}" method = "post">
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                 <div class="modal-header">

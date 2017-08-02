@@ -1,7 +1,7 @@
 <div id="edit_plan" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "<?php echo e(url('/edit/membership_plan')); ?>" method = "post">
+            <form action = "<?php echo e(url('/membership-plan/update')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_4'>
