@@ -729,9 +729,20 @@
         }
 
         // This must be a hyperlink
-        $(".export").on('click', function (event) {
+        $(".export.for-transactions").on('click', function() {
             // CSV
-            var args = [$('table#dataTb'), 'export.csv'];
+            var args = [$('table#transactions-table'), 'export.csv'];
+
+            exportTableToCSV.apply(this, args);
+
+            // If CSV, don't do event.preventDefault() or return false
+            // We actually need this to be a typical hyperlink
+        });
+
+        // This must be a hyperlink
+        $(".export.for-members").on('click', function() {
+            // CSV
+            var args = [$('table#members-table'), 'export.csv'];
 
             exportTableToCSV.apply(this, args);
 
@@ -819,7 +830,7 @@
         });
 
         var target = document.getElementById('edit_contact_info');
-        observer.observe(target, {attributes: true, attributeFilter: ['style']})
+        observer.observe(target, {attributes: true, attributeFilter: ['style']});
     })
 </script>
 @endpush

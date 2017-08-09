@@ -231,6 +231,14 @@
         </div>
         <!-- END PAGE HEAD-->
 
+        <?php if(Session::has('message')): ?>
+            <div class="alert alert-<?php echo e(Session::get('status')); ?> status-box"  style = 'text-align:center;'>
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <?php echo e(Session::get('message')); ?>
+
+            </div>
+        <?php endif; ?>
+
         <div class="page-content">
             <div class="container">
                 <!-- BEGIN PAGE BREADCRUMBS -->
@@ -252,18 +260,42 @@
                                 <div class="portlet portlet-sortable box blue-hoki">
                                     <div class="portlet-title ui-sortable-handle">
                                         <div class = "caption"><?php echo e($aClub -> name); ?></div>
-                                        <?php $count = 0;?>
                                         <div class="actions">
-                                            <?php $__currentLoopData = $yourClubs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneClub): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                <?php if($yourOneClub -> id == $aClub -> id && $count == 0): ?>
-                                                    <a href="<?php echo e(url('/clubs/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
-                                                    <?php $count = 1?>
+                                            <?php if(is_null($aClub->member_user_id)): ?>
+                                                <?php if('Privated Club' == $aClub->type): ?>
+                                                    <?php if(is_null($aClub->role_id)): ?>
+                                                        <a class="btn red">Private Club, not invited</a>
+                                                    <?php elseif(2 == $aClub->role_id || 3 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
+                                                    <?php elseif(4 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
+                                                    <?php endif; ?>
+                                                <?php elseif('Open Club' == $aClub->type): ?>
+                                                    <?php if(2 == $aClub->role_id || 3 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub->slug)); ?>" class="btn green">Go to the club</a>
+                                                    <?php else: ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub->slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub->slug)); ?>" class="btn green">Visit the club</a>
+                                                    <?php endif; ?>
+                                                <?php elseif('Closed Club' == $aClub->type): ?>
+                                                    <?php if(2 == $aClub->role_id || 3 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
+                                                    <?php else: ?>
+                                                        <a class="btn red">Closed Club</a>
+                                                    <?php endif; ?>
+                                                <?php elseif('Moderated Club' == $aClub->type): ?>
+                                                    <?php if(is_null($aClub->role_id)): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/request')); ?>" class="btn red">Request to be a member</a>
+                                                    <?php elseif(2 == $aClub->role_id || 3 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
+                                                    <?php elseif(4 == $aClub->role_id || 6 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
+                                                    <?php elseif(5 == $aClub->role_id): ?>
+                                                        <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/request')); ?>" class="btn red">Resend a request</a>
+                                                    <?php endif; ?>
                                                 <?php endif; ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                            <?php if($count == 0): ?>
-                                                <a href="<?php echo e(url('/clubs/'.$aClub -> slug.'/become-a-member')); ?>" class="btn red">Become a member</a>
                                             <?php else: ?>
-                                                <?php $count = 0;?>
+                                                <a href="<?php echo e(url('/clubs/'.$aClub -> slug)); ?>" class="btn green">Go to the club</a>
                                             <?php endif; ?>
                                         </div>
                                     </div>

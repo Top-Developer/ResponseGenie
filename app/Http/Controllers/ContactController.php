@@ -10,7 +10,7 @@ use App\Event;
 
 class ContactController extends Controller{
 
-    public function editEventContact(Request $request){
+    public function updateEventContact(Request $request){
 
         $contact = Contact::find(Event::find(session('eventId')) -> contact_id);
 
@@ -60,7 +60,7 @@ class ContactController extends Controller{
             -> with('active_tab', $request -> active_tab);
     }
 
-    public function editClubContact(Request $request)
+    public function updateClubContact(Request $request)
     {
         $contact = Contact::find(Club::find(session('theClubID')) -> contact_id);
 

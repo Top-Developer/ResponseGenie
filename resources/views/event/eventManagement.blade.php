@@ -341,6 +341,7 @@
 @push('script')
 <script src="/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyCjKyxewbk6_hbH9tSAjNWTPCqN9hiPz-o" type="text/javascript"></script>
 <script src="{{url('/assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
@@ -493,6 +494,142 @@
                 $('.col-tr-re').css('display', 'none');
             }
         });
+        function exportTableToCSV($table, filename) {
+
+            var $headers = $table.find('tr:has(th)')
+                ,$rows = $table.find('tr:has(td)')
+
+                // Temporary delimiter characters unlikely to be typed by keyboard
+                // This is to avoid accidentally splitting the actual contents
+                ,$tmpColDelim = String.fromCharCode(11) // vertical tab character
+                ,$tmpRowDelim = String.fromCharCode(0) // null character
+
+                // actual delimiter characters for CSV format
+                ,$colDelim = '","'
+                ,$rowDelim = '"\r\n"';
+
+            // Grab text from table into CSV formatted string
+            var csv = '"';
+            csv += $headers.map(function (i, row) {
+                    var $row = $(row),
+                        $cols = $row.find('th');
+
+                    return $cols.map(function (j, col) {
+                        var $col = $(col),
+                            $text = $col.text();
+
+                        return $text.replace(/"/g, '""'); // escape double quotes
+
+                    }).get().join($tmpColDelim);
+
+                }).get().join($tmpRowDelim)
+                    .split($tmpRowDelim).join($rowDelim)
+                    .split($tmpColDelim).join($colDelim) + $rowDelim;
+
+            // Grab text from table into CSV formatted string
+            csv += $rows.map(function (i, row) {
+                    var $row = $(row),
+                        $cols = $row.find('td');
+
+                    return $cols.map(function (j, col) {
+                        var $col = $(col),
+                            $text = $col.text();
+
+                        return $text.replace(/"/g, '""'); // escape double quotes
+
+                    }).get().join($tmpColDelim);
+
+                }).get().join($tmpRowDelim)
+                    .split($tmpRowDelim).join($rowDelim)
+                    .split($tmpColDelim).join($colDelim) + '"';
+
+            console.log(csv);
+
+            // Deliberate 'false', see comment below
+            if (false && window.navigator.msSaveBlob) {
+
+                var $blob = new Blob([decodeURIComponent(csv)], {
+                    type: 'text/csv;charset=utf8'
+                });
+
+                // Crashes in IE 10, IE 11 and Microsoft Edge
+                // See MS Edge Issue #10396033: https://goo.gl/AEiSjJ
+                // Hence, the deliberate 'false'
+                // This is here just for completeness
+                // Remove the 'false' at your own risk
+                window.navigator.msSaveBlob($blob, filename);
+
+            } else if (window.Blob && window.URL) {console.log(2);
+                // HTML5 Blob
+                var $blob = new Blob([csv], { type: 'text/csv;charset=utf8' });
+                var csvUrl = window.URL.createObjectURL($blob);
+
+                $(this)
+                    .attr({
+                        'download': filename,
+                        'href': csvUrl
+                    });
+            } else {
+                // Data URI
+                var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+                $(this)
+                    .attr({
+                        'download': filename,
+                        'href': csvData,
+                        'target': '_blank'
+                    });
+            }
+        }
+        // This must be a hyperlink
+        $(".export.for-transactions").on('click', function() {
+            // CSV
+            var args = [$('table#transactions-table'), 'export.csv'];
+
+            exportTableToCSV.apply(this, args);
+
+            // If CSV, don't do event.preventDefault() or return false
+            // We actually need this to be a typical hyperlink
+        });
+        // This must be a hyperlink
+        $(".export.for-members").on('click', function() {
+            // CSV
+            var args = [$('table#members-table'), 'export.csv'];
+
+            exportTableToCSV.apply(this, args);
+
+            // If CSV, don't do event.preventDefault() or return false
+            // We actually need this to be a typical hyperlink
+        });
+        $('button#sandn').on('click', function(){
+            $('form#mtForm').submit();
+            document.getElementById('userSelector').selectedIndex = -1;
+            document.getElementById('trSelector').selectedIndex = -1;
+            $('input#amount').val('');
+            flag = 1;
+        });
+        $('#create-price-event').validate({
+            rules:{
+                pName : 'required',
+                pDesc : 'required',
+                pCost : 'number'
+            }
+        });
+        $('#update-price-event').validate({
+            rules:{
+                pName : 'required',
+                pDesc : 'required',
+                pCost : 'number'
+            }
+        });
+        $('#mtForm').validate({
+            rules:{
+                mt_amount :{
+                    required : true,
+                    number : true
+                }
+            }
+        });
     });
     $(document).ready(function(){
         var geocoder; //To use later
@@ -521,6 +658,31 @@
                 alert("Geocode was not successful for the following reason: " + status);
             }
         });
+
+        var c_map = new google.maps.Map(document.getElementById("gmap_marker"), myOptions);
+
+        geocoder.geocode( { 'address': zcode }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                //Got result, center the map and put it out there
+                c_map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: c_map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+
+        var observer = new MutationObserver(function(mutations){
+            mutations.forEach(function(mutationRecord){
+                console.log(mutationRecord);
+                google.maps.event.trigger(c_map, "resize");
+            });
+        });
+
+        var target = document.getElementById('edit_contact_info');
+        observer.observe(target, {attributes: true, attributeFilter: ['style']});
     });
 </script>
 @endpush

@@ -1,7 +1,7 @@
 <div id="edit_event_price" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "{{url('/event/price/edit')}}" method = "post">
+            <form action = "{{url('/price-of-event/update')}}" method = "post" id = 'update-price-event'>
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                 <div class="modal-header">

@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="portlet-body">
-        <table class="table table-striped table-bordered table-hover order-column" id="dataTb">
+        <table class="table table-striped table-bordered table-hover order-column" id="transactions-table">
             <thead>
             <tr>
                 <th class = 'col-tr-date'> Date </th>
@@ -33,7 +33,7 @@
         </table>
         <div class = 'row'>
             <div class = 'col-md-6'>
-                <a type="button" class="btn purple btn-outline export" download = 'export.csv' id = 'downCSV'> Download CSV </a>
+                <a type="button" class="btn purple btn-outline export for-transactions" download = 'export.csv' id = 'downCSV'> Download CSV </a>
             </div>
             <div class = 'col-md-6' style = 'text-align:right;'>
                 <button type="button" class="btn purple btn-outline" data-toggle="modal" href="#event-manual-trans" id = 'emt'>Enter Manual Transactions</button>

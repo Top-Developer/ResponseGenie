@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 use App\EventPrice;
 
 class PriceController extends Controller{
 
-    public function addPrice(Request $request){
+    public function createPrice(Request $request){
 
         $ePrice = new EventPrice;
 
@@ -44,7 +45,7 @@ class PriceController extends Controller{
         }
     }
 
-    public function editPrice(Request $request){
+    public function updatePrice(Request $request){
 
         if ($request->price_id != '') {
 

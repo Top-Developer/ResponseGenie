@@ -44,7 +44,7 @@
         </table>
         <div class = 'row'>
             <div class = 'col-md-6'>
-                <a type="button" class="btn purple btn-outline export" download = 'export.csv' id = 'downCSV'> Download CSV </a>
+                <a type="button" class="btn purple btn-outline export for-transactions" download = 'export.csv' id = 'downCSV'> Download CSV </a>
             </div>
             <div class = 'col-md-6' style = 'text-align:right;'>
                 <button type="button" class="btn purple btn-outline" data-toggle="modal" href="#manual-trans" id = 'emt'>Enter Manual Transactions</button>

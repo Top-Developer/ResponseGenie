@@ -233,6 +233,13 @@
         </div>
         <!-- END PAGE HEAD-->
 
+        @if(Session::has('message'))
+            <div class="alert alert-{{ Session::get('status') }} status-box"  style = 'text-align:center;'>
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                {{ Session::get('message') }}
+            </div>
+        @endif
+
         <div class="page-content">
             <div class="container">
                 <!-- BEGIN PAGE BREADCRUMBS -->
@@ -254,18 +261,42 @@
                                 <div class="portlet portlet-sortable box blue-hoki">
                                     <div class="portlet-title ui-sortable-handle">
                                         <div class = "caption">{{$aClub -> name}}</div>
-                                        <?php $count = 0;?>
                                         <div class="actions">
-                                            @foreach($yourClubs as $yourOneClub)
-                                                @if($yourOneClub -> id == $aClub -> id && $count == 0)
-                                                    <a href="{{url('/clubs/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
-                                                    <?php $count = 1?>
+                                            @if(is_null($aClub->member_user_id))
+                                                @if('Privated Club' == $aClub->type)
+                                                    @if(is_null($aClub->role_id))
+                                                        <a class="btn red">Private Club, not invited</a>
+                                                    @elseif(2 == $aClub->role_id || 3 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
+                                                    @elseif(4 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub -> slug.'/become-a-member')}}" class="btn red">Become a member</a>
+                                                    @endif
+                                                @elseif('Open Club' == $aClub->type)
+                                                    @if(2 == $aClub->role_id || 3 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub->slug)}}" class="btn green">Go to the club</a>
+                                                    @else
+                                                        <a href="{{url('/clubs/'.$aClub->slug.'/become-a-member')}}" class="btn red">Become a member</a>
+                                                        <a href="{{url('/clubs/'.$aClub->slug)}}" class="btn green">Visit the club</a>
+                                                    @endif
+                                                @elseif('Closed Club' == $aClub->type)
+                                                    @if(2 == $aClub->role_id || 3 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
+                                                    @else
+                                                        <a class="btn red">Closed Club</a>
+                                                    @endif
+                                                @elseif('Moderated Club' == $aClub->type)
+                                                    @if(is_null($aClub->role_id))
+                                                        <a href="{{url('/clubs/'.$aClub -> slug.'/request')}}" class="btn red">Request to be a member</a>
+                                                    @elseif(2 == $aClub->role_id || 3 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
+                                                    @elseif(4 == $aClub->role_id || 6 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub -> slug.'/become-a-member')}}" class="btn red">Become a member</a>
+                                                    @elseif(5 == $aClub->role_id)
+                                                        <a href="{{url('/clubs/'.$aClub -> slug.'/request')}}" class="btn red">Resend a request</a>
+                                                    @endif
                                                 @endif
-                                            @endforeach
-                                            @if($count == 0)
-                                                <a href="{{url('/clubs/'.$aClub -> slug.'/become-a-member')}}" class="btn red">Become a member</a>
                                             @else
-                                                <?php $count = 0;?>
+                                                <a href="{{url('/clubs/'.$aClub -> slug)}}" class="btn green">Go to the club</a>
                                             @endif
                                         </div>
                                     </div>

@@ -1,7 +1,7 @@
 <div class="modal fade" id="invite" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action = "{{url('roleship/invite-a-member')}}" method = "post">
+            <form action = "{{url('invite-a-club-member')}}" method = "post">
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_3'>
                 <div class="modal-header">

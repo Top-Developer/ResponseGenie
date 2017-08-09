@@ -248,18 +248,23 @@
                                     <div class="portlet portlet-sortable box blue-hoki">
                                         <div class="portlet-title ui-sortable-handle">
                                             <div class = "caption"><?php echo e($anEvent -> name); ?></div>
-                                            <?php $count = 0?>
                                             <div class="actions">
-                                                <?php $__currentLoopData = $yourEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $yourOneEvent): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                    <?php if($yourOneEvent -> id == $anEvent -> id && $count == 0): ?>
-                                                        <a href="<?php echo e(url('/events/'.$anEvent -> slug)); ?>" class="btn green">Go to the event</a>
-                                                        <?php $count = 1?>
-                                                    <?php endif; ?>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                                <?php if($count == 0): ?>
+                                                <?php if(2===$anEvent->role_id||3===$anEvent->role_id): ?>
+                                                    <a href="<?php echo e(url('events/'.$anEvent->slug)); ?>" class="btn green">Go to the event</a>
+                                                <?php elseif(1===$anEvent->invited): ?>
+                                                    <a href="<?php echo e(url('events/'.$anEvent->slug.'/accept-an-invitation')); ?>" class="btn green">Accpet invitation</a>
+                                                <?php elseif(0===$anEvent->invited): ?>
+                                                    <a href="<?php echo e(url('events/'.$anEvent->slug)); ?>" class="btn green">Go to the event</a>
+                                                <?php elseif('Public'==$anEvent->access): ?>
                                                     <a href="<?php echo e(url('/events/'.$anEvent -> slug.'/become-a-member')); ?>" class="btn red">Pay for event membership</a>
-                                                <?php else: ?>
-                                                    <?php $count = 0?>
+                                                <?php elseif('Members Only'==$anEvent->access): ?>
+                                                    <?php if(is_null($anEvent->user_id)): ?>
+                                                        <a class="btn red">Members Only Event, you are not a member</a>
+                                                    <?php else: ?>
+                                                        <a href="<?php echo e(url('/events/'.$anEvent -> slug.'/become-a-member')); ?>" class="btn red">Pay for event membership</a>
+                                                    <?php endif; ?>
+                                                <?php elseif('Invite Only'==$anEvent->access): ?>
+                                                    <a class="btn red">Invite Only Event, you are not invited</a>
                                                 <?php endif; ?>
                                             </div>
                                         </div>

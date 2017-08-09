@@ -73,18 +73,6 @@
         </div>
     </div>
 
-    <script>
-        jQuery("#layerslider").layerSlider({
-            autoStart: false,
-            skin: 'carousel',
-            hoverPrevNext: false,
-            navStartStop: false,
-            showCircleTimer: false,
-            thumbnailNavigation: 'always',
-            skinsPath: '/assets/global/plugins/slider-layer-slider/skins/'
-        });
-    </script>
-
     <div class="page-container">
         <div class="page-content-wrapper">
             <div class="page-content">

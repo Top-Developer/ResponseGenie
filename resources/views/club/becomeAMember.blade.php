@@ -34,7 +34,7 @@
                         <div class="portlet light">
                             <div class="portlet-body tabbable-default">
                                 @if( $count == 0 )
-                                    You can not join this club because the club admin has not created my membership plans yet.
+                                    You can not join this club because the club admin has not created any membership plans yet.
                                 @else
                                     @if($clubType == 'Open Club')
                                         <div class = 'row'>
@@ -66,7 +66,7 @@
                                                             </button>
                                                         </form>
                                                     @else
-                                                        <form action="{{url('/club/payForMembership')}}" method="post" style = 'display:inline-block;align:center;'>
+                                                        <form action="{{url('/club/'.$clubSlug.'/payForMembership')}}" method="post" style = 'display:inline-block;align:center;'>
                                                             {{csrf_field()}}
                                                             <input type = hidden name = 'plan_id' value = '{{$theMembership -> id}}'>
                                                             <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
@@ -74,7 +74,7 @@
                                                                     data-name = '{{$theMembership -> name}}'
                                                                     data-description = '{{$theMembership -> description}}'
                                                                     data-amount = '{{100 * $theMembership -> cost}}'
-                                                                    data-currecy = 'usd'
+                                                                    data-currency = 'usd'
                                                                     data-locale = 'auto'>
                                                             </script>
                                                         </form>
@@ -103,7 +103,7 @@
                                                             </div>
                                                             <div id = 'plan_desc' class = 'panel-body'>{{$theMembership -> description}}</div>
                                                             <div class = 'panel-footer' style = 'text-align:right;'>
-                                                                <form action="{{url('/club/payForMembership')}}" method="post" style = 'display:inline-block;align:center;'>
+                                                                <form action="{{url('/club/'.$clubSlug.'/payForMembership')}}" method="post" style = 'display:inline-block;align:center;'>
                                                                     {{csrf_field()}}
                                                                     <input type = hidden name = 'plan_id' value = '{{$theMembership -> id}}'>
                                                                     <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
@@ -111,7 +111,7 @@
                                                                             data-name = '{{$theMembership -> name}}'
                                                                             data-description = '{{$theMembership -> description}}'
                                                                             data-amount = '{{100 * $theMembership -> cost}}'
-                                                                            data-currecy = 'usd'
+                                                                            data-currency = 'usd'
                                                                             data-locale = 'auto'>
                                                                     </script>
                                                                 </form>
@@ -144,7 +144,7 @@
                                                             </div>
                                                             <div id = 'plan_desc' class = 'panel-body'>{{$theMembership -> description}}</div>
                                                             <div class = 'panel-footer' style = 'text-align:right;'>
-                                                                <form action="{{url('/club/payForMembership')}}" method="post" style = 'display:inline-block;align:center;'>
+                                                                <form action="{{url('/club/'.$clubSlug.'/payForMembership')}}" method="post" style = 'display:inline-block;align:center;'>
                                                                     {{csrf_field()}}
                                                                     <input type = hidden name = 'plan_id' value = '{{$theMembership -> id}}'>
                                                                     <script src = 'https://checkout.stripe.com/checkout.js' class = 'stripe-button'
@@ -152,7 +152,7 @@
                                                                             data-name = '{{$theMembership -> name}}'
                                                                             data-description = '{{$theMembership -> description}}'
                                                                             data-amount = '{{100 * $theMembership -> cost}}'
-                                                                            data-currecy = 'usd'
+                                                                            data-currency = 'usd'
                                                                             data-locale = 'auto'>
                                                                     </script>
                                                                 </form>

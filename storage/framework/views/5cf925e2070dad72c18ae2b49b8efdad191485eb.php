@@ -32,7 +32,7 @@
                         <div class="portlet light">
                             <div class="portlet-body tabbable-default">
                                 <?php if( $count == 0 ): ?>
-                                    You can not join this club because the club admin has not created my membership plans yet.
+                                    You can not join this club because the club admin has not created any membership plans yet.
                                 <?php else: ?>
                                     <?php if($clubType == 'Open Club'): ?>
                                         <div class = 'row'>

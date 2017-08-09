@@ -250,18 +250,23 @@
                                     <div class="portlet portlet-sortable box blue-hoki">
                                         <div class="portlet-title ui-sortable-handle">
                                             <div class = "caption">{{$anEvent -> name}}</div>
-                                            <?php $count = 0?>
                                             <div class="actions">
-                                                @foreach($yourEvents as $yourOneEvent)
-                                                    @if($yourOneEvent -> id == $anEvent -> id && $count == 0)
-                                                        <a href="{{url('/events/'.$anEvent -> slug)}}" class="btn green">Go to the event</a>
-                                                        <?php $count = 1?>
-                                                    @endif
-                                                @endforeach
-                                                @if($count == 0)
+                                                @if(2===$anEvent->role_id||3===$anEvent->role_id)
+                                                    <a href="{{url('events/'.$anEvent->slug)}}" class="btn green">Go to the event</a>
+                                                @elseif(1===$anEvent->invited)
+                                                    <a href="{{url('events/'.$anEvent->slug.'/accept-an-invitation')}}" class="btn green">Accpet invitation</a>
+                                                @elseif(0===$anEvent->invited)
+                                                    <a href="{{url('events/'.$anEvent->slug)}}" class="btn green">Go to the event</a>
+                                                @elseif('Public'==$anEvent->access)
                                                     <a href="{{url('/events/'.$anEvent -> slug.'/become-a-member')}}" class="btn red">Pay for event membership</a>
-                                                @else
-                                                    <?php $count = 0?>
+                                                @elseif('Members Only'==$anEvent->access)
+                                                    @if(is_null($anEvent->user_id))
+                                                        <a class="btn red">Members Only Event, you are not a member</a>
+                                                    @else
+                                                        <a href="{{url('/events/'.$anEvent -> slug.'/become-a-member')}}" class="btn red">Pay for event membership</a>
+                                                    @endif
+                                                @elseif('Invite Only'==$anEvent->access)
+                                                    <a class="btn red">Invite Only Event, you are not invited</a>
                                                 @endif
                                             </div>
                                         </div>

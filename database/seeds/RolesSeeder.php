@@ -16,5 +16,6 @@ class RolesSeeder extends Seeder
         DB::table('roles')->insert(['role_description' => 'admin']);
         DB::table('roles')->insert(['role_description' => 'invited']);
         DB::table('roles')->insert(['role_description' => 'pending']);
+        DB::table('roles')->insert(['role_description' => 'accepted']);
     }
 }

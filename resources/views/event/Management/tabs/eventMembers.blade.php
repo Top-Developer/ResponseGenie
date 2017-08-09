@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="portlet-body">
-            <table class="table table-striped table-bordered table-hover order-column" id="sample_2">
+            <table class="table table-striped table-bordered table-hover order-column" id="members-table">
                 <thead>
                 <tr>
                     <th class= "col-table-admin"> Admin </th>
@@ -103,9 +103,9 @@
                 @endforeach
                 </tbody>
             </table>
-            <button type="button" class="btn purple btn-outline">
+            <a type="button" class="btn purple btn-outline export for-members">
                 Export CSV
-            </button>
+            </a>
         </div>
     </div>
 </div>

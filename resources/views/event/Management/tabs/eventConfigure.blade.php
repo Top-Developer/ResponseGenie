@@ -2,7 +2,7 @@
     <div class="alert alert-danger">
         <strong>Whoops!</strong> There were some problems with your input.
         <ul>
-            @foreach ($errors->all() as $error)
+            @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
@@ -94,7 +94,7 @@
                 </div>
                 <div class = "row form-group">
                     <div class = "col-md-offset-4 col-md-8">
-                        <input type="checkbox" id = "display_guest" name = "dg">
+                        <input type="checkbox" id = "display_guest" name = "dg" @if($event->guest_display){{'checked'}}@endif>
                         <label for = "display_guest">Display guest list to all guests?</label>
                     </div>
                 </div>

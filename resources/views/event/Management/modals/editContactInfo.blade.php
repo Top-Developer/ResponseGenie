@@ -1,7 +1,7 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action = "{{url('event/contact/edit')}}" method = "post">
+            <form action = "{{url('contact/event/update')}}" method = "post">
                 {{csrf_field()}}
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
                 <div class="modal-header">
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class = "row">
                                         <div class="col-md-12">
-                                            <div id="gmap_contact" class="gmaps"></div>
+                                            <div id="gmap_marker" class="gmaps"></div>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -53,7 +53,9 @@
                                             <select name = "pcmid">
                                                 <option>None</option>
                                                 @foreach( $eventMembers as $aUser )
-                                                    <option value = "{{$aUser -> id}}" @if( $theContact -> pcm_id == $aUser -> id ) selected @endif>{{$aUser -> email}}</option>
+                                                    @if(0 == $aUser->invited)
+                                                        <option value = "{{$aUser -> id}}" @if( $theContact -> pcm_id == $aUser -> id ) selected @endif>{{$aUser -> email}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -64,7 +66,9 @@
                                             <select name = "scmid">
                                                 <option>None</option>
                                                 @foreach( $eventMembers as $aUser )
-                                                    <option value = "{{$aUser -> id}}" @if( $theContact -> scm_id == $aUser -> id ) selected @endif>{{$aUser -> email}}</option>
+                                                    @if(0 == $aUser->invited)
+                                                        <option value = "{{$aUser -> id}}" @if( $theContact -> scm_id == $aUser -> id ) selected @endif>{{$aUser -> email}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>

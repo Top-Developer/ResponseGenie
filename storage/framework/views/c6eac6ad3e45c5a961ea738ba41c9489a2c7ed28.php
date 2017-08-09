@@ -95,7 +95,7 @@
                 </div>
                 <div class = "row form-group">
                     <div class = "col-md-offset-4 col-md-8">
-                        <input type="checkbox" id = "display_guest" name = "dg">
+                        <input type="checkbox" id = "display_guest" name = "dg" <?php if($event->guest_display): ?><?php echo e('checked'); ?><?php endif; ?>>
                         <label for = "display_guest">Display guest list to all guests?</label>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 <div id="edit_contact_info" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action = "<?php echo e(url('event/contact/edit')); ?>" method = "post">
+            <form action = "<?php echo e(url('contact/event/update')); ?>" method = "post">
                 <?php echo e(csrf_field()); ?>
 
                 <input type = 'hidden' name = 'active_tab' value = 'tab_2_1'>
@@ -45,7 +45,7 @@
                                     </div>
                                     <div class = "row">
                                         <div class="col-md-12">
-                                            <div id="gmap_contact" class="gmaps"></div>
+                                            <div id="gmap_marker" class="gmaps"></div>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -54,7 +54,9 @@
                                             <select name = "pcmid">
                                                 <option>None</option>
                                                 <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                    <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> pcm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
+                                                    <?php if(0 == $aUser->invited): ?>
+                                                        <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> pcm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
+                                                    <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                             </select>
                                         </div>
@@ -65,7 +67,9 @@
                                             <select name = "scmid">
                                                 <option>None</option>
                                                 <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                    <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> scm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
+                                                    <?php if(0 == $aUser->invited): ?>
+                                                        <option value = "<?php echo e($aUser -> id); ?>" <?php if( $theContact -> scm_id == $aUser -> id ): ?> selected <?php endif; ?>><?php echo e($aUser -> email); ?></option>
+                                                    <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                             </select>
                                         </div>

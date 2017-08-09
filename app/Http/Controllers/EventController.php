@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Session;
 
+use App\Contact;
+use App\Club;
 use App\Event;
 use App\EventMember;
 use App\EventPrice;
-use App\Club;
 use App\Role;
 use App\Roleship;
 use App\TransactionForEvent;
@@ -97,6 +98,13 @@ class EventController extends Controller{
             $event -> access = $request -> input( 'event_access' );
         }else
             echo 'type wrong';
+
+        if( 'on' == $request -> input( 'dg' ) ){
+            $event -> guest_display =  1;
+        }else{
+            $event -> guest_display =  0;
+        }
+
         if( $request -> input( 'zip_code' ) ){
             $contact -> zipcode = $request -> input( 'zip_code' );
         }else
@@ -167,31 +175,25 @@ class EventController extends Controller{
 
         if($pcm_id != '' && $pcm_id != 'None'){
             $thePCM = User::find($pcm_id);
-            $thePCMRoleID = Roleship::where('user_id', $pcm_id) -> where('club_id', $event -> club_id) -> first() -> role_id;
-            $thePCMRole = Role::find($thePCMRoleID) -> role_description;
         }
         else{
             $thePCM = NULL;
-            $thePCMRole = NULL;
         }
 
         if($scm_id != '' && $scm_id != 'None'){
             $theSCM = User::find($scm_id);
-            $theSCMRoleID = Roleship::where('user_id', $scm_id) -> where('club_id', $event -> club_id) -> first() -> role_id || NULL;
-            $theSCMRole = Role::find($theSCMRoleID) -> role_description;
         }else{
             $theSCM = NULL;
-            $theSCMRole = NULL;
         }
 
         $eventMembers = DB::table('event_members')
-            -> where('event_id', '=', $event -> id)
+            -> where('event_id', '=', $event->id)
             -> join('users', 'users.id', '=', 'event_members.user_id')
             -> select('users.id', 'users.email', 'users.first_name', 'users.last_name', 'users.profile_image', 'event_members.invited', 'event_members.created_at as invite_date', 'event_members.updated_at as accept_date')
             -> get();
         $trForEvent = DB::table('transaction_for_cevent')
-            ->where('transaction_for_cevent.event_id', $event -> id)
-            ->join('event_members', 'transaction_for_cevent.event_id', '=', 'event_members.event_id')
+            ->join('event_price', 'transaction_for_cevent.event_price_id', '=', 'event_price.id')
+            ->where('event_price.event_id', $event->id)
             ->join('users', 'transaction_for_cevent.user_id', '=', 'users.id')
             ->select('transaction_for_cevent.date', 'users.first_name', 'users.last_name', 'transaction_for_cevent.amount', 'transaction_for_cevent.source', 'transaction_for_cevent.receipt')
             ->get();
@@ -206,9 +208,7 @@ class EventController extends Controller{
             'stripe_public_key' => $club -> stripe_pub_key,
             'theContact' => $theContact,
             'thePCM' => $thePCM,
-            'thePCMRole' => $thePCMRole,
             'theSCM' => $theSCM,
-            'theSCMRole' => $theSCMRole,
             'eventMembers' => $eventMembers,
             'transForEvent' => $trForEvent
         ]);
@@ -309,55 +309,27 @@ class EventController extends Controller{
     public function readAllEvents(){
 
         $allEvents = DB::table('events')
-            -> join('contacts', 'contacts.id', '=', 'events.contact_id')
-            -> join('roleships', 'roleships.club_id', '=', 'events.club_id')
-            -> join('users', 'users.id', '=', 'roleships.user_id')
-            -> where('events.access', 'Public')
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5)
-                    -> where('users.id',  '=', Auth::id());
+            ->join('contacts', 'contacts.id', '=', 'events.contact_id')
+            ->leftJoin('roleships', function($join){
+                $join->on('events.club_id', '=', 'roleships.club_id')
+                    ->where('roleships.user_id', '=', Auth::id());
             })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Private')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4)
-                    -> where('users.id',  '=', Auth::id());
+            ->leftJoin('membership_plans', 'membership_plans.club_id', '=', 'events.club_id')
+            ->leftJoin('online_members', function($join){
+                $join->on('online_members.membership_plan_id', '=', 'membership_plans.id')
+                    ->where('online_members.user_id', '=', Auth::id());
             })
-            -> select('events.id', 'events.name', 'events.slug', 'events.logo_path', 'events.description', 'events.access', 'contacts.city', 'contacts.state', 'contacts.country')
-            -> get()
-            -> unique();
-
-        $yourEvents = DB::table('events')
-            -> join('contacts', 'contacts.id', '=', 'events.contact_id')
-            -> join('clubs', 'clubs.id', '=', 'events.club_id')
-            -> join('roleships', 'roleships.club_id', '=', 'clubs.id')
-            -> join('users', 'users.id', '=', 'roleships.user_id')
-            -> where('users.id', '=', Auth::id())
-            -> where(function($query) {
-                $query->where('events.access', 'Public')
-                    ->where('roleships.role_id', '>', 1)
-                    ->where('roleships.role_id', '<', 5);
+            ->leftJoin('event_members', function($join){
+                $join->on('event_members.event_id', '=', 'events.id')
+                    ->where('event_members.user_id', '=', Auth::id());
             })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Members Only')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 5);
-            })
-            -> orwhere(function($query){
-                $query -> where('events.access', 'Private')
-                    -> where('roleships.role_id', '>', 1)
-                    -> where('roleships.role_id', '<', 4);
-            })
-            -> select('events.id')
-            -> get()
-            -> unique();
+            ->select('events.id', 'events.name', 'events.slug', 'events.logo_path', 'events.description', 'events.access', 'contacts.city', 'contacts.state', 'contacts.country', 'roleships.role_id', 'online_members.user_id', 'event_members.invited')
+            ->get()
+            ->unique();
 
         return view('event/allEvents', [
             'page' => 'allEvents',
-            'allEvents' => $allEvents,
-            'yourEvents' => $yourEvents
+            'allEvents' => $allEvents
         ]);
     }
 
@@ -388,8 +360,36 @@ class EventController extends Controller{
         ]);
     }
 
-    public function becomeAnEventMember(){
+    public function becomeAnEventMember($slug){
 
+        $theEvent = Event::where('slug', '=', $slug)
+            -> first();
+        $theClub = Club::find($theEvent->club_id);
+        Session::set('stripe_secret_key', $theClub->stripe_pvt_key);
+        $theEventPrices = EventPrice::where('event_id', $theEvent->id)
+            ->select('id', 'name', 'description', 'members_only', 'cost')
+            ->get();
+        $count = $theEventPrices->count();
+        $isMember = DB::table('online_members')
+            ->join('membership_plans', 'online_members.membership_plan_id', '=', 'membership_plans.id')
+            ->where('online_members.user_id', Auth::id())
+            ->where('membership_plans.club_id', $theEvent->club_id)
+            ->count();
+        $isInvited = EventMember::where('user_id', Auth::id())
+            ->where('event_id', $theEvent->id)
+            ->where('invited', 1)
+            ->count();
+        return view('event/becomeAnEventMember', [
+            'page' => 'become an event member',
+            'eventType' => $theEvent->access,
+            'eventName' => $theEvent->name,
+            'eventPrices' => $theEventPrices,
+            'eventSlug' => $theEvent->slug,
+            'count' => $count,
+            'isMember' => $isMember,
+            'isInvited' => $isInvited,
+            'stripe_public_key' => $theClub->stripe_pub_key
+        ]) -> with('msg', '');
     }
 
 }

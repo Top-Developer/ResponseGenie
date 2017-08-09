@@ -1,9 +1,10 @@
 <div class="modal fade" id="event-manual-trans" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method = 'post' action = '<?php echo e(url("/event/manual_transaction")); ?>' id = 'mtForm'>
+            <form method = 'post' action = '<?php echo e(url("/transaction/insert-manually")); ?>' id = 'mtForm'>
                 <?php echo e(csrf_field()); ?>
 
+                <input type="hidden" name="active_tab" value="tab_2_4">
                 <div class="modal-header">
                     <h4 style = "text-align: center;">Enter Manual Transaction</h4>
                 </div>
@@ -15,9 +16,11 @@
                         </div>
                         <div class = 'col-md-3'>
                             <select name = 'user' id = 'userSelector'>
-                                <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                    <option value = 'online:<?php echo e($aUser -> id); ?>'><?php echo e($aUser -> first_name); ?> <?php echo e($aUser -> last_name); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                <?php if(!is_null($eventPrices)): ?>
+                                    <?php $__currentLoopData = $eventMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aUser): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                        <option value = '<?php echo e($aUser->id); ?>'><?php echo e($aUser->first_name); ?> <?php echo e($aUser->last_name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                <?php endif; ?>
                             </select>
                         </div>
                         <div class = 'col-md-2' style = 'text-align:right;'>
@@ -35,9 +38,11 @@
                         </div>
                         <div class = 'col-md-3'>
                             <select name = 'applyTo' id = 'trSelector'>
-                                <?php $__currentLoopData = $eventPrices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ePrice): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                    <option value = ':<?php echo e($ePrice -> id); ?>'><?php echo e($ePrice -> name); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                <?php if(!is_null($eventPrices)): ?>
+                                    <?php $__currentLoopData = $eventPrices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ePrice): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                        <option value = 'event_price:<?php echo e($ePrice->id); ?>'><?php echo e($ePrice->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                <?php endif; ?>
                             </select>
                         </div>
                     </div>

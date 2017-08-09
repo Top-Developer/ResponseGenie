@@ -1,8 +1,9 @@
 <div class="modal fade" id="event-manual-trans" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method = 'post' action = '{{url("/event/manual_transaction")}}' id = 'mtForm'>
+            <form method = 'post' action = '{{url("/transaction/insert-manually")}}' id = 'mtForm'>
                 {{csrf_field()}}
+                <input type="hidden" name="active_tab" value="tab_2_4">
                 <div class="modal-header">
                     <h4 style = "text-align: center;">Enter Manual Transaction</h4>
                 </div>
@@ -14,9 +15,11 @@
                         </div>
                         <div class = 'col-md-3'>
                             <select name = 'user' id = 'userSelector'>
-                                @foreach($eventMembers as $aUser)
-                                    <option value = 'online:{{$aUser -> id}}'>{{$aUser -> first_name}} {{$aUser -> last_name}}</option>
-                                @endforeach
+                                @if(!is_null($eventPrices))
+                                    @foreach($eventMembers as $aUser)
+                                        <option value = '{{$aUser->id}}'>{{$aUser->first_name}} {{$aUser->last_name}}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class = 'col-md-2' style = 'text-align:right;'>
@@ -34,9 +37,11 @@
                         </div>
                         <div class = 'col-md-3'>
                             <select name = 'applyTo' id = 'trSelector'>
-                                @foreach($eventPrices as $ePrice)
-                                    <option value = ':{{$ePrice -> id}}'>{{$ePrice -> name}}</option>
-                                @endforeach
+                                @if(!is_null($eventPrices))
+                                    @foreach($eventPrices as $ePrice)
+                                        <option value = 'event_price:{{$ePrice->id}}'>{{$ePrice->name}}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
